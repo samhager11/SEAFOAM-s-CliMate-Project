@@ -1,3 +1,4 @@
+
 # SEAFOAM's CliMate Project
 
 This is the README markdown for SEAFOAM's CliMate Project.
@@ -50,3 +51,4 @@ Story 1 - The Commuter: I live 20 blocks from work. Those 20 blocks are delightf
 Story 2 - The Shopper: I can't tell you how many times winter has snuck up on me and I am completely unprepared. If I could actually see the snow on my weather app I would remember the cold in my bones from last year and get a jump on purchasing my winter gear for the season. I want to SEE the weather and be able to make purchases directly from the app.
 
 Sotry 3 - The Traveler: I travel all over for work but never really know where I'm at. I want to login to the app, see the weather for my location and be able to find restaurants close by, especially if the weather outside is not particularly friendly for walking. 
+
