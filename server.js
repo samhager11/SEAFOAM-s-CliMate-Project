@@ -30,6 +30,18 @@ app.use(bodyParser.json())
 app.set('view engine', 'ejs')
 app.use(ejsLayouts)
 
+// Testing user model
+var User = require('./models/user_model.js')
+var user1 = new User({
+  local:
+    {user_name: 'andykim'
+    ,email: 'andy@andy.com'
+    ,city: 'santa monica'
+    ,country: 'united states'
+    ,password: 'andy'}
+  })
+console.log(user1)
+
 // session middleware
 app.use(session({
   secret: 'allyourbase',
@@ -47,8 +59,8 @@ app.get('/', function(req,res){
 })
 
 // user routes
-var userRoutes = require('./routes/users.js')
-app.use('/', userRoutes)
+// var userRoutes = require('./routes/users.js')
+// app.use('/', userRoutes)
 
 app.listen(port, function(){
   console.log('Server running on port', port)
