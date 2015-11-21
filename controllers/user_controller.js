@@ -25,5 +25,23 @@ function update(req,res){
       user.country = req.body.country
     if(req.body.password)
       user.password = req.body.password
+
+    user.save(function(err){
+      if(err) res.send(err)
+      res.json({success: true, message: 'User has been updated!'})
+    })
   })
+}
+
+function destroy(req,res){
+  User.findOneAndRemove({_id:req.params.user_id}, function(err, user){
+    if(err) res.send(err)
+    res.json({success: true, message: 'User' + user + 'has been obliterated into the ether.'})
+  })
+}
+
+module.exports = {
+  createUser: create,
+  updateUser: update,
+  deleteUser: destroy
 }

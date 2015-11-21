@@ -12,14 +12,16 @@ var userSchema = new mongoose.Schema({
     ,state: {type: String}
     ,country: {type: String, required: true}
     ,password: {type: String, required: true}
-    // ,searches: [{city:{
-    //               type: String,
-    //               required: true},
-    //             state:{
-    //               type: String},
-    //             country:{
-    //               type: String,
-    //               required: true}}]
+    ,searches: [{city:{
+                  type: String
+                  // ,required: true
+                },
+                state:{
+                  type: String},
+                country:{
+                  type: String
+                  // ,required: true
+                }}]
     },
   facebook: {
     id: String
