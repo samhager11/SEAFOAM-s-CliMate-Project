@@ -8,9 +8,10 @@ var userSchema = new mongoose.Schema({
   local: {
     user_name: String
     ,email: {type: String, required: true, unique: true}
-    ,city: {type: String, required: true}
+    ,city: {type: String}
     ,state: {type: String}
-    ,country: {type: String, required: true}
+    ,country: {type: String}
+    //removed required:true from city state and country so user can edit any
     ,password: {type: String, required: true}
     ,searches: [{city:{
                   type: String
@@ -28,6 +29,10 @@ var userSchema = new mongoose.Schema({
     ,name: String
     ,token: String
     ,email: String
+    ,city: {type: String}
+    ,state: {type: String}
+    ,country: {type: String}
+    //Added city state and country to facebook strategy so user can add after authentication
   }
 })
 

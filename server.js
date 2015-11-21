@@ -58,9 +58,9 @@ app.get('/', function(req,res){
   res.render('index')
 })
 
-// user routes
-// var userRoutes = require('./routes/users.js')
-// app.use('/', userRoutes)
+//user Routes
+var userRoutes = require('./routes/user_routes.js')
+app.use('/', userRoutes)
 
 app.listen(port, function(){
   console.log('Server running on port', port)
