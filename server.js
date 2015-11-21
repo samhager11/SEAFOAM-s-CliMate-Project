@@ -31,16 +31,16 @@ app.set('view engine', 'ejs')
 app.use(ejsLayouts)
 
 // Testing user model
-var User = require('./models/user_model.js')
-var user1 = new User({
-  local:
-    {user_name: 'andykim'
-    ,email: 'andy@andy.com'
-    ,city: 'santa monica'
-    ,country: 'united states'
-    ,password: 'andy'}
-  })
-console.log(user1)
+// var User = require('./models/user_model.js')
+// var user1 = new User({
+//   local:
+//     {user_name: 'andykim'
+//     ,email: 'andy@andy.com'
+//     ,city: 'santa monica'
+//     ,country: 'united states'
+//     ,password: 'andy'}
+//   })
+// console.log(user1)
 
 // session middleware
 app.use(session({
@@ -58,12 +58,21 @@ app.use(express.static('public'))
 
 // root route
 app.get('/', function(req,res){
-  res.render('index')
+  res.render('home.ejs')
+})
+
+app.get('/login', function(req,res){
+  res.render('login.ejs')
+})
+
+app.get('/signup', function(req,res){
+  res.render('signup.ejs')
 })
 
 //user Routes
 var userRoutes = require('./routes/user_routes.js')
 app.use('/user', userRoutes)
+
 
 //set server to listen on port (3000)
 app.listen(port, function(){
