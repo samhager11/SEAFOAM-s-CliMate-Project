@@ -1,6 +1,21 @@
 var User          = require('../models/user_model.js')
     ,secret       = 'allyourbase'
 
+function index(req,res){
+  User.find({},function(err,users){
+    if(err) console.log(err)
+    res.json(users)
+  })
+}
+
+function show(req,res){
+  //.user_id should match route
+  User.find({email:req.params.email}, function(err,user){
+    if(err) res.send(err)
+    res.json(user)
+  })
+}
+
 function create(req,res){
   var user = new User(req.body.user)
   user.save(function(err){
@@ -11,7 +26,7 @@ function create(req,res){
 
 function update(req,res){
   User.findById(req.params.user_id, function(err,user){
-    if(err) res.send(err)
+    if(err) res.json({err:err})
 
     if(req.body.user_name)
       user.user_name = req.body.username
@@ -34,13 +49,15 @@ function update(req,res){
 }
 
 function destroy(req,res){
-  User.findOneAndRemove({_id:req.params.user_id}, function(err, user){
-    if(err) res.send(err)
+  User.findOneAndRemove({_id:req.params.id}, function(err, user){
+    if(err) res.json({err:err})
     res.json({success: true, message: 'User' + user + 'has been obliterated into the ether.'})
   })
 }
 
 module.exports = {
+  allUsers: index,
+  showUser: show,
   createUser: create,
   updateUser: update,
   deleteUser: destroy

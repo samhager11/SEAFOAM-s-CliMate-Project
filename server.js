@@ -53,15 +53,19 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 
+// set the public folder as the static assets serving folder
+app.use(express.static('public'))
+
 // root route
 app.get('/', function(req,res){
   res.render('index')
 })
 
-// user routes
-// var userRoutes = require('./routes/users.js')
-// app.use('/', userRoutes)
+//user Routes
+var userRoutes = require('./routes/user_routes.js')
+app.use('/user', userRoutes)
 
+//set server to listen on port (3000)
 app.listen(port, function(){
   console.log('Server running on port', port)
 })

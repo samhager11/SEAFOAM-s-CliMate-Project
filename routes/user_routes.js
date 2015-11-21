@@ -4,6 +4,16 @@ var express = require('express')
     ,userRouter = express.Router()
 
 
+//
+userRouter.route('/')
+  .get(userController.allUsers)
+  .post(userController.createUser)
+
+userRouter.route('/:email')
+  .get(userController.showUser)
+  .put(userController.updateUser)
+  .delete(userController.deleteUser)
+
 userRouter.route('/login')
     .get(function(req,res){
         res.render('/', {message: req.flash('loginMessage')})
@@ -18,7 +28,7 @@ userRouter.route('/signup')
     .get(function(req,res){
         res.render('/', {message: req.flash('signupMessage')})
     })
-    .post(passport.authenticate('local-signup'){
+    .post(passport.authenticate('local-signup',{
         successRedirect: '/profile'
         ,failureRedirect: '/signup'
         ,failureFlash: true
@@ -30,11 +40,15 @@ userRouter.get('/profile', isLoggedIn, function(req, res){
 
 userRouter.get('/auth/facebook'), passport.authenticate('facebook', {scope: ['email']})
 
-userRouter.get('/auth/facebook/callback', passport.authenticate('facebook'){
-    req.logout()
-    res.redirect('/')
-})
+userRouter.get('/auth/facebook/callback', passport.authenticate('facebook', {
+  successRedirect: '/profile',
+  failureRedirect: '/'
+}))
 
+userRouter.get('/logout', function(req, res){
+  req.logout()
+  res.redirect('/')
+})
 
 function isLoggedIn(req, res, next) {
     if(req.isAuthenticate()) return next()
