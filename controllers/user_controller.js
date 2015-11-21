@@ -17,7 +17,8 @@ function show(req,res){
 }
 
 function create(req,res){
-  var user = new User(req.body.user)
+  var user = new User(req.body.user.local)
+  console.log(req.body)
   user.save(function(err){
     if(err) res.json({err: err})
     res.json({message: 'User created!'})
@@ -42,7 +43,7 @@ function update(req,res){
       user.password = req.body.password
 
     user.save(function(err){
-      if(err) res.send(err)
+      if(err) res.json({err:err})
       res.json({success: true, message: 'User has been updated!'})
     })
   })
