@@ -7,8 +7,8 @@ var mongoose  = require('mongoose')
 var userSchema = new mongoose.Schema({
   local: {
     user_name: String
-    ,email: {type: String, require: true, unique: true}
-    ,password: {type: String, require: true}
+    ,email: {type: String, required: true, unique: true}
+    ,password: {type: String, required: true}
     },
   facebook: {
     id: String

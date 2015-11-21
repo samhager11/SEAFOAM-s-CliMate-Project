@@ -10,14 +10,14 @@ function index(req,res){
 
 function show(req,res){
   //.user_id should match route
-  User.find({email:req.params.email}, function(err,user){
-    if(err) res.send(err)
+  User.find({_id:req.params.user_id}, function(err,user){
+    if(err) res.json({err:err})
     res.json(user)
   })
 }
 
 function create(req,res){
-  var user = new User(req.body.user.local)
+  var user = new User(req.body.user)
   console.log(req.body)
   user.save(function(err){
     if(err) res.json({err: err})
@@ -50,7 +50,7 @@ function update(req,res){
 }
 
 function destroy(req,res){
-  User.findOneAndRemove({_id:req.params.id}, function(err, user){
+  User.findOneAndRemove({_id:req.params.user_id}, function(err, user){
     if(err) res.json({err:err})
     res.json({success: true, message: 'User' + user + 'has been obliterated into the ether.'})
   })

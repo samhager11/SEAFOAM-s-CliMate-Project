@@ -9,7 +9,7 @@ userRouter.route('/')
   .get(userController.allUsers)
   .post(userController.createUser)
 
-userRouter.route('/:email')
+userRouter.route('/:user_id')
   .get(userController.showUser)
   .put(userController.updateUser)
   .delete(userController.deleteUser)
