@@ -4,9 +4,9 @@ var mongoose  = require('mongoose')
 
 
 // User schema
-var userSchema = new mongoose.Schema({
+var userSchema = new Schema({
   local: {
-    user_name: String
+    name: String
     ,email: {type: String, required: true, unique: true}
     ,password: {type: String, required: true}
     },
@@ -16,7 +16,8 @@ var userSchema = new mongoose.Schema({
     ,token: String
     ,email: String
     //Added city state and country to facebook strategy so user can add after authentication
-  } ,city: {type: String}
+  },
+    city: {type: String}
     ,state: {type: String}
     ,country: {type: String}
     //removed required:true from city state and country so user can edit any

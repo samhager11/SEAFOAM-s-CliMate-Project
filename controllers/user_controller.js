@@ -11,7 +11,7 @@ function index(req,res){
 function show(req,res){
   //.user_id should match route
   User.find({_id:req.params.user_id}, function(err,user){
-    if(err) res.json({err:err})
+    if(err) res.send(err)
     res.json(user)
   })
 }
@@ -52,7 +52,7 @@ function update(req,res){
 function destroy(req,res){
   User.findOneAndRemove({_id:req.params.user_id}, function(err, user){
     if(err) res.json({err:err})
-    res.json({success: true, message: 'User' + user.local.user_name + 'has been obliterated into the ether.'})
+    res.json({success: true, message: 'User' + user.local.name + 'has been obliterated into the ether.'})
   })
 }
 
