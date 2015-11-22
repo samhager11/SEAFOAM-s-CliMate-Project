@@ -11,7 +11,7 @@ function index(req,res){
 function show(req,res){
   //.user_id should match route
   User.find({_id:req.params.user_id}, function(err,user){
-    if(err) res.json({err:err})
+    if(err) res.send(err)
     res.json(user)
   })
 }
