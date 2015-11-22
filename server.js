@@ -63,7 +63,7 @@ app.get('/', function(req,res){
 
 //user Routes
 var userRoutes = require('./routes/user_routes.js')
-app.use('/user', userRoutes)
+app.use('/', userRoutes)
 
 
 //set server to listen on port (3000)

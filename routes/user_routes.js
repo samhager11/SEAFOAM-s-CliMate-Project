@@ -19,7 +19,7 @@ userRouter.route('/test')
 
 userRouter.route('/login')
     .get(function(req,res){
-        res.render('signup', {message: req.flash('loginMessage')})
+        res.render('login', {message: req.flash('loginMessage')})
     })
     .post(passport.authenticate('local-login', {
         successRedirect: '/profile'
@@ -54,7 +54,7 @@ userRouter.get('/logout', function(req, res){
 })
 
 function isLoggedIn(req, res, next) {
-    if(req.isAuthenticate()) return next()
+    if(req.isAuthenticated()) return next()
     res.redirect('/')
 }
 
