@@ -2,6 +2,8 @@ var
    passport        = require('passport')
   ,LocalStrategy   = require('passport-local').Strategy
   ,User            = require('../models/user_model.js')
+  ,FacebookStrategy= require('passport-facebook').Strategy
+  ,configAuth      = require('./auth.js')
 
 
 
@@ -24,7 +26,7 @@ passport.use('local-signup', new LocalStrategy({
         if(err) return done(err)
         if(user) return done(null, false, req.flash('signupMessage', 'Sorry, looks like that email is already taken.'))
         var newUser = new User()
-        newUser.local.user_name = req.body.user_name
+        newUser.local.name = req.body.name
         newUser.local.email = email
         newUser.local.password = newUser.generateHash(password)
 
@@ -46,6 +48,31 @@ passport.use('local-login', new LocalStrategy({
         if(!user.validPassword(password)) return done(null, false, req.flash('loginMessage', "Sorry, that's not the correct password."))
 
         return done(null, user)
+    })
+}))
+
+passport.use(new FacebookStrategy({
+    clientID: configAuth.facebookAuth.clientID,
+    clientSecret: configAuth.facebookAuth.clientSecret,
+    callbackURL: configAuth.facebookAuth.callbackURL,
+    profileFields: configAuth.facebookAuth.profileFields
+}, function(token,refreshToken,profile,done){
+    User.findOne({'facebook.id': profile.id}, function(err, user){
+        if(err) return done(err)
+        if(user){
+            return done(null, user)
+        } else {
+            var newUser = new User()
+            newUser.facebook.id = profile.id
+            newUser.facebook.token = token
+            newUser.facebook.name = profile.displayName
+            newUser.facebook.email = profile.emails[0].value
+
+            newUser.save(function(err){
+                if(err) throw err
+                return done(null,newUser)
+            })
+        }
     })
 }))
 
