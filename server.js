@@ -58,20 +58,12 @@ app.use(express.static('public'))
 
 // root route
 app.get('/', function(req,res){
-  res.render('home.ejs')
-})
-
-app.get('/login', function(req,res){
-  res.render('login.ejs')
-})
-
-app.get('/signup', function(req,res){
-  res.render('signup.ejs')
+  res.render('home')
 })
 
 //user Routes
 var userRoutes = require('./routes/user_routes.js')
-app.use('/user', userRoutes)
+app.use('/', userRoutes)
 
 
 //set server to listen on port (3000)
