@@ -43,18 +43,31 @@ function convert_state(name, to) {
     return returnthis;
 }
 
-
+var condtionsURL = 'http://api.wunderground.com/api/726c0ba149d8a811/conditions/q/';
+var $inpCtry = $('#appendCountryUrl')
+var $inpState = $('#appendStateUrl')
+var $inpCity = $('#appendCityUrl')
+var state = '';
+var city = '';
 $.get("http://ipinfo.io", function(poop) {
     console.log(poop.city, poop.region);
-    var state = convert_state(poop.region, 'abbrev');
-    var city  = poop.city;
-    var condtionsURL = 'http://api.wunderground.com/api/726c0ba149d8a811/conditions/q/';
-    $.ajax({
-      url: condtionsURL + state + '/' + city + '.json',
-      method: 'GET',
-      success: function (data) {
-        console.log(data.current_observation.weather, data.current_observation.temperature_string)
-      }
-    })
+     state = convert_state(poop.region, 'abbrev');
+     city  = poop.city;
+
+    console.log($inpCity);
+    $inpCity.val(city)
+    $inpState.val(state)
+
+
 
 }, "jsonp");
+
+$('#submit').click(function(){
+  $.ajax({
+    url: condtionsURL + $inpState.val() + '/' + $inpCity.val() + '.json',
+    method: 'GET',
+    success: function (data) {
+      console.log(data.current_observation.weather, data.current_observation.temperature_string)
+    }
+  })
+})
