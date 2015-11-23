@@ -9,13 +9,7 @@ userRouter.route('/test')
   .get(userController.allUsers)
   .post(userController.createUser)
 
-//Commented out because these routes were causing an error when trying to
-//connect to /login and /signup routes. It looks like the user id was being
-//attached to the end of the url and throwing the error
-// userRouter.route('/:user_id')
-//   .get(userController.showUser)
-//   .put(userController.updateUser)
-//   .delete(userController.deleteUser)
+
 
 userRouter.route('/login')
     .get(function(req,res){
@@ -57,5 +51,11 @@ function isLoggedIn(req, res, next) {
     if(req.isAuthenticated()) return next()
     res.redirect('/')
 }
+
+
+userRouter.route('/:user_id')
+  .get(userController.showUser)
+  .put(userController.updateUser)
+  .delete(userController.deleteUser)
 
 module.exports = userRouter
