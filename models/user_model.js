@@ -7,8 +7,8 @@ var mongoose  = require('mongoose')
 var userSchema = new Schema({
   local: {
     name: String
-    ,email: {type: String, required: true, unique: true}
-    ,password: {type: String, required: true}
+    ,email: {type: String}
+    ,password: {type: String}
     },
   facebook: {
     id: String
