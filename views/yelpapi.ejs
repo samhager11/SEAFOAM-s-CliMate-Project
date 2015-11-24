@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <input type="text" id="loc" name="location" value="">
+    <button type="button" id="yelp" name="button">Search</button>
+    <div id="yelp-list">
+
+    </div>
+    <script type="text/javascript">
+    $("#yelp").on('click',function() {
+      // body...
+      $.ajax({
+        url: '/'+ $("#loc").val(),
+        method: 'GET',
+        success: function(data){
+          console.log('===========',data)
+          if(data.businesses){
+            for (var i = 0; i < 5; i++){
+                var business = data.businesses[i]
+                console.log(business)
+                if (business.location.neighborhoods){
+                  $("#yelp-list").append('<div>'+ business.name + ', ' + business.location.neighborhoods[0] + ' - ' + business.phone + '</div>')
+                }
+                else
+                  $("#yelp-list").append('<div>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</div>')
+                }
+              }
+            else{
+              console.log(data);
+              $("#yelp-list").append('<div>No Nearby Businesses</div>')
+            }
+      }})}
+    )
+    </script>
+  </body>
+</html>

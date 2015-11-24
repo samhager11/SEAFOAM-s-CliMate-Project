@@ -1,37 +1,140 @@
-<div class="page-header">
-
-    <h1><%= user.local.name || user.facebook.name %></h1>
-
-    <a href="/logout" class="btn btn-default btn-sm">Logout</a>
-
-</div>
+<!-- Header nav/search bar -->
 <div class="row">
-    <div class="col-sm-6 col-sm-offset-3">
-        <div class="well">
-          <% if(user.facebook.id) { %>
+        <div class="location-search">
+            <form method="get" action="/profile" class="form-inline" >
+                <input name="country" id="appendCountryUrl" type="text" placeholder="Country(if outside USA)">
+                <input name="state" id="appendStateUrl" type="text" placeholder="State(USA only)">
+                <input name="city" id="appendCityUrl" type="text" placeholder="City">
+                <button type="button" class="btn btn-primary" id= "submit"> <i class="icon-search icon-white">Submit</i></button>
+            </form>
+        </div>
+        <h4>Welcome back, <%= user.local.name || user.facebook.name %></h4>
 
-               <h3>Facebook</h3>
-               <p>
-                   <strong>id</strong>: <%= user.facebook.id %><br>
-                   <strong>token</strong>: <%= user.facebook.token %><br>
-                   <strong>email</strong>: <%= user.facebook.email %><br>
-                   <strong>name</strong>: <%= user.facebook.name %>
-               </p>
+        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+</div>
 
-           <% } else { %>
+<a href="http://api.wunderground.com/api/726c0ba149d8a811/conditions/q/" id="baseUrl"></a>
 
-           <h3>Locally Stored User</h3>
-               <p>
-                   <strong>Name</strong>: <%= user.local.name %><br>
-                   <strong>id</strong>: <%= user._id %><br>
-                   <strong>email</strong>: <%= user.local.email %><br>
-                   <strong>password</strong>: <%= user.local.password %>
-               </p>
+<!-- Uber Button for Testing -->
+<div class="button"></div>
 
-           <% } %>
+<!-- Main Container -->
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="col-md-2">
+<!-- Weather Sidebar -->
+                <div class="row">
+                <div class="small-9 medium-5 small-centered columns">
+
+                <div class="weather">
+
+                      <header class="header">
+                        Our Partners
+                      </header>
+
+                      <article>
+
+                      <ul>
+                        <li class="day">
+                              <button class="image" id="yelpAPIbutton">
+                                <img src="yelplogo.jpg" />
+                              </button>
+                        </li>
+
+                        <li class="day">
+                              <button class="image" id="jetAPIbutton">
+                                <img src="jetlogo.jpg" />
+                              </span>
+                        </li>
+
+                        <li class="day">
+                              <button class="image" id="uberAPIbutton">
+                                <img src="uberlogo.jpg" />
+                              </span>
+                        </li>
+
+                      </ul>
+
+                    </article>
+
+                    </div>
+                  </div>
+                </div>
+      <!--Sidebar content-->
+
 
         </div>
-    </div>
-</div>
+        <div class= "col-md-8">
+      <!--Body content-->
+        </div>
+        <div class="col-md-2">
+      <!--Sidebar content-->
+              <link href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/6035/icomoon-uikit-feb.css" rel="stylesheet">
+                    <div class="row">
+                    <div class="small-9 medium-5 small-centered columns">
 
-<script src="scripts/weatheru.js" charset="utf-8"></script>
+                    <div class="weather">
+
+                          <header class="header">
+                                  <h2>53&#176;F</h2>
+                                  <div class="weather-icon-shadow">
+                                    <span class="icon-droplets"></span>
+                                  </div>
+                                  <div class="weather-icon">
+                                    <span class="icon-droplets"></span>
+                                  </div>
+                          </header>
+
+                          <article>
+
+                          <ul>
+                            <li class="day">
+                                  <span class="image">
+                                    <img src="http://placehold.it/50x50/f2f2f2" />
+                                  </span>
+                                  <span class="day-title">Mon</span><br />
+                                  <span class="temp">52&#176;</span>
+                                  <div class="day-icon">
+                                    <span class="icon-cloud"></span>
+                                  </div>
+                            </li>
+
+                            <li class="day">
+                                  <span class="image">
+                                    <img src="http://placehold.it/50x50/f2f2f2" />
+                                  </span>
+                                  <span class="day-title">Tues</span><br />
+                                  <span class="temp">55&#176;</span>
+                                  <div class="day-icon">
+                                    <span class="icon-cloud2"></span>
+                                  </div>
+                            </li>
+                            <li class="day">
+                                  <span class="image">
+                                    <img src="http://placehold.it/50x50/f2f2f2" />
+                                  </span>
+                                  <span class="day-title">WED</span><br />
+                                  <span class="temp">47&#176;</span>
+                                  <div class="day-icon">
+                                    <span class="icon-droplets"></span>
+                                  </div>
+                            </li>
+                          </ul>
+
+                        </article>
+
+                        </div>
+                      </div>
+                    </div>
+
+            </div>
+      </div>
+    </div>
+
+<!-- API Display Box -->
+    <div class="apiDisplay">
+
+    </div>
+
+<!-- Scripts to Run     -->
+<script src="scripts/main.js" charset="utf-8"></script>

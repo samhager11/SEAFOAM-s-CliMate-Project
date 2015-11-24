@@ -10,6 +10,7 @@ var express             = require('express')
     ,session            = require('express-session')
     ,passport           = require('passport')
     ,passportConfig     = require('./config/passport.js')
+    ,request_yelp       = require('request')
 
 // environment port
 var port = process.env.PORT || 3000
@@ -56,6 +57,10 @@ app.use(flash())
 // set the public folder as the static assets serving folder
 app.use(express.static('public'))
 
+app.get('/yelpapi', function(req,res){
+  res.render('yelpapi.ejs')
+})
+
 // root route
 app.get('/', function(req,res){
   res.render('home')
@@ -65,6 +70,9 @@ app.get('/', function(req,res){
 var userRoutes = require('./routes/user_routes.js')
 app.use('/', userRoutes)
 
+
+//checking enviro variables
+console.log(process.env)
 
 //set server to listen on port (3000)
 app.listen(port, function(){
