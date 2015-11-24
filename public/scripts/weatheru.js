@@ -1,9 +1,4 @@
-
-
-
 console.log("===========weatherU api initiated!!!!!!!");
-
-
 
 function convert_state(name, to) {
     var name = name.toUpperCase();
@@ -42,6 +37,7 @@ function convert_state(name, to) {
     return returnthis;
 }
 
+var yelpURL = 'http://api.yelp.com/v2/search'
 var conditionsURL = 'http://api.wunderground.com/api/726c0ba149d8a811/conditions/q/';
 var $inpCtry = $('#appendCountryUrl')
 var $inpState = $('#appendStateUrl')
@@ -69,20 +65,17 @@ $('#submit').click(function(){
       console.log(data.current_observation.weather, data.current_observation.temperature_string)
       // AJAX call for Yelp API app
       $.ajax({
-        url: '/'+ $inpState.val() + $inpCity.val(),
+        url: '/' + $inpCity.val() + $inpState.val(),
         method: 'GET',
         success: function(data){
-          console.log('===========',data)
+          console.log(data)
           for (var i = 0; i < 5; i++){
             var business = data.businesses[i]
             console.log(business)
             if (business.location.neighborhoods){
-              $("#yelp-list").append('<div>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</div>')
+              $(".apiDisplay").append('<div>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</div>')
             }
           }}
         })
       }
     })})
-            // else
-            //   $("#yelp-list").append('<div>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</div>')
-            // }

@@ -94,11 +94,6 @@ userRouter.route('/signup')
 
 userRouter.get('/profile', isLoggedIn, function(req, res){
     res.render('profile', {user: req.user})
-    .post(function(req,res){
-      request_yelp({location: req.params.inputField}, function(err, response, body){
-        res.json(JSON.parse(body))
-      })
-    })
 })
 
 userRouter.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email']}))
@@ -113,9 +108,9 @@ userRouter.get('/logout', function(req, res){
   res.redirect('/')
 })
 
-userRouter.route('/:inputField')
+userRouter.route('/:FINEapple')
   .get(function(req,res){
-    request_yelp({location: req.params.inputField}, function(err, response, body){
+    request_yelp({location: req.params.FINEapple}, function(err, response, body){
       console.log('blah')
       res.json(JSON.parse(body))
     })
