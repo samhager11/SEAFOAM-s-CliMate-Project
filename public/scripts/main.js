@@ -1,5 +1,6 @@
 console.log("===========weatherU api initiated!!!!!!!");
 
+//Formatting state name to abbreviation
 function convert_state(name, to) {
     var name = name.toUpperCase();
     var states = new Array(                         {'name':'Alabama', 'abbrev':'AL'},          {'name':'Alaska', 'abbrev':'AK'},
@@ -37,6 +38,7 @@ function convert_state(name, to) {
     return returnthis;
 }
 
+//Setup variables to be used for API searches
 var yelpURL = 'http://api.yelp.com/v2/search'
 var conditionsURL = 'http://api.wunderground.com/api/726c0ba149d8a811/conditions/q/';
 var $inpCtry = $('#appendCountryUrl')
@@ -44,6 +46,37 @@ var $inpState = $('#appendStateUrl')
 var $inpCity = $('#appendCityUrl')
 var state = '';
 var city = '';
+// create placeholder variables for User Position - used for Uber
+var userLatitude;
+var userLongitude;
+
+//Get user location
+navigator.geolocation.watchPosition(function(position) {
+    console.log(position);
+    // Update latitude and longitude
+    userLatitude = position.coords.latitude;
+    userLongitude = position.coords.longitude;
+});
+
+//Uber Setup ==================================================================
+//Uber Secret: ooJn0ntCQYlovNZQBZ0j7VPvI43OXqd0PpN569Km
+
+// CLIENT ID
+// O4DQyt8u2XTuKGUAft4YZlzS9Yni4QQH
+
+// SERVER TOKEN
+// 7zMUXj4LgZviCq0xfEdpgLn6LsBlENzR3EYlUItz
+
+
+//Uber API endpoints
+//    /v1/products
+//    /v1/estimates/price
+//    /v1/estimates/time
+//    /v1/promotions
+
+
+
+//Get IP info for current user to be able to pass city and state to weather search
 $.get("http://ipinfo.io", function(poop) {
     console.log(poop.city, poop.region);
      state = convert_state(poop.region, 'abbrev');
@@ -52,18 +85,16 @@ $.get("http://ipinfo.io", function(poop) {
     console.log($inpCity);
     $inpCity.val(city)
     $inpState.val(state)
-
-
-
 }, "jsonp");
 
-$('#submit').click(function(){
+//Get Weather and Call APIs Uber and Yelp for CURRENT location (IP and GEO Coordinates)
+window.onload = function(){
   $.ajax({
     url: conditionsURL + $inpState.val() + '/' + $inpCity.val() + '.json',
     method: 'GET',
     success: function (data) {
       console.log(data.current_observation.weather, data.current_observation.temperature_string)
-      // AJAX call for Yelp API app
+      // AJAX call for Yelp API app using city and state from IP Info
       $.ajax({
         url: '/' + $inpCity.val() + $inpState.val(),
         method: 'GET',
@@ -79,11 +110,34 @@ $('#submit').click(function(){
               else
                 $(".apiDisplay").append('<div>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</div>')
               }
+            }}
+          })
+        }
+      })}
+
+//Get Weather and Call APIs Uber and Yelp for SEARCH location (IP and GEO Coordinates)
+$('#submit').on('click', function(){
+  $.ajax({
+    url: conditionsURL + $('#appendStateUrl').val() + '/' + $('#appendCityUrl').val() + '.json',
+    method: 'GET',
+    success: function (data) {
+      console.log(data.current_observation.weather, data.current_observation.temperature_string)
+      // AJAX call for Yelp API app using city and state from IP Info
+      $.ajax({
+        url: '/' + $('#appendCityUrl').val() + $('#appendStateUrl').val(),
+        method: 'GET',
+        success: function(data){
+          console.log(data)
+          for (var i = 0; i < 5; i++){
+            var business = data.businesses[i]
+            console.log(business)
+            if (business.location.neighborhoods){
+              $(".apiDisplay").append('<div>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</div>')
             }
             else{
               $(".apiDisplay").append('<div>No Nearby Businesses</div>')
             }
-          }})
-        }
-      })
-    })
+          }}
+        })
+      }
+    })})
