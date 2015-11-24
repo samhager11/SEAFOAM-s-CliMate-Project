@@ -95,8 +95,27 @@ body {
           padding-bottom: 25px;
         }
 
-  
 
 
+        #yelpAPIbutton{
+          background-image: url('../uberlogo.jpg');
+          background-repeat: no-repeat;
+          background-position: center;
+        }
 
-          /*left sidebar*/
+        #postmatesAPIbutton{
+          background-image: url('../postmateslogo.jpg');
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+
+        #uberAPIbutton{
+          background-image: url('../yelplogo.jpg');
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+
+        .btn-lg{
+          width: 60px;
+          height: 60px;
+        }
