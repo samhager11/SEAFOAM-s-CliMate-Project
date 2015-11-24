@@ -64,12 +64,17 @@ body {
       font-size: 1.25rem;
       float: right; }
 
-    .span8 {
-      width: 600px;
-      height: 400px;
-    }
+      .span8 {
+        width: 650px;
+        height: 450px;
+      }
 
-    .span2 {
-      width: 250px;
-      height: 400px;
-    }
+      .span2 {
+        width: 150px;
+        height: 450px;
+      }
+
+      .apiDisplay {
+        width: 650px;
+        height: 800px;
+      }
