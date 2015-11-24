@@ -29,8 +29,8 @@ var express = require('express')
 
       // We set the require parameters here
       var required_parameters = {
-        oauth_consumer_key : 'hx2PWciKQLn47vVPBcVnPA',
-        oauth_token : 'nxqy9H5bab67n-RO62M16swIe2-IesDc',
+        oauth_consumer_key : process.env.OAUTH_CONSUMER_KEY,
+        oauth_token : process.env.OAUTH_TOKEN,
         oauth_nonce: n(),
         oauth_timestamp : n().toString().substr(0,10),
         oauth_signature_method : 'HMAC-SHA1',
@@ -41,8 +41,8 @@ var express = require('express')
       var parameters = _.assign(default_parameters, set_parameters, required_parameters)
 
       // We set our secrets here
-      var consumerSecret = '7mVAAZ-wKWa7zbPkLR7V9BOr9zg'
-      var tokenSecret = 'UumrJrZQ37au5bQZssIPohDlReg'
+      var consumerSecret = process.env.CONSUMER_SECRET
+      var tokenSecret = process.env.TOKEN_SECRET
 
     // Then we call Yelp's Oauth 1.0a server, and it returns a signature
     // Note: this signature is only good for 300 seconds after the oauth_timestamp
@@ -62,7 +62,6 @@ var express = require('express')
 
     // Use request to make a request to the Yelp API
       request(apiURL, function(err, response, body){
-      console.log(body)
       return callback(err, response, body)
       })
     }
@@ -94,7 +93,12 @@ userRouter.route('/signup')
     }))
 
 userRouter.get('/profile', isLoggedIn, function(req, res){
-        res.render('profile', {user: req.user})
+    res.render('profile', {user: req.user})
+    .post(function(req,res){
+      request_yelp({location: req.params.inputField}, function(err, response, body){
+        res.json(JSON.parse(body))
+      })
+    })
 })
 
 userRouter.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email']}))
@@ -109,12 +113,13 @@ userRouter.get('/logout', function(req, res){
   res.redirect('/')
 })
 
-// userRouter.route('/:test')
-//   .get(function(req,res){
-//     request_yelp({location: req.params.test}, function(err, response, body){
-//       res.json(JSON.parse(body))
-//     })
-//   })
+userRouter.route('/:inputField')
+  .get(function(req,res){
+    request_yelp({location: req.params.inputField}, function(err, response, body){
+      console.log('blah')
+      res.json(JSON.parse(body))
+    })
+  })
 
 
 function isLoggedIn(req, res, next) {
