@@ -69,13 +69,21 @@ $('#submit').click(function(){
         method: 'GET',
         success: function(data){
           console.log(data)
-          for (var i = 0; i < 5; i++){
-            var business = data.businesses[i]
-            console.log(business)
-            if (business.location.neighborhoods){
-              $(".apiDisplay").append('<div>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</div>')
+          if(data.businesses){
+            for (var i = 0; i < 5; i++){
+              var business = data.businesses[i]
+              console.log(business)
+              if (business.location.neighborhoods){
+                $(".apiDisplay").append('<div>'+ business.name + ', ' + business.location.neighborhoods[0] + ' - ' + business.phone + '</div>')
+              }
+              else
+                $(".apiDisplay").append('<div>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</div>')
+              }
             }
-          }}
-        })
-      }
-    })})
+            else{
+              $(".apiDisplay").append('<div>No Nearby Businesses</div>')
+            }
+          }})
+        }
+      })
+    })
