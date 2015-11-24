@@ -6,12 +6,12 @@
   </head>
   <body>
     <input type="text" id="loc" name="location" value="">
-    <button type="button" id="search" name="button">Search</button>
+    <button type="button" id="yelp" name="button">Search</button>
     <div id="yelp-list">
 
     </div>
     <script type="text/javascript">
-    $("#search").on('click',function() {
+    $("#yelp").on('click',function() {
       // body...
       $.ajax({
         url: '/'+ $("#loc").val(),
@@ -21,7 +21,11 @@
           for (var i = 0; i < 5; i++){
             var business = data.businesses[i]
             console.log(business)
-              $("#yelp-list").append('<div>'+ business.location.neighborhoods[0] + '</div>')
+            if (business.location.neighborhoods){
+              $("#yelp-list").append('<div>'+ business.name + ', ' + business.location.neighborhoods[0] + ' - ' + business.phone + '</div>')
+            }
+            else
+              $("#yelp-list").append('<div>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</div>')
             }
           }
         })

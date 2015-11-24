@@ -80,8 +80,6 @@ userRouter.route('/test')
   .get(userController.allUsers)
   .post(userController.createUser)
 
-
-
 userRouter.route('/login')
     .get(function(req,res){
         res.render('login', {message: req.flash('loginMessage')})
