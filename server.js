@@ -10,6 +10,7 @@ var express             = require('express')
     ,session            = require('express-session')
     ,passport           = require('passport')
     ,passportConfig     = require('./config/passport.js')
+    ,request_yelp       = require('request')
 
 // environment port
 var port = process.env.PORT || 3000
@@ -68,7 +69,6 @@ app.get('/', function(req,res){
 //user Routes
 var userRoutes = require('./routes/user_routes.js')
 app.use('/', userRoutes)
-
 
 //set server to listen on port (3000)
 app.listen(port, function(){
