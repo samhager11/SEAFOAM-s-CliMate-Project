@@ -67,4 +67,31 @@ http://api.wunderground.com/api/726c0ba149d8a811/conditions/q/ca/los_angeles.jso
     </div>
   </div>
 </div>
+<div class="apiDisplay">
+
+<script>
+  var currentCity =
+    $.get("http://ipinfo.io", function(poop) {
+      console.log(poop.city, poop.region);
+     }, "jsonp")
+
+     $.ajax({
+       url: '/'+ "North Dakota",
+       method: 'GET',
+       success: function(data){
+         console.log('===========',data)
+         for (var i = 0; i < 5; i++){
+           var business = data.businesses[i]
+           console.log(business)
+          //  if (business.location.neighborhoods){
+          //    $("#apiDisplay").append('<div>'+ business.name + ', ' + business.location.neighborhoods[0] + ' - ' + business.phone + '</div>')
+          //  }
+           if
+             $("#apiDisplay").append('<div>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</div>')
+           }
+         }
+       })
+</script>
+
+</div>
 <script src="scripts/weatheru.js" charset="utf-8"></script>
