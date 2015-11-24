@@ -1,10 +1,4 @@
-
-
-
 console.log("===========weatherU api initiated!!!!!!!");
-// http://api.wunderground.com/api/726c0ba149d8a811/conditions/q/CA/San_Francisco.json
-
-
 
 function convert_state(name, to) {
     var name = name.toUpperCase();
@@ -43,7 +37,8 @@ function convert_state(name, to) {
     return returnthis;
 }
 
-var condtionsURL = 'http://api.wunderground.com/api/726c0ba149d8a811/conditions/q/';
+var yelpURL = 'http://api.yelp.com/v2/search'
+var conditionsURL = 'http://api.wunderground.com/api/726c0ba149d8a811/conditions/q/';
 var $inpCtry = $('#appendCountryUrl')
 var $inpState = $('#appendStateUrl')
 var $inpCity = $('#appendCityUrl')
@@ -64,10 +59,23 @@ $.get("http://ipinfo.io", function(poop) {
 
 $('#submit').click(function(){
   $.ajax({
-    url: condtionsURL + $inpState.val() + '/' + $inpCity.val() + '.json',
+    url: conditionsURL + $inpState.val() + '/' + $inpCity.val() + '.json',
     method: 'GET',
     success: function (data) {
       console.log(data.current_observation.weather, data.current_observation.temperature_string)
-    }
-  })
-})
+      // AJAX call for Yelp API app
+      $.ajax({
+        url: '/' + $inpCity.val() + $inpState.val(),
+        method: 'GET',
+        success: function(data){
+          console.log(data)
+          for (var i = 0; i < 5; i++){
+            var business = data.businesses[i]
+            console.log(business)
+            if (business.location.neighborhoods){
+              $(".apiDisplay").append('<div>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</div>')
+            }
+          }}
+        })
+      }
+    })})
