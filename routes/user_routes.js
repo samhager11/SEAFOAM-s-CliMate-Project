@@ -69,12 +69,12 @@ var express = require('express')
 
     ///////////////// END YELP API //////////////////////
 
-userRouter.route('/:test')
-  .get(function(req,res){
-    request_yelp({location: req.params.test}, function(err, response, body){
-      res.json(JSON.parse(body))
-    })
-  })
+// userRouter.route('/:test')
+//   .get(function(req,res){
+//     request_yelp({location: req.params.test}, function(err, response, body){
+//       res.json(JSON.parse(body))
+//     })
+//   })
 
 userRouter.route('/test')
   .get(userController.allUsers)

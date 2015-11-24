@@ -2,7 +2,6 @@
 
 
 console.log("===========weatherU api initiated!!!!!!!");
-// http://api.wunderground.com/api/726c0ba149d8a811/conditions/q/CA/San_Francisco.json
 
 
 
