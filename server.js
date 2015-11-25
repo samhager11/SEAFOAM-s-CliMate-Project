@@ -71,8 +71,8 @@ var userRoutes = require('./routes/user_routes.js')
 app.use('/', userRoutes)
 
 
-//checking enviro variables
-console.log(process.env)
+// //checking enviro variables
+// console.log(process.env)
 
 //set server to listen on port (3000)
 app.listen(port, function(){
