@@ -46,13 +46,9 @@ var $inpState = $('#appendStateUrl')
 var $inpCity = $('#appendCityUrl')
 var state = '';
 var city = '';
-
-// create variables for User Location - used for Uber
+// create placeholder variables for User Position - used for Uber
 var userLatitude;
 var userLongitude;
-
-//create variable for Twitter Stream hashtag to pass to function
-// var twitHash = ''
 
 //Get user location
 navigator.geolocation.watchPosition(function(position) {
@@ -103,52 +99,39 @@ window.onload = function(){
         url: '/yelp/' + $inpCity.val() + $inpState.val(),
         method: 'GET',
         success: function(data){
-
-          //Grab yelp data to append to div
           console.log(data)
           if(data.businesses){
             for (var i = 0; i < 5; i++){
               var business = data.businesses[i]
               console.log(business)
               if (business.location.neighborhoods){
-                $(".apiDisplay").append('<div>'+ business.name + ', ' + business.location.neighborhoods[0] + ' - ' + business.phone + '</div>')
+                $(".apiDisplay").append('<div>'+ business.name + ', ' + business.location.neighborhoods[0] + '</div>')
               }
-              else {
+              else
                 $(".apiDisplay").append('<div>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</div>')
-                }
               }
-            }
-            $.ajax({
-              url: '/yelp/twitter',
-              method: 'GET',
-              success: function(data){
-                //Setup twitter stream
-                // var stream = twitter.stream('statuses/filter', { track: $inpCity.val() })
-                // // the word 'connect' matches with socket.on first parameter in index.html
-                // io.on('connect', function(socket){
-                //   // the word 'tweet' matches with socket.on first parameter in index.html
-                //   stream.on('tweet', function(tweet){
-                //     console.log(tweet)
-                //     socket.emit('tweets', tweet)
-                //   })
-                // })
-                // var socket = io();
-                // socket.on('connect', function(){
-                //   console.log('Connected!')
-                // })
-                // socket.on('tweets', function(tweet){
-                //   $(".apiDisplay").append('<div>' + tweet.text + '</div>')
-                //   })
-              }
-            })
-
-          }
-        })
-      }
-    })}
+            }}
+          })
+      $.ajax({
+        // Twitter Stream Call
+        url: '/yelp/' + $inpCity.val() + $inpState.val(),
+        method: 'GET',
+        success: function(data){
+          var socket = io();
+          socket.on('connect', function(){
+            console.log('Connected!')
+          socket.on('tweets', function(tweet){
+            $(".twitterStream").text(tweet.text)
+          })
+          })
+        }
+      })
+        }
+      })}
 
 //Get Weather and Call APIs Uber and Yelp for SEARCH location (IP and GEO Coordinates)
 $('#submit').on('click', function(){
+  $(".apiDisplay").empty()
   $.ajax({
     url: conditionsURL + $('#appendStateUrl').val() + '/' + $('#appendCityUrl').val() + '.json',
     method: 'GET',
@@ -164,7 +147,7 @@ $('#submit').on('click', function(){
             var business = data.businesses[i]
             console.log(business)
             if (business.location.neighborhoods){
-              $(".apiDisplay").append('<div>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</div>')
+              $(".apiDisplay").append('<div>'+ business.name + ', ' + business.location.city + '</div>')
             }
             else{
               $(".apiDisplay").append('<div>No Nearby Businesses</div>')
