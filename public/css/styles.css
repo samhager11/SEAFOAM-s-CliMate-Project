@@ -1,5 +1,10 @@
 body {
-  font-family: 'Source Sans Pro', sans-serif; }
+  font-family: 'Source Sans Pro', sans-serif;
+  margin: auto;}
+ /*1008 x 1997 = body withot borders*/
+ /*get rid of container fluid (same dimensions as reg. container)*/
+ /*(970x1120) is container---> apiDisplay*/
+ /*//make the container surrounding apiDisplay to render dynamic functions */
 
 
         /*main container */
@@ -16,8 +21,8 @@ body {
 
         /*container that api's will populate*/
         .apiDisplay {
-          width: 639px;
-          height: 700px;
+          width: 970px;
+          height: 1120px;
         }
 
 
@@ -103,11 +108,6 @@ body {
           background-position: center;
         }
 
-        #postmatesAPIbutton{
-          background-image: url('../postmateslogo.jpg');
-          background-repeat: no-repeat;
-          background-position: center;
-        }
 
         #uberAPIbutton{
           background-image: url('../yelplogo.jpg');
@@ -115,7 +115,18 @@ body {
           background-position: center;
         }
 
-        .btn-lg{
+        #settingButton{
+          background-image: url('../settingicon.png');
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+
+
+        .btn-xl{
           width: 60px;
           height: 60px;
+        }
+
+        #submit{
+          margin-right: 100px;
         }
