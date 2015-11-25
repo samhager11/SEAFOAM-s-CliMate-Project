@@ -1,14 +1,10 @@
 body {
   font-family: 'Source Sans Pro', sans-serif;
   margin: auto;}
- /*1008 x 1997 = body withot borders*/
- /*get rid of container fluid (same dimensions as reg. container)*/
- /*(970x1120) is container---> apiDisplay*/
- /*//make the container surrounding apiDisplay to render dynamic functions */
-
 
         /*main container */
         .col-md-8 {
+          position:absolute;
           width: 629px;
           height: 375px;
         }
@@ -21,20 +17,21 @@ body {
 
         /*container that api's will populate*/
         .apiDisplay {
-<<<<<<< HEAD
-          width: 970px;
-          height: 1120px;
-=======
-          width: 639px;
-          height: 100px;
+          position:relative;
+          top: 377px;
+          width: 929px;
+          height: 500px;
         }
 
         .twitterStream {
-          width: 639px;
-          height: 50px;
+
+          padding-left: 10px;
+          padding-right: 50px;
+          padding-top: 10px;
+          width: 155px;
+          height: 300px;
           background-color: #4099FF;
           color: white;
->>>>>>> 4d0ef90f602384944103adb16a623a2256a5756d
         }
 
 
@@ -109,7 +106,9 @@ body {
         }
 
         div.row {
+          padding-top: 15px;
           padding-bottom: 25px;
+          height: 100px;
         }
 
 
@@ -141,4 +140,35 @@ body {
 
         #submit{
           margin-right: 100px;
+        }
+
+
+
+        #parent_div_1{
+            width:140px;
+            height:140px;
+            border:1px solid blue;
+            margin-right:10px;
+            float:left;
+        }
+        #parent_div_2{
+            width:350px;
+            height:140px;
+            border:1px solid blue;
+            margin-right:10px;
+            float:left;
+        }
+
+        #parent_div_3{
+            width:350px;
+            height:140px;
+            border:1px solid blue;
+            margin-right:10px;
+            float:left;
+        }
+
+
+        .child_div_1{
+          float:left;
+          margin-right:5px;
         }
