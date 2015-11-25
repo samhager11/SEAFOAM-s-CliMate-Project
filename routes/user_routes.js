@@ -66,7 +66,7 @@ var express = require('express')
       })
     }
 
-    ///////////////// END YELP API //////////////////////
+    ////////////////// END YELP API //////////////////////
 
 userRouter.route('/test')
   .get(userController.allUsers)
