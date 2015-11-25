@@ -4,16 +4,16 @@ body {
 
   #canvasHolder {
     position: absolute;
-    top: 50px;
-    left: 50px;
+    top: 300px;
+    left: 100px;
     width: 600px;
     height: 400px;
   }
 
   #background-img {
     position: absolute;
-    top: 50px;
-    left: 50px;
+    top: 300px;
+    left: 100px;
     width: 600px;
     height: 400px;
 

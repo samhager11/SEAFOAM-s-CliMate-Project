@@ -122,7 +122,6 @@ window.onload = function(){
     success: function (data) {
       console.log(data.current_observation.weather, data.current_observation.temperature_string)
       // AJAX call for Yelp API app using city and state from IP Info
-      console.log('login')
       $.ajax({
         url: '/yelp/' + $inpCity.val() + $inpState.val(),
         method: 'GET',

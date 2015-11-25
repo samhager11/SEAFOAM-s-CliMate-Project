@@ -5,10 +5,28 @@
  // * param options options element with script parameters
  // * param canvas to be used (if not defined a new one will be created)
 var weatherAnimate = {
-	rainyDay: RainyDay,
-	snowDay: function(){}
+	snowDay: function() {
+		var engine = new RainyDay({
+					image: this,
+					// crop: [ 50, 50, 600, 400]
+					fps: 50,
+					fillStyle: 'white',
+					enableCollisions: false,
+					enableSizeChange: false,
+					// gravityThreshold: 10,
+					gravityAngle: Math.PI/10,
+					gravityAngleVariance: 0
+			}, document.getElementById('canvas'));
+
+			engine.trail = engine.TRAIL_NONE;
+			engine.gravity = engine.GRAVITY_LINEAR;
+			engine.reflection = engine.REFLECTION_NONE;
+			engine.rain([ [5, 2, 0.1], [3,3,0.8]], 7);
+	}
+	,rainDay: function(){}
+
 }
-weatherAnimate.rainyDay(O,O)
+// weatherAnimate.rainyDay(O,O)
 
 function RainyDay(options, canvas) {
 
@@ -38,7 +56,7 @@ function RainyDay(options, canvas) {
 		top: 0,
 		left: 0
 	};
-console.log(defaults)
+
 	// add the defaults to options
 	for (var option in defaults) {
 		if (typeof options[option] === 'undefined') {
