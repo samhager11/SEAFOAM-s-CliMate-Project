@@ -5,8 +5,6 @@ var
   ,FacebookStrategy= require('passport-facebook').Strategy
   ,configAuth      = require('./auth.js')
 
-
-
 passport.serializeUser(function(user,done){
   done(null,user.id)
 })

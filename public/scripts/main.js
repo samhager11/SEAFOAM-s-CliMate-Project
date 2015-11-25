@@ -47,7 +47,8 @@ var $inpCity = $('#appendCityUrl')
 var state = '';
 var city = '';
 
-// create placeholder variables for User and Yelp Locaiton Position - used for Uber
+
+// create variables for User Location - used for Uber
 var userLatitude;
 var userLongitude;
 var yelpLatitude;
@@ -59,6 +60,7 @@ var uberDistMiles;
 // Uber API Constants
 var uberClientId = "O4DQyt8u2XTuKGUAft4YZlzS9Yni4QQH";
 var uberServerToken = "7zMUXj4LgZviCq0xfEdpgLn6LsBlENzR3EYlUItz";
+
 
 //Get updated user location coordinates
 navigator.geolocation.watchPosition(function(position) {
@@ -122,10 +124,10 @@ window.onload = function(){
       // AJAX call for Yelp API app using city and state from IP Info
       console.log('poop')
       $.ajax({
-        url: '/' + $inpCity.val() + $inpState.val(),
+        url: '/yelp/' + $inpCity.val() + $inpState.val(),
         method: 'GET',
         success: function(data){
-          // console.log(data)
+
           if(data.businesses){
             for (var i = 0; i < 5; i++){
               var business = data.businesses[i]
@@ -140,13 +142,39 @@ window.onload = function(){
               if (business.location.neighborhoods){
                 $(".apiDisplay").append('<div>'+ business.name + ', ' + business.location.neighborhoods[0] + ' - ' + business.phone + '</div>')
               }
-              else
+              else {
                 $(".apiDisplay").append('<div>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</div>')
+                }
               }
-            }}
-          })
-        }
-      })}
+            }
+            $.ajax({
+              url: '/yelp/twitter',
+              method: 'GET',
+              success: function(data){
+                //Setup twitter stream
+                // var stream = twitter.stream('statuses/filter', { track: $inpCity.val() })
+                // // the word 'connect' matches with socket.on first parameter in index.html
+                // io.on('connect', function(socket){
+                //   // the word 'tweet' matches with socket.on first parameter in index.html
+                //   stream.on('tweet', function(tweet){
+                //     console.log(tweet)
+                //     socket.emit('tweets', tweet)
+                //   })
+                // })
+                // var socket = io();
+                // socket.on('connect', function(){
+                //   console.log('Connected!')
+                // })
+                // socket.on('tweets', function(tweet){
+                //   $(".apiDisplay").append('<div>' + tweet.text + '</div>')
+                //   })
+              }
+            })
+
+          }
+        })
+      }
+    })}
 
 //On submit click - Get Weather and Call APIs Uber and Yelp for SEARCH location (IP and GEO Coordinates)
 $('#submit').on('click', function(){
@@ -158,7 +186,7 @@ $('#submit').on('click', function(){
 
       // AJAX call for Yelp API app using city and state from IP Info
       $.ajax({
-        url: '/' + $('#appendCityUrl').val() + $('#appendStateUrl').val(),
+        url: '/yelp/' + $('#appendCityUrl').val() + $('#appendStateUrl').val(),
         method: 'GET',
         success: function(data){
           // console.log(data)
