@@ -82,8 +82,6 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 
-
-
 // root route
 app.get('/', function(req,res){
   res.render('home')
@@ -91,7 +89,9 @@ app.get('/', function(req,res){
 
 //user Routes
 var userRoutes = require('./routes/user_routes.js')
-app.use('/', userRoutes)
+app.use(userRoutes)
+var yelpRoutes = require('./routes/yelp_routes.js')
+app.use('/yelp',yelpRoutes)
 
 //set server to listen on port (3000)
 app.listen(port, function(){

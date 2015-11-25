@@ -96,7 +96,7 @@ window.onload = function(){
       console.log(data.current_observation.weather, data.current_observation.temperature_string)
       // AJAX call for Yelp API app using city and state from IP Info
       $.ajax({
-        url: '/' + $inpCity.val() + $inpState.val(),
+        url: '/yelp/' + $inpCity.val() + $inpState.val(),
         method: 'GET',
         success: function(data){
           console.log(data)
@@ -124,7 +124,7 @@ $('#submit').on('click', function(){
       console.log(data.current_observation.weather, data.current_observation.temperature_string)
       // AJAX call for Yelp API app using city and state from IP Info
       $.ajax({
-        url: '/' + $('#appendCityUrl').val() + $('#appendStateUrl').val(),
+        url: '/yelp/' + $('#appendCityUrl').val() + $('#appendStateUrl').val(),
         method: 'GET',
         success: function(data){
           console.log(data)
