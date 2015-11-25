@@ -65,12 +65,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 
-<<<<<<< HEAD
 
-
-
-=======
->>>>>>> 4115fcb431e11ea30898f2f7abfa785d298c326b
 // root route
 app.get('/', function(req,res){
   res.render('home')
@@ -78,7 +73,6 @@ app.get('/', function(req,res){
 
 //user Routes
 var userRoutes = require('./routes/user_routes.js')
-<<<<<<< HEAD
 app.use('/', userRoutes)
 
 // set the public folder as the static assets serving folder
@@ -86,11 +80,11 @@ app.use(express.static('public'))
 
 // //checking enviro variables
 // console.log(process.env)
-=======
+
 app.use(userRoutes)
 var yelpRoutes = require('./routes/yelp_routes.js')
 app.use('/yelp',yelpRoutes)
->>>>>>> 4115fcb431e11ea30898f2f7abfa785d298c326b
+
 
 //set server to listen on port (3000)
 // app.listen(port, function(){
