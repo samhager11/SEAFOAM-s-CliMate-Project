@@ -83,9 +83,6 @@ app.use(passport.session())
 app.use(flash())
 
 
-app.get('/yelpapi', function(req,res){
-  res.render('yelpapi.ejs')
-})
 
 // root route
 app.get('/', function(req,res){
