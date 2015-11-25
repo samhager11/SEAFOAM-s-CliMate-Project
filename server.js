@@ -17,7 +17,7 @@ var express             = require('express')
 
 // environment port
 // var port = process.env.PORT || 3000
-server.listen(3000)
+app.set('port', (process.env.PORT || 3000));
 
 
 // mongoose connection
@@ -97,3 +97,7 @@ app.use('/yelp',yelpRoutes)
 // app.listen(port, function(){
 //   console.log('Server running on port', port)
 // })
+
+server.listen(app.get('port'), function(){
+      console.log('Serving started in port: ' + app.get('port'));
+  });
