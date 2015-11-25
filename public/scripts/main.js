@@ -67,10 +67,6 @@ navigator.geolocation.watchPosition(function(position) {
     userLatitude = position.coords.latitude;
     userLongitude = position.coords.longitude;
 
-    //Call getEstimatesForUserLocation to run every time watchPosition is updated
-    //testing only - moved into ajax call for each yelp query
-    //getEstimatesForUserLocation(userLatitude, userLongitude)
-
 });
 
 
@@ -88,18 +84,18 @@ function getEstimatesForUserLocation(latitude,longitude) {
         end_longitude: yelpLongitude  //from query to Yelp
     },
     success: function(result) {
-        // console.log(result);
-        //send price and time estimates to variables
-      if(result.prices[0].distance<422){
+
         uberPrice = result.prices[0].estimate;
         uberTimeMin = Math.round(result.prices[0].duration/60)
         uberDistMiles = result.prices[0].distance
-      } else {
-        uberPrice = "$Way too much";
-        uberTimeMin = "N/A"
-        uberDistMiles = "N/A"
-      }
+      // }
         console.log( uberPrice + ' : ' + uberTimeMin + ' min. : ' + uberDistMiles + ' mi.')
+    },
+    error: function(error) {
+      console.log(error)
+      console.log(uberPrice = "$$$");
+      uberTimeMin = ""
+      uberDistMiles = ""
     }
   });
 }
@@ -124,11 +120,12 @@ window.onload = function(){
     success: function (data) {
       console.log(data.current_observation.weather, data.current_observation.temperature_string)
       // AJAX call for Yelp API app using city and state from IP Info
+      console.log('poop')
       $.ajax({
         url: '/' + $inpCity.val() + $inpState.val(),
         method: 'GET',
         success: function(data){
-          console.log(data)
+          // console.log(data)
           if(data.businesses){
             for (var i = 0; i < 5; i++){
               var business = data.businesses[i]
@@ -164,16 +161,22 @@ $('#submit').on('click', function(){
         url: '/' + $('#appendCityUrl').val() + $('#appendStateUrl').val(),
         method: 'GET',
         success: function(data){
-          console.log(data)
+          // console.log(data)
           for (var i = 0; i < 5; i++){
             var business = data.businesses[i]
 
-            //Set Yelp Lat and Long for Uber endpoint use
-            yelpLatitude = business.location.coordinate.latitude
-            yelpLongitude = business.location.coordinate.longitude
+            //If no lat and long returned from Yelp -
+            if(!business.location.coordinate){
+              console.log("no lat and long from yelp")
+            }
+            //Set Yelp Lat and Long for Uber endpoint use and run Uber call
+            else {
+                yelpLatitude = business.location.coordinate.latitude
+                yelpLongitude = business.location.coordinate.longitude
+                //Run Uber Ajax call for price and time estimates to each Yelp location returned
+                getEstimatesForUserLocation(userLatitude, userLongitude)
+              }
 
-            //Run Uber Ajax call for price and time estimates to each Yelp location returned
-            getEstimatesForUserLocation(userLatitude, userLongitude)
 
             console.log(business)
             if (business.location.neighborhoods){
