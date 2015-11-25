@@ -13,3 +13,19 @@ module.exports = {
         'profileFields': ['emails', 'displayName']
     }
 }
+
+//Uber Setup ==================================================================
+//Uber Secret: ooJn0ntCQYlovNZQBZ0j7VPvI43OXqd0PpN569Km
+
+// CLIENT ID
+// O4DQyt8u2XTuKGUAft4YZlzS9Yni4QQH
+
+// SERVER TOKEN
+// 7zMUXj4LgZviCq0xfEdpgLn6LsBlENzR3EYlUItz
+
+
+//Uber API endpoints
+//    /v1/products
+//    /v1/estimates/price
+//    /v1/estimates/time
+//    /v1/promotions

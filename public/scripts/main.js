@@ -47,39 +47,62 @@ var $inpCity = $('#appendCityUrl')
 var state = '';
 var city = '';
 
+
 // create variables for User Location - used for Uber
 var userLatitude;
 var userLongitude;
+var yelpLatitude;
+var yelpLongitude;
+var uberPrice;
+var uberTimeMin;
+var uberDistMiles;
 
-//create variable for Twitter Stream hashtag to pass to function
-// var twitHash = ''
+// Uber API Constants
+var uberClientId = "O4DQyt8u2XTuKGUAft4YZlzS9Yni4QQH";
+var uberServerToken = "7zMUXj4LgZviCq0xfEdpgLn6LsBlENzR3EYlUItz";
 
-//Get user location
+
+//Get updated user location coordinates
 navigator.geolocation.watchPosition(function(position) {
     console.log(position);
     // Update latitude and longitude
     userLatitude = position.coords.latitude;
     userLongitude = position.coords.longitude;
+
 });
 
-//Uber Setup ==================================================================
-//Uber Secret: ooJn0ntCQYlovNZQBZ0j7VPvI43OXqd0PpN569Km
 
-// CLIENT ID
-// O4DQyt8u2XTuKGUAft4YZlzS9Yni4QQH
+//Ajax Get for Uber price estimate based on User location
+function getEstimatesForUserLocation(latitude,longitude) {
+  $.ajax({
+    url: "https://api.uber.com/v1/estimates/price",
+    headers: {
+        Authorization: "Token " + uberServerToken
+    },
+    data: {
+        start_latitude: latitude,
+        start_longitude: longitude,
+        end_latitude: yelpLatitude,   //from query to Yelp
+        end_longitude: yelpLongitude  //from query to Yelp
+    },
+    success: function(result) {
 
-// SERVER TOKEN
-// 7zMUXj4LgZviCq0xfEdpgLn6LsBlENzR3EYlUItz
+        uberPrice = result.prices[0].estimate;
+        uberTimeMin = Math.round(result.prices[0].duration/60)
+        uberDistMiles = result.prices[0].distance
+      // }
+        console.log( uberPrice + ' : ' + uberTimeMin + ' min. : ' + uberDistMiles + ' mi.')
+    },
+    error: function(error) {
+      console.log(error)
+      console.log(uberPrice = "$$$");
+      uberTimeMin = ""
+      uberDistMiles = ""
+    }
+  });
+}
 
-
-//Uber API endpoints
-//    /v1/products
-//    /v1/estimates/price
-//    /v1/estimates/time
-//    /v1/promotions
-
-
-
+//Beginning of Weather Underground API 'GET' based on IP info
 //Get IP info for current user to be able to pass city and state to weather search
 $.get("http://ipinfo.io", function(poop) {
     console.log(poop.city, poop.region);
@@ -91,7 +114,7 @@ $.get("http://ipinfo.io", function(poop) {
     $inpState.val(state)
 }, "jsonp");
 
-//Get Weather and Call APIs Uber and Yelp for CURRENT location (IP and GEO Coordinates)
+//On window load - Get Weather and Call APIs Uber and Yelp for CURRENT location (IP and GEO Coordinates)
 window.onload = function(){
   $.ajax({
     url: conditionsURL + $inpState.val() + '/' + $inpCity.val() + '.json',
@@ -99,16 +122,22 @@ window.onload = function(){
     success: function (data) {
       console.log(data.current_observation.weather, data.current_observation.temperature_string)
       // AJAX call for Yelp API app using city and state from IP Info
+      console.log('poop')
       $.ajax({
         url: '/yelp/' + $inpCity.val() + $inpState.val(),
         method: 'GET',
         success: function(data){
 
-          //Grab yelp data to append to div
-          console.log(data)
           if(data.businesses){
             for (var i = 0; i < 5; i++){
               var business = data.businesses[i]
+              //Set Yelp Lat and Long for Uber endpoint use
+              yelpLatitude = business.location.coordinate.latitude
+              yelpLongitude = business.location.coordinate.longitude
+
+              //Run Uber Ajax call for price and time estimates to each Yelp location returned
+              getEstimatesForUserLocation(userLatitude, userLongitude)
+
               console.log(business)
               if (business.location.neighborhoods){
                 $(".apiDisplay").append('<div>'+ business.name + ', ' + business.location.neighborhoods[0] + ' - ' + business.phone + '</div>')
@@ -147,21 +176,36 @@ window.onload = function(){
       }
     })}
 
-//Get Weather and Call APIs Uber and Yelp for SEARCH location (IP and GEO Coordinates)
+//On submit click - Get Weather and Call APIs Uber and Yelp for SEARCH location (IP and GEO Coordinates)
 $('#submit').on('click', function(){
   $.ajax({
     url: conditionsURL + $('#appendStateUrl').val() + '/' + $('#appendCityUrl').val() + '.json',
     method: 'GET',
     success: function (data) {
       console.log(data.current_observation.weather, data.current_observation.temperature_string)
+
       // AJAX call for Yelp API app using city and state from IP Info
       $.ajax({
         url: '/yelp/' + $('#appendCityUrl').val() + $('#appendStateUrl').val(),
         method: 'GET',
         success: function(data){
-          console.log(data)
+          // console.log(data)
           for (var i = 0; i < 5; i++){
             var business = data.businesses[i]
+
+            //If no lat and long returned from Yelp -
+            if(!business.location.coordinate){
+              console.log("no lat and long from yelp")
+            }
+            //Set Yelp Lat and Long for Uber endpoint use and run Uber call
+            else {
+                yelpLatitude = business.location.coordinate.latitude
+                yelpLongitude = business.location.coordinate.longitude
+                //Run Uber Ajax call for price and time estimates to each Yelp location returned
+                getEstimatesForUserLocation(userLatitude, userLongitude)
+              }
+
+
             console.log(business)
             if (business.location.neighborhoods){
               $(".apiDisplay").append('<div>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</div>')
