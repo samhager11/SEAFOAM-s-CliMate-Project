@@ -17,7 +17,14 @@ body {
         /*container that api's will populate*/
         .apiDisplay {
           width: 639px;
-          height: 700px;
+          height: 100px;
+        }
+
+        .twitterStream {
+          width: 639px;
+          height: 50px;
+          background-color: #4099FF;
+          color: white;
         }
 
 
