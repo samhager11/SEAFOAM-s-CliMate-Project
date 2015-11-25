@@ -26,6 +26,23 @@ mongoose.connect('mongodb://samhager11:password123@ds041613.mongolab.com:41613/s
   console.log('Connected to MongoDB!')
 })
 
+// TWITTER STREAM
+var twitter = new Twit({
+  consumer_key: process.env.TWITTER_CONSUMER_KEY,
+  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+  access_token: process.env.TWITTER_ACCESS_TOKEN,
+  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+})
+
+var stream = twitter.stream('statuses/filter', { track: 'javascript' })
+// the word 'connect' matches with socket.on first parameter in index.html
+io.on('connect', function(socket){
+  // the word 'tweet' matches with socket.on first parameter in index.html
+  stream.on('tweet', function(tweet){
+    socket.emit('tweets', tweet)
+  })
+})
+// END TWITTER STREAM
 
 
 // middleware
@@ -65,7 +82,6 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 
-
 // root route
 app.get('/', function(req,res){
   res.render('home')
@@ -73,19 +89,10 @@ app.get('/', function(req,res){
 
 //user Routes
 var userRoutes = require('./routes/user_routes.js')
-app.use('/', userRoutes)
-
-// set the public folder as the static assets serving folder
-app.use(express.static('public'))
-
-// //checking enviro variables
-// console.log(process.env)
-
 app.use(userRoutes)
 
 var yelpRoutes = require('./routes/yelp_routes.js')
 app.use('/yelp',yelpRoutes)
-
 
 //set server to listen on port (3000)
 // app.listen(port, function(){
