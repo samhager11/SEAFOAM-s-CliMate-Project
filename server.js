@@ -28,10 +28,10 @@ mongoose.connect('mongodb://samhager11:password123@ds041613.mongolab.com:41613/s
 
 // TWITTER STREAM
 var twitter = new Twit({
-  consumer_key: process.env.TWITTER_CONSUMER_KEY,
-  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-  access_token: process.env.TWITTER_ACCESS_TOKEN,
-  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+  consumer_key: 'RZ0FmndPW3bwnmcgrqFc58Rff',
+  consumer_secret: 'xsr18knDtlLhnNXx0y65fsNQy5S6lFziBkI9TPVdo5BCMSMDws',
+  access_token: '22934806-pAAHDdALQpUniGg9iCTGb25xPHxF2UEUMBjqX2eWE',
+  access_token_secret: '1vLkUb6WU7C8hfQ8hhHc7j5IPHjpK3NguRV3NAPIUyuFx'
 })
 
 var stream = twitter.stream('statuses/filter', { track: 'javascript' })
