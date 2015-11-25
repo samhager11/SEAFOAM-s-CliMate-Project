@@ -1,9 +1,6 @@
-
-
-
 <div class="row">
         <div class="location-search">
-            <form method="get" action="/profile" class="form-inline" >
+            <form action="/profile" class="form-inline">
                 <input name="country" id="appendCountryUrl" type="text" placeholder="Country(if outside USA)">
                 <input name="state" id="appendStateUrl" type="text" placeholder="State(USA only)">
                 <input name="city" id="appendCityUrl" type="text" placeholder="City">
@@ -15,73 +12,61 @@
         <a href="/logout" class="btn btn-default btn-sm">Logout</a>
 </div>
 
-
 <a href="http://api.wunderground.com/api/726c0ba149d8a811/conditions/q/" id="baseUrl"></a>
 
+<!-- Uber Button for Testing -->
+<div class="button"></div>
 
-
+<!-- Main Container -->
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="span2">
+        <div class="col-md-2">
+<!-- Weather Sidebar -->
+                <div class="row">
+                <div class="small-9 medium-5 small-centered columns">
+
+                <div class="weather">
+
+                      <header class="header">
+                        Our Partners
+                      </header>
+
+                      <article>
+
+                      <ul>
+                        <li class="day">
+                              <button type= "button" class="btn btn-primary btn-lg" id="yelpAPIbutton">
+                                <!-- <img src="yelplogo.jpg" /> -->
+                              </button>
+                        </li>
+
+                        <li class="day">
+                              <button type="button" class="btn btn-primary btn-lg" id="postmatesAPIbutton">
+                                <!-- <img src="postmateslogo.jpg" /> -->
+                              </button>
+                        </li>
+
+                        <li class="day">
+                              <button type="button" class="btn btn-primary btn-lg" id="uberAPIbutton">
+                                <!-- <img src="uberlogo.jpg" /> -->
+                              </button>
+                        </li>
+
+                      </ul>
+
+                    </article>
+
+                    </div>
+                  </div>
+                </div>
       <!--Sidebar content-->
 
-      <nav class="navbar navbar-inverse sidebar" role="navigation">
-    <div class="container-fluid">
-		<!-- Brand and toggle get grouped for better mobile display -->
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="#">Brand</a>
-		</div>
-		<!-- Collect the nav links, forms, and other content for toggling -->
-		<div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="#">Home<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
-				<li ><a href="#">Profile<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
-				<li ><a href="#">Messages<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-envelope"></span></a></li>
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-cog"></span></a>
-					<ul class="dropdown-menu forAnimate" role="menu">
-						<li><a href="#">Action</a></li>
-						<li><a href="#">Another action</a></li>
-						<li><a href="#">Something else here</a></li>
-						<li class="divider"></li>
-						<li><a href="#">Separated link</a></li>
-						<li class="divider"></li>
-						<li><a href="#">One more separated link</a></li>
-					</ul>
-				</li>
-				<li><a href="#">Home<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
-				<li ><a href="#">Profile<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
-				<li ><a href="#">Messages<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-envelope"></span></a></li>
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-cog"></span></a>
-					<ul class="dropdown-menu forAnimate" role="menu">
-						<li><a href="#">Action</a></li>
-						<li><a href="#">Another action</a></li>
-						<li><a href="#">Something else here</a></li>
-						<li class="divider"></li>
-						<li><a href="#">Separated link</a></li>
-						<li class="divider"></li>
-						<li><a href="#">One more separated link</a></li>
-					</ul>
-				</li>
-			</ul>
-		</div>
-	</div>
-</nav>
-<div class="main">
-<!-- Content Here -->
-</div>
+
         </div>
-        <div class="span8">
+        <div class= "col-md-8">
       <!--Body content-->
         </div>
-        <div class="span2">
+        <div class="col-md-2">
       <!--Sidebar content-->
               <link href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/6035/icomoon-uikit-feb.css" rel="stylesheet">
                     <div class="row">
@@ -90,7 +75,7 @@
                     <div class="weather">
 
                           <header class="header">
-                                  <!-- <h2>53&#176;F</h2> -->
+                                  <h2>53&#176;F</h2>
                                   <div class="weather-icon-shadow">
                                     <span class="icon-droplets"></span>
                                   </div>
@@ -133,16 +118,6 @@
                                     <span class="icon-droplets"></span>
                                   </div>
                             </li>
-                            <li class="day">
-                                  <span class="image">
-                                    <img src="http://placehold.it/50x50/f2f2f2" />
-                                  </span>
-                                  <span class="day-title">Thurs</span><br />
-                                  <span class="temp">40&#176;</span>
-                                  <div class="day-icon">
-                                    <span class="icon-droplets"></span>
-                                  </div>
-                            </li>
                           </ul>
 
                         </article>
@@ -155,11 +130,9 @@
       </div>
     </div>
 
+<!-- API Display Box -->
     <div class="apiDisplay">
-      <div class="span8">
-
-      </div>
-
 
     </div>
-<script src="scripts/weatheru.js" charset="utf-8"></script>
+<!-- Scripts to Run     -->
+<script src="scripts/main.js" charset="utf-8"></script>
