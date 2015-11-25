@@ -104,10 +104,10 @@ function getEstimatesForUserLocation(latitude,longitude) {
 
 //Beginning of Weather Underground API 'GET' based on IP info
 //Get IP info for current user to be able to pass city and state to weather search
-$.get("http://ipinfo.io", function(poop) {
-    console.log(poop.city, poop.region);
-     state = convert_state(poop.region, 'abbrev');
-     city  = poop.city;
+$.get("http://ipinfo.io", function(login) {
+    console.log(login.city, login.region);
+     state = convert_state(login.region, 'abbrev');
+     city  = login.city;
 
     console.log($inpCity);
     $inpCity.val(city)
@@ -122,7 +122,7 @@ window.onload = function(){
     success: function (data) {
       console.log(data.current_observation.weather, data.current_observation.temperature_string)
       // AJAX call for Yelp API app using city and state from IP Info
-      console.log('poop')
+      console.log('login')
       $.ajax({
         url: '/yelp/' + $inpCity.val() + $inpState.val(),
         method: 'GET',

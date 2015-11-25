@@ -2,6 +2,23 @@ body {
   font-family: 'Source Sans Pro', sans-serif; }
 
 
+  #canvasHolder {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    width: 600px;
+    height: 400px;
+  }
+
+  #background-img {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    width: 600px;
+    height: 400px;
+
+  }
+
         /*main container */
         .col-md-8 {
           width: 629px;
