@@ -112,6 +112,20 @@ window.onload = function(){
               }
             }}
           })
+      $.ajax({
+        // Twitter Stream Call
+        url: '/yelp/' + $inpCity.val() + $inpState.val(),
+        method: 'GET',
+        success: function(data){
+          var socket = io();
+          socket.on('connect', function(){
+            console.log('Connected!')
+          socket.on('tweets', function(tweet){
+            $(".apiDisplay").append('<div>' + tweet.text + '</div>')
+          })
+          })
+        }
+      })
         }
       })}
 

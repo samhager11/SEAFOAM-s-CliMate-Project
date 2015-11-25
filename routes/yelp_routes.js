@@ -74,4 +74,18 @@ yelpRouter.route('/:FINEapple')
     })
   })
 
+// TWITTER SOCKET
+
+// TWITTER STREAM BEGIN
+    //  var socket = io();
+     //
+    //    socket.on('connect', function() {
+    //      console.log('Connected!');
+    //    });
+     //
+    //    socket.on('tweets', function(tweet) {
+    //      console.log(tweet);
+    //    });
+// TWITTER STREAM END
+
 module.exports = yelpRouter

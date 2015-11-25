@@ -34,7 +34,6 @@ var twitter = new Twit({
   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 })
 
-console.log(twitter)
 var stream = twitter.stream('statuses/filter', { track: 'javascript' })
 // the word 'connect' matches with socket.on first parameter in index.html
 io.on('connect', function(socket){
