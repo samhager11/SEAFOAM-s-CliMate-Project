@@ -12,11 +12,13 @@ var express             = require('express')
     ,passportConfig     = require('./config/passport.js')
     ,request_yelp       = require('request')
     ,Twit               = require('twit')
-    ,server             = require('http')
+    ,server             = require('http').createServer(app)
     ,io                 = require('socket.io')(server)
 
 // environment port
-var port = process.env.PORT || 3000
+// var port = process.env.PORT || 3000
+server.listen(3000)
+
 
 // mongoose connection
 mongoose.connect('mongodb://samhager11:password123@ds041613.mongolab.com:41613/seafoam-climate', function(err){
@@ -94,6 +96,6 @@ var yelpRoutes = require('./routes/yelp_routes.js')
 app.use('/yelp',yelpRoutes)
 
 //set server to listen on port (3000)
-app.listen(port, function(){
-  console.log('Server running on port', port)
-})
+// app.listen(port, function(){
+//   console.log('Server running on port', port)
+// })
