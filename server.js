@@ -11,6 +11,9 @@ var express             = require('express')
     ,passport           = require('passport')
     ,passportConfig     = require('./config/passport.js')
     ,request_yelp       = require('request')
+    ,Twit               = require('twit')
+    ,server             = require('http')
+    ,io                 = require('socket.io')(server)
 
 // environment port
 var port = process.env.PORT || 3000
@@ -21,11 +24,34 @@ mongoose.connect('mongodb://samhager11:password123@ds041613.mongolab.com:41613/s
   console.log('Connected to MongoDB!')
 })
 
+// TWITTER STREAM
+var twitter = new Twit({
+  consumer_key: process.env.TWITTER_CONSUMER_KEY,
+  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+  access_token: process.env.TWITTER_ACCESS_TOKEN,
+  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+})
+
+console.log(twitter)
+var stream = twitter.stream('statuses/filter', { track: 'javascript' })
+// the word 'connect' matches with socket.on first parameter in index.html
+io.on('connect', function(socket){
+  // the word 'tweet' matches with socket.on first parameter in index.html
+  stream.on('tweet', function(tweet){
+    console.log(tweet)
+    socket.emit('tweets', tweet)
+  })
+})
+// END TWITTER STREAM
+
+
 // middleware
 app.use(logger('dev'))
 app.use(cookieParser())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
+// set the public folder as the static assets serving folder
+app.use(express.static('public'))
 
 // ejs configuration
 app.set('view engine', 'ejs')
@@ -43,6 +69,8 @@ app.use(ejsLayouts)
 //   })
 // console.log(user1)
 
+
+
 // session middleware
 app.use(session({
   secret: 'allyourbase',
@@ -54,13 +82,6 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 
-// set the public folder as the static assets serving folder
-app.use(express.static('public'))
-
-app.get('/yelpapi', function(req,res){
-  res.render('yelpapi.ejs')
-})
-
 // root route
 app.get('/', function(req,res){
   res.render('home')
@@ -68,11 +89,9 @@ app.get('/', function(req,res){
 
 //user Routes
 var userRoutes = require('./routes/user_routes.js')
-app.use('/', userRoutes)
-
-
-//checking enviro variables
-console.log(process.env)
+app.use(userRoutes)
+var yelpRoutes = require('./routes/yelp_routes.js')
+app.use('/yelp',yelpRoutes)
 
 //set server to listen on port (3000)
 app.listen(port, function(){
