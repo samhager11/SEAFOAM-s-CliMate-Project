@@ -12,11 +12,13 @@ var express             = require('express')
     ,passportConfig     = require('./config/passport.js')
     ,request_yelp       = require('request')
     ,Twit               = require('twit')
-    ,server             = require('http')
+    ,server             = require('http').createServer(app)
     ,io                 = require('socket.io')(server)
 
 // environment port
-var port = process.env.PORT || 3000
+// var port = process.env.PORT || 3000
+server.listen(3000)
+
 
 // mongoose connection
 mongoose.connect('mongodb://samhager11:password123@ds041613.mongolab.com:41613/seafoam-climate', function(err){
@@ -24,25 +26,6 @@ mongoose.connect('mongodb://samhager11:password123@ds041613.mongolab.com:41613/s
   console.log('Connected to MongoDB!')
 })
 
-// TWITTER STREAM
-var twitter = new Twit({
-  consumer_key: process.env.TWITTER_CONSUMER_KEY,
-  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-  access_token: process.env.TWITTER_ACCESS_TOKEN,
-  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
-})
-
-console.log(twitter)
-var stream = twitter.stream('statuses/filter', { track: 'javascript' })
-// the word 'connect' matches with socket.on first parameter in index.html
-io.on('connect', function(socket){
-  // the word 'tweet' matches with socket.on first parameter in index.html
-  stream.on('tweet', function(tweet){
-    console.log(tweet)
-    socket.emit('tweets', tweet)
-  })
-})
-// END TWITTER STREAM
 
 
 // middleware
@@ -82,6 +65,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 
+
 // root route
 app.get('/', function(req,res){
   res.render('home')
@@ -89,11 +73,20 @@ app.get('/', function(req,res){
 
 //user Routes
 var userRoutes = require('./routes/user_routes.js')
+app.use('/', userRoutes)
+
+// set the public folder as the static assets serving folder
+app.use(express.static('public'))
+
+// //checking enviro variables
+// console.log(process.env)
+
 app.use(userRoutes)
 var yelpRoutes = require('./routes/yelp_routes.js')
 app.use('/yelp',yelpRoutes)
 
+
 //set server to listen on port (3000)
-app.listen(port, function(){
-  console.log('Server running on port', port)
-})
+// app.listen(port, function(){
+//   console.log('Server running on port', port)
+// })
