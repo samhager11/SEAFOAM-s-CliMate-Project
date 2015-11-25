@@ -40,7 +40,7 @@ function convert_state(name, to) {
 
 //Setup variables to be used for API searches
 var yelpURL = 'http://api.yelp.com/v2/search'
-var conditionsURL = 'http://api.wunderground.com/api/726c0ba149d8a811/conditions/q/';
+var conditionsURL = 'https://api.wunderground.com/api/726c0ba149d8a811/conditions/q/';
 var $inpCtry = $('#appendCountryUrl')
 var $inpState = $('#appendStateUrl')
 var $inpCity = $('#appendCityUrl')
@@ -77,7 +77,7 @@ navigator.geolocation.watchPosition(function(position) {
 
 
 //Get IP info for current user to be able to pass city and state to weather search
-$.get("http://ipinfo.io", function(login) {
+$.get("https://ipinfo.io", function(login) {
     console.log(login.city, login.region);
      state = convert_state(login.region, 'abbrev');
      city  = login.city;
