@@ -82,6 +82,7 @@ app.use(express.static('public'))
 // console.log(process.env)
 
 app.use(userRoutes)
+
 var yelpRoutes = require('./routes/yelp_routes.js')
 app.use('/yelp',yelpRoutes)
 

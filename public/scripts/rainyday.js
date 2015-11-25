@@ -1,10 +1,14 @@
-console.log(RainyPattern)
-var RainyPattern function(){
-/**
- * Defines a new instance of the rainyday.js.
- * @param options options element with script parameters
- * @param canvas to be used (if not defined a new one will be created)
- */
+
+
+
+ // * Defines a new instance of the rainyday.js.
+ // * param options options element with script parameters
+ // * param canvas to be used (if not defined a new one will be created)
+var weatherAnimate = {
+	rainyDay: RainyDay,
+	snowDay: function(){}
+}
+weatherAnimate.rainyDay(O,O)
 
 function RainyDay(options, canvas) {
 
@@ -34,7 +38,7 @@ function RainyDay(options, canvas) {
 		top: 0,
 		left: 0
 	};
-console.log(var)
+console.log(defaults)
 	// add the defaults to options
 	for (var option in defaults) {
 		if (typeof options[option] === 'undefined') {
@@ -60,10 +64,10 @@ console.log(var)
 	this.setRequestAnimFrame();
 }
 
-/**
- * Create the main canvas over a given element
- * @returns HTMLElement the canvas
- */
+// /**
+//  * Create the main canvas over a given element
+//  * @returns HTMLElement the canvas
+//  */
 RainyDay.prototype.prepareCanvas = function() {
 	var canvas = document.createElement('canvas');
 	canvas.style.position = this.options.position;
@@ -88,9 +92,9 @@ RainyDay.prototype.setResizeHandler = function() {
 	}
 };
 
-/**
- * Periodically check the size of the underlying element
- */
+// /**
+//  * Periodically check the size of the underlying element
+//  */
 RainyDay.prototype.checkSize = function() {
 	var clientWidth = this.img.clientWidth;
 	var clientHeight = this.img.clientHeight;
@@ -171,10 +175,10 @@ RainyDay.prototype.prepareGlass = function() {
 };
 
 /**
- * Main function for starting rain rendering.
- * @param presets list of presets to be applied
- * @param speed speed of the animation (if not provided or 0 static image will be generated)
- */
+ // * Main function for starting rain rendering.
+ // * presets list of presets to be applied
+ // * speed speed of the animation (if not provided or 0 static image will be generated)
+ // */
 RainyDay.prototype.rain = function(presets, speed) {
 	// prepare canvas for drop reflections
 	if (this.reflection !== this.REFLECTION_NONE) {
@@ -254,7 +258,7 @@ RainyDay.prototype.rain = function(presets, speed) {
 
 /**
  * Adds a new raindrop to the animation.
- * @param drop drop object to be added to the animation
+ * drop drop object to be added to the animation
  */
 RainyDay.prototype.putDrop = function(drop) {
 	drop.draw();
@@ -284,13 +288,13 @@ RainyDay.prototype.clearDrop = function(drop, force) {
 };
 
 /**
- * Defines a new raindrop object.
- * @param rainyday reference to the parent object
- * @param centerX x position of the center of this drop
- * @param centerY y position of the center of this drop
- * @param min minimum size of a drop
- * @param base base value for randomizing drop size
- */
+ // * Defines a new raindrop object.
+ // * param rainyday reference to the parent object
+ // * param centerX x position of the center of this drop
+ // * param centerY y position of the center of this drop
+ // * param min minimum size of a drop
+ // * param base base value for randomizing drop size
+ // */
 
 function Drop(rainyday, centerX, centerY, min, base) {
 	this.x = Math.floor(centerX);
@@ -343,7 +347,7 @@ Drop.prototype.draw = function() {
 
 /**
  * Clears the raindrop region.
- * @param force force stop
+ * param force force stop
  * @returns Boolean true if the animation is stopped
  */
 Drop.prototype.clear = function(force) {
@@ -388,7 +392,7 @@ RainyDay.prototype.TRAIL_NONE = function() {
 
 /**
  * TRAIL function: trail of small drops (default)
- * @param drop raindrop object
+ * param drop raindrop object
  */
 RainyDay.prototype.TRAIL_DROPS = function(drop) {
 	if (!drop.trailY || drop.y - drop.trailY >= Math.random() * 100 * drop.r) {
@@ -399,7 +403,7 @@ RainyDay.prototype.TRAIL_DROPS = function(drop) {
 
 /**
  * TRAIL function: trail of unblurred image
- * @param drop raindrop object
+ * param drop raindrop object
  */
 RainyDay.prototype.TRAIL_SMUDGE = function(drop) {
 	var y = drop.y - drop.r - 3;
@@ -420,7 +424,7 @@ RainyDay.prototype.GRAVITY_NONE = function() {
 
 /**
  * GRAVITY function: linear gravity
- * @param drop raindrop object
+ * param drop raindrop object
  * @returns Boolean true if the animation is stopped
  */
 RainyDay.prototype.GRAVITY_LINEAR = function(drop) {
@@ -443,7 +447,7 @@ RainyDay.prototype.GRAVITY_LINEAR = function(drop) {
 
 /**
  * GRAVITY function: non-linear gravity (default)
- * @param drop raindrop object
+ * param drop raindrop object
  * @returns Boolean true if the animation is stopped
  */
 RainyDay.prototype.GRAVITY_NON_LINEAR = function(drop) {
@@ -497,8 +501,8 @@ RainyDay.prototype.GRAVITY_NON_LINEAR = function(drop) {
 
 /**
  * Utility function to return positive min value
- * @param val1 first number
- * @param val2 second number
+ * param val1 first number
+ * param val2 second number
  */
 RainyDay.prototype.positiveMin = function(val1, val2) {
 	var result = 0;
@@ -528,7 +532,7 @@ RainyDay.prototype.REFLECTION_NONE = function() {
 
 /**
  * REFLECTION function: miniature reflection (default)
- * @param drop raindrop object
+ * param drop raindrop object
  */
 RainyDay.prototype.REFLECTION_MINIATURE = function(drop) {
 	var sx = Math.max((drop.x - this.options.reflectionDropMappingWidth) / this.options.reflectionScaledownFactor, 0);
@@ -542,8 +546,8 @@ RainyDay.prototype.REFLECTION_MINIATURE = function(drop) {
 
 /**
  * COLLISION function: default collision implementation
- * @param drop one of the drops colliding
- * @param collisions list of potential collisions
+ * param drop one of the drops colliding
+ * param collisions list of potential collisions
  */
 RainyDay.prototype.COLLISION_SIMPLE = function(drop, collisions) {
 	var item = collisions;
@@ -610,9 +614,9 @@ RainyDay.prototype.prepareBackground = function() {
 
 /**
  * Implements the Stack Blur Algorithm (@see http://www.quasimondo.com/StackBlurForCanvas/StackBlurDemo.html).
- * @param width width of the canvas
- * @param height height of the canvas
- * @param radius blur radius
+ * param width width of the canvas
+ * param height height of the canvas
+ * param radius blur radius
  */
 RainyDay.prototype.stackBlurCanvasRGB = function(width, height, radius) {
 
@@ -876,9 +880,9 @@ function BlurStack() {
 
 /**
  * Defines a gravity matrix object which handles collision detection.
- * @param x number of columns in the matrix
- * @param y number of rows in the matrix
- * @param r grid size
+ * param x number of columns in the matrix
+ * param y number of rows in the matrix
+ * param r grid size
  */
 function CollisionMatrix(x, y, r) {
 	this.resolution = r;
@@ -895,8 +899,8 @@ function CollisionMatrix(x, y, r) {
 //
 // /**
 //  * Updates position of the given drop on the collision matrix.
-//  * @param drop raindrop to be positioned/repositioned
-//  * @param forceDelete if true the raindrop will be removed from the matrix
+//  * param drop raindrop to be positioned/repositioned
+//  * param forceDelete if true the raindrop will be removed from the matrix
 //  * @returns collisions if any
 //  */
 CollisionMatrix.prototype.update = function(drop, forceDelete) {
@@ -935,7 +939,7 @@ CollisionMatrix.prototype.update = function(drop, forceDelete) {
 
 // /**
 //  * Looks for collisions with the given raindrop.
-//  * @param drop raindrop to be checked
+//  * param drop raindrop to be checked
 //  * @returns DropItem list of drops that collide with it
 //  */
 CollisionMatrix.prototype.collisions = function(drop) {
@@ -951,9 +955,9 @@ CollisionMatrix.prototype.collisions = function(drop) {
 //
 // /**
 //  * Appends all found drop at a given location to the given item.
-//  * @param to item to which the results will be appended to
-//  * @param x x position in the matrix
-//  * @param y y position in the matrix
+//  * param to item to which the results will be appended to
+//  * param x x position in the matrix
+//  * param y y position in the matrix
 //  * @returns last discovered item on the list
 //  */
 CollisionMatrix.prototype.addAll = function(to, x, y) {
@@ -970,7 +974,7 @@ CollisionMatrix.prototype.addAll = function(to, x, y) {
 //
 // /**
 //  * Removed the drop from its current position
-//  * @param drop to be removed
+//  * param drop to be removed
 //  */
 CollisionMatrix.prototype.remove = function(drop) {
 	this.matrix[drop.gmx][drop.gmy].remove(drop);
@@ -986,7 +990,7 @@ function DropItem(drop) {
 
 /**
  * Adds the raindrop to the end of the list.
- * @param drop raindrop to be added
+ * param drop raindrop to be added
  */
 DropItem.prototype.add = function(drop) {
 	var item = this;
@@ -998,7 +1002,7 @@ DropItem.prototype.add = function(drop) {
 
 /**
  * Removes the raindrop from the list.
- * @param drop raindrop to be removed
+ * param drop raindrop to be removed
  */
 DropItem.prototype.remove = function(drop) {
 	var item = this;
@@ -1011,5 +1015,3 @@ DropItem.prototype.remove = function(drop) {
 		}
 	}
 };
-
-}

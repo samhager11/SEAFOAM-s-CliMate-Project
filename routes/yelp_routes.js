@@ -115,4 +115,10 @@ yelpRouter.route('/twitter')
     //    });
 // TWITTER STREAM END
 
+//Canvas-test route
+yelpRouter.route('/test/canvas')
+  .get(function(req,res){
+    res.render('canvas-test')
+  })
+
 module.exports = yelpRouter
