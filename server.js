@@ -39,7 +39,6 @@ var stream = twitter.stream('statuses/filter', { track: 'javascript' })
 io.on('connect', function(socket){
   // the word 'tweet' matches with socket.on first parameter in index.html
   stream.on('tweet', function(tweet){
-    console.log(tweet)
     socket.emit('tweets', tweet)
   })
 })
