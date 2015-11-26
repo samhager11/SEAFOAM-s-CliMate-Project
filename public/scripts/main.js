@@ -44,8 +44,9 @@ var conditionsURL = 'http://api.wunderground.com/api/726c0ba149d8a811/conditions
 var $inpCtry = $('#appendCountryUrl')
 var $inpState = $('#appendStateUrl')
 var $inpCity = $('#appendCityUrl')
-var state = '';
-var city = '';
+var city;
+var state;
+
 
 // create placeholder variables for User Position - used for Uber
 var userLatitude;
@@ -63,9 +64,30 @@ var uberServerToken = "7zMUXj4LgZviCq0xfEdpgLn6LsBlENzR3EYlUItz";
 //for Weather call
 var startLatitude;
 var startLongitude;
-var stateAbbrev;
-var stateFull;
-var city;
+var geoStateAbrev;
+var geoStateFull;
+var geoCity;
+
+///////////////////////////////////////////////////////////////////////////////
+
+//Get IP info for current user to be able to pass city and state to weather search
+$.get("http://ipinfo.io", function(ip_info) {
+    console.log(ip_info.city, ip_info.region);
+     state = convert_state(ip_info.region, 'abbrev');
+     city  = ip_info.city;
+
+    $inpCity.val(city)
+    $inpState.val(state)
+  
+}, "jsonp");
+
+//Get user location continuously for yelp and uber responses
+navigator.geolocation.watchPosition(function(position) {
+    console.log(position);
+    // Update latitude and longitude
+    userLatitude = position.coords.latitude;
+    userLongitude = position.coords.longitude;
+});
 
 
 navigator.geolocation.getCurrentPosition(successFunction, errorFunction);
@@ -107,10 +129,10 @@ function codeLatLng(lat, lng) {
         }
       }
       //state data
-      city = city.short_name
-      stateAbbrev = state.short_name
-      stateFull = state.long_name
-      console.log(city + " " + stateAbbrev + " " + stateFull)
+      geoCity = city.short_name
+      geoStateAbrev = state.short_name
+      geoStateFull = state.long_name
+      console.log(geoCity + " " + geoStateAbrev + " " + geoStateFull)
 
       } else {
         alert("No results found");
@@ -119,13 +141,6 @@ function codeLatLng(lat, lng) {
 }
 
 
-//Get user location continuously for yelp and uber responses
-navigator.geolocation.watchPosition(function(position) {
-    console.log(position);
-    // Update latitude and longitude
-    userLatitude = position.coords.latitude;
-    userLongitude = position.coords.longitude;
-});
 
 //Ajax Get for Uber price estimate based on User location
 function getEstimatesForUserLocation(latitude,longitude) {
@@ -158,16 +173,7 @@ function getEstimatesForUserLocation(latitude,longitude) {
 }
 
 
-//Get IP info for current user to be able to pass city and state to weather search
-$.get("http://ipinfo.io", function(ip_info) {
-    console.log(ip_info.city, ip_info.region);
-     state = convert_state(ip_info.region, 'abbrev');
-     city  = ip_info.city;
 
-    $inpCity.val(city)
-    $inpState.val(state)
-    console.log($inpState.val())
-}, "jsonp");
 
 //Get Weather and Call APIs Uber and Yelp for CURRENT location (IP and GEO Coordinates)
 window.onload = function(){
@@ -177,39 +183,41 @@ window.onload = function(){
     success: function (data) {
       console.log(data.current_observation.weather, data.current_observation.temperature_string)
       // AJAX call for Yelp API app using city and state from IP Info
-      $.ajax({
-        url: '/yelp/' + $inpCity.val() +  $inpState.val(),
-        method: 'GET',
-        success: function(data){
-          // console.log(data)
-          if(data.businesses){
+    }
+  })
+    $.ajax({
+    url: '/yelp/' + geoCity +  geoStateAbrev,
+    method: 'GET',
+    success: function(data){
+      // console.log(data)
+      if(data.businesses){
 
-          for (var i = 0; i < 5; i++){
-            var business = data.businesses[i]
+      for (var i = 0; i < 5; i++){
+        var business = data.businesses[i]
 
-            //If no lat and long returned from Yelp -
-            if(!business.location.coordinate){
-              console.log("no lat and long from yelp")
-            }
-            //Set Yelp Lat and Long for Uber endpoint use and run Uber call
-            else {
-                yelpLatitude = business.location.coordinate.latitude
-                yelpLongitude = business.location.coordinate.longitude
-                //Run Uber Ajax call for price and time estimates to each Yelp location returned
-                getEstimatesForUserLocation(userLatitude, userLongitude)
-              }
-              console.log(business)
-              if (business.location.neighborhoods){
-                $(".yelp").append('<li>'+ business.name + ', ' + business.location.neighborhoods[0] + '</li>')
-              }
-              else
-                $(".yelp").append('<li>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</li>')
-              }
-            }}
-          })
-      $.ajax({
+        //If no lat and long returned from Yelp -
+        if(!business.location.coordinate){
+          console.log("no lat and long from yelp")
+        }
+        //Set Yelp Lat and Long for Uber endpoint use and run Uber call
+        else {
+            yelpLatitude = business.location.coordinate.latitude
+            yelpLongitude = business.location.coordinate.longitude
+            //Run Uber Ajax call for price and time estimates to each Yelp location returned
+            getEstimatesForUserLocation(userLatitude, userLongitude)
+          }
+          console.log(business)
+          if (business.location.neighborhoods){
+            $(".yelp").append('<li>'+ business.name + ', ' + business.location.neighborhoods[0] + '</li>')
+          }
+          else
+            $(".yelp").append('<li>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</li>')
+          }
+        }}
+      })
+    $.ajax({
         // Twitter Stream Call
-        url: '/yelp/' + $inpCity.val() + $inpState.val(),
+        url: '/yelp/' + geoCity + geoStateAbrev,
         method: 'GET',
         success: function(data){
           var socket = io();
@@ -221,8 +229,7 @@ window.onload = function(){
           })
         }
       })
-        }
-      })}
+    }
 
 //Get Weather and Call APIs Uber and Yelp for SEARCH location (IP and GEO Coordinates)
 $('#submit').on('click', function(){
