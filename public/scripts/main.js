@@ -156,3 +156,5 @@ $('#submit').on('click', function(){
         })
       }
     })})
+
+// module.exports = Main
