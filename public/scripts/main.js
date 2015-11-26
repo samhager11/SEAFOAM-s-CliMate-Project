@@ -200,10 +200,10 @@ window.onload = function(){
               }
               console.log(business)
               if (business.location.neighborhoods){
-                $(".apiDisplay").append('<div>'+ business.name + ', ' + business.location.neighborhoods[0] + '</div>')
+                $(".yelp").append('<li>'+ business.name + ', ' + business.location.neighborhoods[0] + '</li>')
               }
               else
-                $(".apiDisplay").append('<div>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</div>')
+                $(".yelp").append('<li>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</li>')
               }
             }}
           })
@@ -226,7 +226,7 @@ window.onload = function(){
 
 //Get Weather and Call APIs Uber and Yelp for SEARCH location (IP and GEO Coordinates)
 $('#submit').on('click', function(){
-  $(".apiDisplay").empty()
+  $(".yelp").empty()
   $.ajax({
     url: conditionsURL + $('#appendStateUrl').val() + '/' + $('#appendCityUrl').val() + '.json',
     method: 'GET',
@@ -255,10 +255,10 @@ $('#submit').on('click', function(){
 
             console.log(business)
             if (business.location.neighborhoods){
-              $(".apiDisplay").append('<div>'+ business.name + ', ' + business.location.city + '</div>')
+              $(".yelp").append('<li>'+ business.name + ', ' + business.location.city + '</li>')
             }
             else{
-              $(".apiDisplay").append('<div>No Nearby Businesses</div>')
+              $(".yelp").append('<div>No Nearby Businesses</div>')
             }
           }}
         })

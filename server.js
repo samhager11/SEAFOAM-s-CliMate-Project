@@ -15,9 +15,11 @@ var express             = require('express')
     ,server             = require('http').createServer(app)
     ,io                 = require('socket.io')(server)
 
-// environment port
+
 // var port = process.env.PORT || 3000
-var port = process.env.PORT || 3000;
+
+var port = process.env.PORT || 3000
+
 
 
 // mongoose connection

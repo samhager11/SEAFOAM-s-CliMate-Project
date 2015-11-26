@@ -1,6 +1,6 @@
 body {
-  font-family: 'Source Sans Pro', sans-serif; }
-
+  font-family: 'Source Sans Pro', sans-serif;
+  margin: auto;}
 
   #canvasHolder {
     position: absolute;
@@ -21,6 +21,7 @@ body {
 
         /*main container */
         .col-md-8 {
+          position:absolute;
           width: 629px;
           height: 375px;
         }
@@ -33,13 +34,19 @@ body {
 
         /*container that api's will populate*/
         .apiDisplay {
-          width: 639px;
-          height: 100px;
+          position:relative;
+          top: 377px;
+          width: 929px;
+          height: 500px;
         }
 
         .twitterStream {
-          width: 639px;
-          height: 50px;
+
+          padding-left: 10px;
+          padding-right: 50px;
+          padding-top: 10px;
+          width: 155px;
+          height: 300px;
           background-color: #4099FF;
           color: white;
         }
@@ -116,7 +123,9 @@ body {
         }
 
         div.row {
+          padding-top: 15px;
           padding-bottom: 25px;
+          height: 100px;
         }
 
 
@@ -127,11 +136,6 @@ body {
           background-position: center;
         }
 
-        #postmatesAPIbutton{
-          background-image: url('../postmateslogo.jpg');
-          background-repeat: no-repeat;
-          background-position: center;
-        }
 
         #uberAPIbutton{
           background-image: url('../yelplogo.jpg');
@@ -139,7 +143,49 @@ body {
           background-position: center;
         }
 
-        .btn-lg{
+        #settingButton{
+          background-image: url('../settingicon.png');
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+
+
+        .btn-xl{
           width: 60px;
           height: 60px;
+        }
+
+        #submit{
+          margin-right: 100px;
+        }
+
+
+
+        #parent_div_1{
+            width:140px;
+            height:140px;
+            border:1px solid blue;
+            margin-right:10px;
+            float:left;
+        }
+        #parent_div_2{
+            width:350px;
+            height:140px;
+            border:1px solid blue;
+            margin-right:10px;
+            float:left;
+        }
+
+        #parent_div_3{
+            width:350px;
+            height:140px;
+            border:1px solid blue;
+            margin-right:10px;
+            float:left;
+        }
+
+
+        .child_div_1{
+          float:left;
+          margin-right:5px;
         }

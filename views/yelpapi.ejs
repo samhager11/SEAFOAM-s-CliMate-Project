@@ -7,7 +7,7 @@
   <body>
     <input type="text" id="loc" name="location" value="">
     <button type="button" id="yelp" name="button">Search</button>
-    <div id="yelp-list">
+    <div id="parent_div_2">
 
     </div>
     <script type="text/javascript">
@@ -23,15 +23,15 @@
                 var business = data.businesses[i]
                 console.log(business)
                 if (business.location.neighborhoods){
-                  $("#yelp-list").append('<div>'+ business.name + ', ' + business.location.neighborhoods[0] + ' - ' + business.phone + '</div>')
+                  $("#parent_div_2").append('<div>'+ business.name + ', ' + business.location.neighborhoods[0] + ' - ' + business.phone + '</div>')
                 }
                 else
-                  $("#yelp-list").aatppend('<div>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</div>')
+                  $("#parent_div_2").append('<div>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</div>')
                 }
               }
             else{
               console.log(data);
-              $("#yelp-list").append('<div>No Nearby Businesses</div>')
+              $("#parent_div_2").append('<div>No Nearby Businesses</div>')
             }
       }})}
     )
