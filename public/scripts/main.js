@@ -50,6 +50,12 @@ var city = '';
 var userLatitude;
 var userLongitude;
 
+
+var socket = io();
+socket.on('connect', function(){
+  console.log('Connected!')
+})
+
 //Get user location
 navigator.geolocation.watchPosition(function(position) {
     console.log(position);
@@ -112,25 +118,17 @@ window.onload = function(){
               }
             }}
           })
-      $.ajax({
-        // Twitter Stream Call
-        url: '/yelp/' + $inpCity.val() + $inpState.val(),
-        method: 'GET',
-        success: function(data){
-          var socket = io();
-          socket.on('connect', function(){
-            console.log('Connected!')
-          socket.on('tweets', function(tweet){
-            $(".twitterStream").text(tweet.text)
-          })
-          })
-        }
-      })
         }
       })}
-
+      socket.on('tweets', function(tweet){
+        console.log(tweet)
+      $(".twitterStream").text(tweet.text)
+      })
 //Get Weather and Call APIs Uber and Yelp for SEARCH location (IP and GEO Coordinates)
 $('#submit').on('click', function(){
+  var search_term = $inpCity.val()
+  console.log(search_term)
+  socket.emit('updateTerm', search_term)
   $(".yelp").empty()
   $.ajax({
     url: conditionsURL + $('#appendStateUrl').val() + '/' + $('#appendCityUrl').val() + '.json',
@@ -156,3 +154,5 @@ $('#submit').on('click', function(){
         })
       }
     })})
+
+// module.exports = Main

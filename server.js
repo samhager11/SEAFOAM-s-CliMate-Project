@@ -34,15 +34,25 @@ var twitter = new Twit({
   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 })
 
-var stream = twitter.stream('statuses/filter', { track: 'javascript' })
+var stream
+var searchTerm
+
 // the word 'connect' matches with socket.on first parameter in index.html
 io.on('connect', function(socket){
   // the word 'tweet' matches with socket.on first parameter in index.html
-  stream.on('tweet', function(tweet){
-    socket.emit('tweets', tweet)
+  socket.on('updateTerm', function(searchTerm){
+    socket.emit('updatedTerm', searchTerm)
+    if(stream){
+      stream.stop()
+    }
+    stream = twitter.stream('statuses/filter', { track: searchTerm })
+    stream.on('tweet', function(tweet){
+      var data = {}
+        data.text = tweet.text
+        socket.emit('tweets', data)
+    })
   })
 })
-// END TWITTER STREAM
 
 
 // middleware
