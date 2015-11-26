@@ -78,7 +78,7 @@ $.get("http://ipinfo.io", function(ip_info) {
 
     $inpCity.val(city)
     $inpState.val(state)
-  
+
 }, "jsonp");
 
 //Get user location continuously for yelp and uber responses
@@ -186,7 +186,7 @@ window.onload = function(){
     }
   })
     $.ajax({
-    url: '/yelp/' + geoCity +  geoStateAbrev,
+    url: '/yelp/' + $inpCity.val() +  $inpState.val(),
     method: 'GET',
     success: function(data){
       // console.log(data)
@@ -217,7 +217,7 @@ window.onload = function(){
       })
     $.ajax({
         // Twitter Stream Call
-        url: '/yelp/' + geoCity + geoStateAbrev,
+        url: '/yelp/' +  $inpCity.val() +  $inpState.val(),
         method: 'GET',
         success: function(data){
           var socket = io();
@@ -240,6 +240,8 @@ $('#submit').on('click', function(){
     success: function (data) {
       console.log(data.current_observation.weather, data.current_observation.temperature_string)
       // AJAX call for Yelp API app using city and state from IP Info
+      }
+    })
       $.ajax({
         url: '/yelp/' + $('#appendCityUrl').val() + $('#appendStateUrl').val(),
         method: 'GET',
@@ -256,6 +258,7 @@ $('#submit').on('click', function(){
             else {
                 yelpLatitude = business.location.coordinate.latitude
                 yelpLongitude = business.location.coordinate.longitude
+                
                 //Run Uber Ajax call for price and time estimates to each Yelp location returned
                 getEstimatesForUserLocation(userLatitude, userLongitude)
               }
@@ -267,9 +270,9 @@ $('#submit').on('click', function(){
             else{
               $(".yelp").append('<div>No Nearby Businesses</div>')
             }
-          }}
-        })
-      }
-    })})
+          }
+        }
+      })
+    })
 
 // module.exports = Main
