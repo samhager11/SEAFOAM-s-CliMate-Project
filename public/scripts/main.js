@@ -40,7 +40,7 @@ function convert_state(name, to) {
 
 //Setup variables to be used for API searches
 var yelpURL = 'http://api.yelp.com/v2/search'
-var conditionsURL = 'http://api.wunderground.com/api/726c0ba149d8a811/conditions/q/';
+var conditionsURL = 'https://api.wunderground.com/api/726c0ba149d8a811/conditions/q/';
 var $inpCtry = $('#appendCountryUrl')
 var $inpState = $('#appendStateUrl')
 var $inpCity = $('#appendCityUrl')
@@ -71,15 +71,15 @@ var geoCity;
 ///////////////////////////////////////////////////////////////////////////////
 
 //Get IP info for current user to be able to pass city and state to weather search
-$.get("http://ipinfo.io", function(ip_info) {
-    console.log(ip_info.city, ip_info.region);
-     state = convert_state(ip_info.region, 'abbrev');
-     city  = ip_info.city;
-
-    $inpCity.val(city)
-    $inpState.val(state)
-
-}, "jsonp");
+// $.get("http://ipinfo.io", function(ip_info) {
+//     console.log(ip_info.city, ip_info.region);
+//      state = convert_state(ip_info.region, 'abbrev');
+//      city  = ip_info.city;
+//
+//     $inpCity.val(city)
+//     $inpState.val(state)
+//
+// }, "jsonp");
 
 //Get user location continuously for yelp and uber responses
 navigator.geolocation.watchPosition(function(position) {
@@ -96,7 +96,7 @@ function successFunction(position) {
   var startLatitude = position.coords.latitude;
   var startLongitude = position.coords.longitude;
   console.log(startLongitude)
-  codeLatLng(startLatitude, startLongitude)
+  getLocationAndMakeCalls(startLatitude, startLongitude)
 }
 
 function errorFunction(){
@@ -105,7 +105,9 @@ function errorFunction(){
 
 //Get Google GeoCode API based on user startLatitude and startLongitude
 //Parse through result object to return city and state for use in weather call
-function codeLatLng(lat, lng) {
+//Make calls to Weather, Yelp, Uber, and Twitter based on user location
+//******************** API CALLS ON PAGE LOAD *********************//
+function getLocationAndMakeCalls(lat, lng) {
 
   $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" +lat + "," + lng + "&key=AIzaSyDtL6P7cJfHJg3LQARwMlMXNl7iCGWm_8I", function(data,status){
 
@@ -139,15 +141,17 @@ function codeLatLng(lat, lng) {
       }
       console.log('window loads', geoStateAbrev)
 
-      $.ajax({
-        url: conditionsURL + geoStateAbrev + '/' + geoCity + '.json',
-        method: 'GET',
-        success: function (data) {
-          console.log(data.current_observation.weather, data.current_observation.temperature_string)
-          // AJAX call for Yelp API app using city and state from IP Info
-        }
-      })
+    ///// Weather Underground API Call /////////////////////////////////////////
+    $.ajax({
+      url: conditionsURL + geoStateAbrev + '/' + geoCity + '.json',
+      method: 'GET',
+      success: function (data) {
+        console.log(data.current_observation.weather, data.current_observation.temperature_string)
+        // AJAX call for Yelp API app using city and state from IP Info
+      }
+    })
 
+    ////// Yelp and Uber API Calls ///////////////////////////////////////////////////////
     $.ajax({
     url: '/yelp/' + geoCity + geoStateAbrev,
     method: 'GET',
@@ -178,6 +182,8 @@ function codeLatLng(lat, lng) {
           }
         }}
       })
+
+    ////// Twitter Stream Call ////////////////////////////////////////////////
     $.ajax({
         // Twitter Stream Call
         url: '/yelp/' +  geoCity +  geoStateAbrev,
@@ -228,14 +234,7 @@ function getEstimatesForUserLocation(latitude,longitude) {
 }
 
 
-
-
-//Get Weather and Call APIs Uber and Yelp for CURRENT location (IP and GEO Coordinates)
-window.onload = function(){
-
-    }
-
-//Get Weather and Call APIs Uber and Yelp for SEARCH location (IP and GEO Coordinates)
+//Get Weather and Call APIs Uber and Yelp for SEARCH location (GEO Coordinates)
 $('#submit').on('click', function(){
   $(".yelp").empty()
   $.ajax({
@@ -246,37 +245,35 @@ $('#submit').on('click', function(){
       // AJAX call for Yelp API app using city and state from IP Info
       }
     })
-      $.ajax({
-        url: '/yelp/' + $('#appendCityUrl').val() + $('#appendStateUrl').val(),
-        method: 'GET',
-        success: function(data){
-          console.log(data)
-          for (var i = 0; i < 5; i++){
-            var business = data.businesses[i]
+  $.ajax({
+    url: '/yelp/' + $('#appendCityUrl').val() + $('#appendStateUrl').val(),
+    method: 'GET',
+    success: function(data){
+      console.log(data)
+      for (var i = 0; i < 5; i++){
+        var business = data.businesses[i]
 
-            //If no lat and long returned from Yelp -
-            if(!business.location.coordinate){
-              console.log("no lat and long from yelp")
-            }
-            //Set Yelp Lat and Long for Uber endpoint use and run Uber call
-            else {
-                yelpLatitude = business.location.coordinate.latitude
-                yelpLongitude = business.location.coordinate.longitude
-
-                //Run Uber Ajax call for price and time estimates to each Yelp location returned
-                getEstimatesForUserLocation(userLatitude, userLongitude)
-              }
-
-            console.log(business)
-            if (business.location.neighborhoods){
-              $(".yelp").append('<li>'+ business.name + ', ' + business.location.city + '</li>')
-            }
-            else{
-              $(".yelp").append('<div>No Nearby Businesses</div>')
-            }
-          }
+        //If no lat and long returned from Yelp -
+        if(!business.location.coordinate){
+          console.log("no lat and long from yelp")
         }
-      })
-    })
+        //Set Yelp Lat and Long for Uber endpoint use and run Uber call
+        else {
+            yelpLatitude = business.location.coordinate.latitude
+            yelpLongitude = business.location.coordinate.longitude
 
-// module.exports = Main
+            //Run Uber Ajax call for price and time estimates to each Yelp location returned
+            getEstimatesForUserLocation(userLatitude, userLongitude)
+          }
+
+        console.log(business)
+        if (business.location.neighborhoods){
+          $(".yelp").append('<li>'+ business.name + ', ' + business.location.city + '</li>')
+        }
+        else{
+          $(".yelp").append('<div>No Nearby Businesses</div>')
+        }
+      }
+    }
+  })
+})
