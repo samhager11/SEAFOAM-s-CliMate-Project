@@ -36,7 +36,9 @@ var twitter = new Twit({
   access_token_secret: '1vLkUb6WU7C8hfQ8hhHc7j5IPHjpK3NguRV3NAPIUyuFx'
 })
 
-var stream = twitter.stream('statuses/filter', { track: 'javascript' })
+// var hash = document.getElementById('appendCityUrl').value
+
+var stream = twitter.stream('statuses/filter', { track: 'WHAT THE FUCK' })
 // the word 'connect' matches with socket.on first parameter in index.html
 io.on('connect', function(socket){
   // the word 'tweet' matches with socket.on first parameter in index.html

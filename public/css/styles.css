@@ -42,13 +42,20 @@ body {
 
         .twitterStream {
 
-          padding-left: 10px;
-          padding-right: 50px;
+          padding-left: 15px;
+          padding-right: 15px;
           padding-top: 10px;
-          width: 155px;
+          width: 154.656px;
           height: 300px;
-          background-color: #4099FF;
+          background-color: #55acee;
           color: white;
+          word-wrap: break-word;
+          text-align: justify;
+        }
+
+        .twitterIcon {
+          height: 40px;
+          width: 40px;
         }
 
 
@@ -63,7 +70,7 @@ body {
       .weather .header {
         background: #fc6e51;
         height: 6.2rem;
-        font-size: 1.25rem;
+        font-size: 15px;
         font-weight: 600;
         color: #fff;
         line-height: 6.2rem;
@@ -128,8 +135,6 @@ body {
           height: 100px;
         }
 
-
-
         #yelpAPIbutton{
           background-image: url('../uberlogo.jpg');
           background-repeat: no-repeat;
@@ -174,6 +179,8 @@ body {
             border:1px solid blue;
             margin-right:10px;
             float:left;
+            background-color: #bf0f02;
+            color: white;
         }
 
         #parent_div_3{
