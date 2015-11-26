@@ -50,6 +50,15 @@ var city = '';
 // create placeholder variables for User Position - used for Uber
 var userLatitude;
 var userLongitude;
+var yelpLatitude;
+var yelpLongitude;
+var uberPrice;
+var uberTimeMin;
+var uberDistMiles;
+
+// Uber API Constants
+var uberClientId = "O4DQyt8u2XTuKGUAft4YZlzS9Yni4QQH";
+var uberServerToken = "7zMUXj4LgZviCq0xfEdpgLn6LsBlENzR3EYlUItz";
 
 //for Weather call
 var startLatitude;
@@ -118,7 +127,35 @@ navigator.geolocation.watchPosition(function(position) {
     userLongitude = position.coords.longitude;
 });
 
+//Ajax Get for Uber price estimate based on User location
+function getEstimatesForUserLocation(latitude,longitude) {
+  $.ajax({
+    url: "https://api.uber.com/v1/estimates/price",
+    headers: {
+        Authorization: "Token " + uberServerToken
+    },
+    data: {
+        start_latitude: latitude,
+        start_longitude: longitude,
+        end_latitude: yelpLatitude,   //from query to Yelp
+        end_longitude: yelpLongitude  //from query to Yelp
+    },
+    success: function(result) {
 
+        uberPrice = result.prices[0].estimate;
+        uberTimeMin = Math.round(result.prices[0].duration/60)
+        uberDistMiles = result.prices[0].distance
+      // }
+        console.log( uberPrice + ' : ' + uberTimeMin + ' min. : ' + uberDistMiles + ' mi.')
+    },
+    error: function(error) {
+      console.log(error)
+      console.log(uberPrice = "$$$");
+      uberTimeMin = ""
+      uberDistMiles = ""
+    }
+  });
+}
 
 
 //Get IP info for current user to be able to pass city and state to weather search
@@ -141,13 +178,26 @@ window.onload = function(){
       console.log(data.current_observation.weather, data.current_observation.temperature_string)
       // AJAX call for Yelp API app using city and state from IP Info
       $.ajax({
-        url: '/yelp/' + city  + stateAbbrev,
+        url: '/yelp/' + $inpCity.val() +  $inpState.val(),
         method: 'GET',
         success: function(data){
           // console.log(data)
           if(data.businesses){
-            for (var i = 0; i < 5; i++){
-              var business = data.businesses[i]
+
+          for (var i = 0; i < 5; i++){
+            var business = data.businesses[i]
+
+            //If no lat and long returned from Yelp -
+            if(!business.location.coordinate){
+              console.log("no lat and long from yelp")
+            }
+            //Set Yelp Lat and Long for Uber endpoint use and run Uber call
+            else {
+                yelpLatitude = business.location.coordinate.latitude
+                yelpLongitude = business.location.coordinate.longitude
+                //Run Uber Ajax call for price and time estimates to each Yelp location returned
+                getEstimatesForUserLocation(userLatitude, userLongitude)
+              }
               console.log(business)
               if (business.location.neighborhoods){
                 $(".apiDisplay").append('<div>'+ business.name + ', ' + business.location.neighborhoods[0] + '</div>')
@@ -190,6 +240,19 @@ $('#submit').on('click', function(){
           console.log(data)
           for (var i = 0; i < 5; i++){
             var business = data.businesses[i]
+
+            //If no lat and long returned from Yelp -
+            if(!business.location.coordinate){
+              console.log("no lat and long from yelp")
+            }
+            //Set Yelp Lat and Long for Uber endpoint use and run Uber call
+            else {
+                yelpLatitude = business.location.coordinate.latitude
+                yelpLongitude = business.location.coordinate.longitude
+                //Run Uber Ajax call for price and time estimates to each Yelp location returned
+                getEstimatesForUserLocation(userLatitude, userLongitude)
+              }
+
             console.log(business)
             if (business.location.neighborhoods){
               $(".apiDisplay").append('<div>'+ business.name + ', ' + business.location.city + '</div>')
