@@ -40,15 +40,16 @@ function convert_state(name, to) {
 
 //Setup variables to be used for API searches
 var yelpURL = 'http://api.yelp.com/v2/search'
-var conditionsURL = 'http://api.wunderground.com/api/726c0ba149d8a811/conditions/q/';
+var conditionsURL = 'http://api.wunderground.com/api/726c0ba149d8a811/conditions/q/'
+var forecastURL = 'http://api.wunderground.com/api/726c0ba149d8a811/forecast/q/'
 var $inpCtry = $('#appendCountryUrl')
 var $inpState = $('#appendStateUrl')
 var $inpCity = $('#appendCityUrl')
-var state = '';
-var city = '';
+var state = ''
+var city = ''
 // create placeholder variables for User Position - used for Uber
-var userLatitude;
-var userLongitude;
+var userLatitude
+var userLongitude
 
 //Get user location
 navigator.geolocation.watchPosition(function(position) {
@@ -94,6 +95,8 @@ window.onload = function(){
     method: 'GET',
     success: function (data) {
       console.log(data.current_observation.weather, data.current_observation.temperature_string)
+      $('#temperature').text(data.current_observation.temperature_string)
+
       // AJAX call for Yelp API app using city and state from IP Info
       $.ajax({
         url: '/yelp/' + $inpCity.val() + $inpState.val(),
@@ -112,6 +115,14 @@ window.onload = function(){
               }
             }}
           })
+
+      $.ajax({
+        url: forecastURL + $inpState.val() + '/' + $inpCity.val() + '.json',
+        method: 'GET',
+        success: function(forecast){
+          console.log('=====forecast======',forecast.forecastday[1])
+        }
+      })
       $.ajax({
         // Twitter Stream Call
         url: '/yelp/' + $inpCity.val() + $inpState.val(),
