@@ -61,6 +61,14 @@ var uberDistMiles;
 var uberClientId = "O4DQyt8u2XTuKGUAft4YZlzS9Yni4QQH";
 var uberServerToken = "7zMUXj4LgZviCq0xfEdpgLn6LsBlENzR3EYlUItz";
 
+
+//Twitter socket io instantiation
+var socket = io();
+socket.on('connect', function(){
+  console.log('Connected!')
+})
+
+//Get user location
 //for Weather call
 var startLatitude;
 var startLongitude;
@@ -82,6 +90,7 @@ var geoCity;
 // }, "jsonp");
 
 //Get user location continuously for yelp and uber responses
+
 navigator.geolocation.watchPosition(function(position) {
     console.log(position);
     // Update latitude and longitude
@@ -95,7 +104,7 @@ navigator.geolocation.getCurrentPosition(successFunction, errorFunction);
 function successFunction(position) {
   var startLatitude = position.coords.latitude;
   var startLongitude = position.coords.longitude;
-  console.log(startLongitude)
+  // console.log(startLongitude)
   getLocationAndMakeCalls(startLatitude, startLongitude)
 }
 
@@ -184,20 +193,9 @@ function getLocationAndMakeCalls(lat, lng) {
       })
 
     ////// Twitter Stream Call ////////////////////////////////////////////////
-    $.ajax({
-        // Twitter Stream Call
-        url: '/yelp/' +  geoCity +  geoStateAbrev,
-        method: 'GET',
-        success: function(data){
-          var socket = io();
-          socket.on('connect', function(){
-            console.log('Connected!')
-          socket.on('tweets', function(tweet){
-            $(".twitterStream").text(tweet.text)
-          })
-          })
-        }
-      })
+    var search_term = geoCity
+    console.log(search_term)
+    socket.emit('updateTerm', search_term)
     })
 }
 
@@ -235,16 +233,23 @@ function getEstimatesForUserLocation(latitude,longitude) {
 
 
 //Get Weather and Call APIs Uber and Yelp for SEARCH location (GEO Coordinates)
+//Stream twitter based on input city
 $('#submit').on('click', function(){
+  var search_term = $('#appendCityUrl').val()
+  console.log(search_term)
+  socket.emit('updateTerm', search_term)
   $(".yelp").empty()
+
+  //Weather API Call
   $.ajax({
     url: conditionsURL + $('#appendStateUrl').val() + '/' + $('#appendCityUrl').val() + '.json',
     method: 'GET',
     success: function (data) {
       console.log(data.current_observation.weather, data.current_observation.temperature_string)
-      // AJAX call for Yelp API app using city and state from IP Info
+
       }
     })
+      // AJAX call for Yelp API app using city and state from user location info
   $.ajax({
     url: '/yelp/' + $('#appendCityUrl').val() + $('#appendStateUrl').val(),
     method: 'GET',

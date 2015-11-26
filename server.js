@@ -36,17 +36,25 @@ var twitter = new Twit({
   access_token_secret: '1vLkUb6WU7C8hfQ8hhHc7j5IPHjpK3NguRV3NAPIUyuFx'
 })
 
-// var hash = document.getElementById('appendCityUrl').value
+var stream
+var searchTerm
 
-var stream = twitter.stream('statuses/filter', { track: 'WHAT THE FUCK' })
 // the word 'connect' matches with socket.on first parameter in index.html
 io.on('connect', function(socket){
   // the word 'tweet' matches with socket.on first parameter in index.html
-  stream.on('tweet', function(tweet){
-    socket.emit('tweets', tweet)
+  socket.on('updateTerm', function(searchTerm){
+    socket.emit('updatedTerm', searchTerm)
+    if(stream){
+      stream.stop()
+    }
+    stream = twitter.stream('statuses/filter', { track: searchTerm })
+    stream.on('tweet', function(tweet){
+      var data = {}
+        data.text = tweet.text
+        socket.emit('tweets', data)
+    })
   })
 })
-// END TWITTER STREAM
 
 
 // middleware
