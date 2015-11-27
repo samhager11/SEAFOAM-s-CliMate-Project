@@ -15,9 +15,11 @@ var express             = require('express')
     ,server             = require('http').createServer(app)
     ,io                 = require('socket.io')(server)
 
-// environment port
+
 // var port = process.env.PORT || 3000
-server.listen(3000)
+
+var port = process.env.PORT || 3000
+
 
 
 // mongoose connection
@@ -28,21 +30,31 @@ mongoose.connect('mongodb://samhager11:password123@ds041613.mongolab.com:41613/s
 
 // TWITTER STREAM
 var twitter = new Twit({
-  consumer_key: process.env.TWITTER_CONSUMER_KEY,
-  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-  access_token: process.env.TWITTER_ACCESS_TOKEN,
-  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+  consumer_key: 'RZ0FmndPW3bwnmcgrqFc58Rff',
+  consumer_secret: 'xsr18knDtlLhnNXx0y65fsNQy5S6lFziBkI9TPVdo5BCMSMDws',
+  access_token: '22934806-pAAHDdALQpUniGg9iCTGb25xPHxF2UEUMBjqX2eWE',
+  access_token_secret: '1vLkUb6WU7C8hfQ8hhHc7j5IPHjpK3NguRV3NAPIUyuFx'
 })
 
-var stream = twitter.stream('statuses/filter', { track: 'javascript' })
+var stream
+var searchTerm
+
 // the word 'connect' matches with socket.on first parameter in index.html
 io.on('connect', function(socket){
   // the word 'tweet' matches with socket.on first parameter in index.html
-  stream.on('tweet', function(tweet){
-    socket.emit('tweets', tweet)
+  socket.on('updateTerm', function(searchTerm){
+    socket.emit('updatedTerm', searchTerm)
+    if(stream){
+      stream.stop()
+    }
+    stream = twitter.stream('statuses/filter', { track: searchTerm })
+    stream.on('tweet', function(tweet){
+      var data = {}
+        data.text = tweet.text
+        socket.emit('tweets', data)
+    })
   })
 })
-// END TWITTER STREAM
 
 
 // middleware
@@ -98,3 +110,7 @@ app.use('/yelp',yelpRoutes)
 // app.listen(port, function(){
 //   console.log('Server running on port', port)
 // })
+
+server.listen(port, function(){
+      console.log('Serving started in port: ' + port);
+  });

@@ -25,12 +25,13 @@
 
       $('#background-img').hide()
 
-      $('#rainy-run').on('click', function run() {
-            $('#background-img').show()
-            var image = document.getElementById('background-img');
-            image.onload = weatherAnimate.snowDay
-            image.crossOrigin = 'anonymous';
-            image.src = './soma_night.jpg';
+      $('#rainy-run').on('click', function(){
+          weatherAnimate.snowDay()
+            // $('#background-img').show()
+            // var image = document.getElementById('background-img');
+            // image.onload = weatherAnimate.snowDay
+            // image.crossOrigin = 'anonymous';
+            // image.src = './soma_night.jpg';
           })
 
     </script>
