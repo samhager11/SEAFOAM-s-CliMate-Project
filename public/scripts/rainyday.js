@@ -2,8 +2,8 @@ console.log(RainyPattern)
 var RainyPattern function(){
 /**
  * Defines a new instance of the rainyday.js.
- * @param options options element with script parameters
- * @param canvas to be used (if not defined a new one will be created)
+ * param options options element with script parameters
+ * param canvas to be used (if not defined a new one will be created)
  */
 
 function RainyDay(options, canvas) {
@@ -18,7 +18,7 @@ function RainyDay(options, canvas) {
 		blur: 10,
 		crop: [0, 0, this.img.naturalWidth, this.img.naturalHeight],
 		enableSizeChange: true,
-		parentElement: document.getElementsByTagName('body')[0],
+		parentElement: document.getElementsByTagName('body')[0],//might have to change this parent element
 		fps: 30,
 		fillStyle: '#8ED6FF',
 		enableCollisions: true,
@@ -34,7 +34,7 @@ function RainyDay(options, canvas) {
 		top: 0,
 		left: 0
 	};
-console.log(var)
+console.log(defaults)
 	// add the defaults to options
 	for (var option in defaults) {
 		if (typeof options[option] === 'undefined') {
@@ -71,7 +71,7 @@ RainyDay.prototype.prepareCanvas = function() {
 	canvas.style.left = this.options.left;
 	canvas.width = this.options.width;
 	canvas.height = this.options.height;
-	this.options.parentElement.appendChild(canvas);
+	this.options.parentElement.appendChild(canvas); //might have to set parent element to different div
 	if (this.options.enableSizeChange) {
 		this.setResizeHandler();
 	}
@@ -172,8 +172,8 @@ RainyDay.prototype.prepareGlass = function() {
 
 /**
  * Main function for starting rain rendering.
- * @param presets list of presets to be applied
- * @param speed speed of the animation (if not provided or 0 static image will be generated)
+ * param presets list of presets to be applied
+ * param speed speed of the animation (if not provided or 0 static image will be generated)
  */
 RainyDay.prototype.rain = function(presets, speed) {
 	// prepare canvas for drop reflections
