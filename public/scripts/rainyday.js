@@ -1,6 +1,5 @@
 
 
-
  // * Defines a new instance of the rainyday.js.
  // * param options options element with script parameters
  // * param canvas to be used (if not defined a new one will be created)
