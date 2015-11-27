@@ -1,16 +1,21 @@
-<!-- Header nav/search bar -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
 <div class="row">
         <div class="location-search">
-            <form method="get" action="/profile" class="form-inline" >
+            <form action="/profile" class="form-inline">
                 <input name="country" id="appendCountryUrl" type="text" placeholder="Country(if outside USA)">
                 <input name="state" id="appendStateUrl" type="text" placeholder="State(USA only)">
                 <input name="city" id="appendCityUrl" type="text" placeholder="City">
                 <button type="button" class="btn btn-primary" id= "submit"> <i class="icon-search icon-white">Submit</i></button>
+                Welcome back, <%= user.local.name || user.facebook.name %>
+                <button type="button" a href="/logout" class="btn btn-default btn-sm"x>Logout</a>
+                <button type="button" class="btn btn-primary btn-lg" id="settingButton"> </button>
             </form>
-        </div>
-        <h4>Welcome back, <%= user.local.name || user.facebook.name %></h4>
 
-        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+        </div>
+
+
 </div>
 
 <a href="http://api.wunderground.com/api/726c0ba149d8a811/conditions/q/" id="baseUrl"></a>
@@ -19,7 +24,7 @@
 <div class="button"></div>
 
 <!-- Main Container -->
-<div class="container-fluid">
+
     <div class="row-fluid">
         <div class="col-md-2">
 <!-- Weather Sidebar -->
@@ -29,31 +34,14 @@
                 <div class="weather">
 
                       <header class="header">
-                        Our Partners
+                        <img src="http://i.imgur.com/QfRzE1w.png?1" class="twitterIcon" />Twitter Live Stream
                       </header>
+                      <div class="twitterStream">
+                      </div>
 
-                      <article>
+                    <article>
 
-                      <ul>
-                        <li class="day">
-                              <button type= "button" class="btn btn-primary btn-lg" id="yelpAPIbutton">
-                                <!-- <img src="yelplogo.jpg" /> -->
-                              </button>
-                        </li>
 
-                        <li class="day">
-                              <button type="button" class="btn btn-primary btn-lg" id="postmatesAPIbutton">
-                                <!-- <img src="postmateslogo.jpg" /> -->
-                              </button>
-                        </li>
-
-                        <li class="day">
-                              <button type="button" class="btn btn-primary btn-lg" id="uberAPIbutton">
-                                <!-- <img src="uberlogo.jpg" /> -->
-                              </button>
-                        </li>
-
-                      </ul>
 
                     </article>
 
@@ -62,11 +50,13 @@
                 </div>
       <!--Sidebar content-->
 
-
         </div>
+
         <div class= "col-md-8">
       <!--Body content-->
         </div>
+
+
         <div class="col-md-2">
       <!--Sidebar content-->
               <link href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/6035/icomoon-uikit-feb.css" rel="stylesheet">
@@ -76,7 +66,8 @@
                     <div class="weather">
 
                           <header class="header">
-                                  <h2>53&#176;F</h2>
+                                  <h2 id="temperature">53&#176;F</h2>
+                                  <!-- insert data.temperature here -->
                                   <div class="weather-icon-shadow">
                                     <span class="icon-droplets"></span>
                                   </div>
@@ -87,39 +78,39 @@
 
                           <article>
 
-                          <ul>
-                            <li class="day">
+
+                          <li id="day1" style="list-style-type: none;">
                                   <span class="image">
                                     <img src="http://placehold.it/50x50/f2f2f2" />
                                   </span>
-                                  <span class="day-title">Mon</span><br />
+                                  <span class="day-title">Today</span><br />
                                   <span class="temp">52&#176;</span>
                                   <div class="day-icon">
                                     <span class="icon-cloud"></span>
                                   </div>
                             </li>
 
-                            <li class="day">
+                            <li id="day2" style="list-style-type: none;">
                                   <span class="image">
                                     <img src="http://placehold.it/50x50/f2f2f2" />
                                   </span>
-                                  <span class="day-title">Tues</span><br />
+                                  <span class="day-title">Tomorrow</span><br />
                                   <span class="temp">55&#176;</span>
                                   <div class="day-icon">
                                     <span class="icon-cloud2"></span>
                                   </div>
                             </li>
-                            <li class="day">
+                            <li id="day3" style="list-style-type: none;">
                                   <span class="image">
                                     <img src="http://placehold.it/50x50/f2f2f2" />
                                   </span>
-                                  <span class="day-title">WED</span><br />
+                                  <span class="day-title">2 days from now</span><br />
                                   <span class="temp">47&#176;</span>
                                   <div class="day-icon">
                                     <span class="icon-droplets"></span>
                                   </div>
                             </li>
-                          </ul>
+
 
                         </article>
 
@@ -129,12 +120,43 @@
 
             </div>
       </div>
-    </div>
+      <br><br>
 
 <!-- API Display Box -->
-    <div class="apiDisplay">
 
-    </div>
+  <div class='apiDisplay'>
+
+
+      <div id='parent_div_1'>
+            <div class ='child_div_1'>
+                  <button type= "button" class="btn btn-primary btn-xl" id="yelpAPIbutton">
+                    <!-- <img src="yelplogo.jpg" /> -->
+                  </button>
+            </div><br><br><br><br>
+            <div class ='child_div_2'>
+                  <button type="button" class="btn btn-primary btn-xl" id="uberAPIbutton">
+                    <!-- <img src="uberlogo.jpg" /> -->
+                  </button>
+            </div>
+      </div>
+
+      <ul id='parent_div_2'>
+        <li class ='yelp'></li>
+      </ul>
+
+      <div id='parent_div_3'>
+          <div class ='child_div_1'>UBERAPI</div>
+          <div class ='child_div_2'></div>
+      </div>
+
+  </div>
+
+
+
+
+
+
 
 <!-- Scripts to Run     -->
+<script src="scripts/rainyday.js" charset="utf-8"></script>
 <script src="scripts/main.js" charset="utf-8"></script>
