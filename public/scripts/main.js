@@ -280,8 +280,15 @@ function getLocationAndMakeCalls(lat, lng) {
           else
             $(".yelp").append('<li>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</li>')
           }
-        }}
+        }
+				//Run Twitter Stream based on geo location
+
+				}
       })
+			var search_term = geoCity
+			console.log(search_term)
+			socket.emit('updateTerm', search_term)
+			$(".yelp").empty()
   })
 }
 
