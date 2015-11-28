@@ -2,6 +2,23 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   margin: auto;}
 
+  #canvasHolder {
+    position: absolute;
+    top: 300px;
+    left: 100px;
+    width: 600px;
+    height: 400px;
+  }
+
+  #background-img {
+    position: absolute;
+    top: 300px;
+    left: 100px;
+    width: 600px;
+    height: 400px;
+
+  }
+
         /*main container */
         .col-md-8 {
           position:absolute;
@@ -150,6 +167,7 @@ body {
 
 
         #parent_div_1{
+            position: absolute;
             width:140px;
             height:140px;
             border:1px solid blue;
@@ -157,7 +175,10 @@ body {
             float:left;
         }
         #parent_div_2{
-            width:350px;
+            position: relative;
+            left: 140px;
+            top: -335px;
+            width:400px;
             height:140px;
             border:1px solid blue;
             margin-right:10px;
@@ -167,7 +188,10 @@ body {
         }
 
         #parent_div_3{
-            width:350px;
+            position: relative;
+            left: 130px;
+            top: -335px;
+            width:400px;
             height:140px;
             border:1px solid blue;
             margin-right:10px;

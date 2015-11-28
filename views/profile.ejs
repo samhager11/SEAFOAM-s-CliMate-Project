@@ -1,5 +1,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
 <div class="row">
         <div class="location-search">
             <form action="/profile" class="form-inline">
@@ -65,7 +66,7 @@
                     <div class="weather">
 
                           <header class="header">
-                                  <h2>53&#176;F</h2>
+                                  <h2 id="temperature">53&#176;F</h2>
                                   <!-- insert data.temperature here -->
                                   <div class="weather-icon-shadow">
                                     <span class="icon-droplets"></span>
@@ -78,7 +79,7 @@
                           <article>
 
 
-                            <li class="day">
+                          <li id="day1" style="list-style-type: none;">
                                   <span class="image">
                                     <img src="http://placehold.it/50x50/f2f2f2" />
                                   </span>
@@ -89,7 +90,7 @@
                                   </div>
                             </li>
 
-                            <li class="day">
+                            <li id="day2" style="list-style-type: none;">
                                   <span class="image">
                                     <img src="http://placehold.it/50x50/f2f2f2" />
                                   </span>
@@ -99,7 +100,7 @@
                                     <span class="icon-cloud2"></span>
                                   </div>
                             </li>
-                            <li class="day">
+                            <li id="day3" style="list-style-type: none;">
                                   <span class="image">
                                     <img src="http://placehold.it/50x50/f2f2f2" />
                                   </span>
@@ -123,7 +124,7 @@
 
 <!-- API Display Box -->
 
-    <div class='apiDisplay'>
+  <div class='apiDisplay'>
 
 
       <div id='parent_div_1'>
@@ -151,9 +152,11 @@
   </div>
 
 
-<script src="scripts/main.js" charset="utf-8"></script>
+
 
 
 
 
 <!-- Scripts to Run     -->
+<script src="scripts/rainyday.js" charset="utf-8"></script>
+<script src="scripts/main.js" charset="utf-8"></script>

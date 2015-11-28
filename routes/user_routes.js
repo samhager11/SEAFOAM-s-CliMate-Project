@@ -43,6 +43,10 @@ userRouter.get('/logout', function(req, res){
   res.redirect('/')
 })
 
+// userRouter.get('/settings', function(req, res){
+//     res.redirect('/settings')
+// })
+
 
 function isLoggedIn(req, res, next) {
     if(req.isAuthenticated()) return next()
