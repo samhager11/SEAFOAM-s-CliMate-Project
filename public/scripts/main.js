@@ -225,7 +225,7 @@ function getLocationAndMakeCalls(lat, lng) {
         }
       }
       //state data
-      geoCity = city.short_name
+      geoCity = city.long_name
       geoStateAbrev = state.short_name
       geoStateFull = state.long_name
       console.log(geoCity + " " + geoStateAbrev + " " + geoStateFull)
@@ -280,8 +280,15 @@ function getLocationAndMakeCalls(lat, lng) {
           else
             $(".yelp").append('<li>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</li>')
           }
-        }}
+        }
+				//Run Twitter Stream based on geo location
+
+				}
       })
+			var search_term = geoCity
+			console.log(search_term)
+			socket.emit('updateTerm', search_term)
+			$(".yelp").empty()
   })
 }
 
