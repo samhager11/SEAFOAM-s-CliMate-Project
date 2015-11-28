@@ -225,7 +225,7 @@ function getLocationAndMakeCalls(lat, lng) {
         }
       }
       //state data
-      geoCity = city.short_name
+      geoCity = city.long_name
       geoStateAbrev = state.short_name
       geoStateFull = state.long_name
       console.log(geoCity + " " + geoStateAbrev + " " + geoStateFull)
@@ -280,12 +280,15 @@ function getLocationAndMakeCalls(lat, lng) {
           else
             $(".yelp").append('<li>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</li>')
           }
-        }}
+        }
+				//Run Twitter Stream based on geo location
+
+				}
       })
-    ////// Twitter Stream Call ////////////////////////////////////////////////
-    var search_term = geoCity
-    console.log(search_term)
-    socket.emit('updateTerm', search_term)
+			var search_term = geoCity
+			console.log(search_term)
+			socket.emit('updateTerm', search_term)
+			$(".yelp").empty()
   })
 }
 
@@ -321,6 +324,7 @@ function getEstimatesForUserLocation(latitude,longitude) {
 //Get Weather and Call APIs Uber and Yelp for SEARCH location (GEO Coordinates)
 //Stream twitter based on input city
 $('#submit').on('click', function(){
+	////// Twitter Stream Call ////////////////////////////////////////////////
   var search_term = $('#appendCityUrl').val()
   console.log(search_term)
   socket.emit('updateTerm', search_term)
@@ -364,4 +368,9 @@ $('#submit').on('click', function(){
       }
     }
   })
+})
+
+socket.on('tweets', function(tweet){
+  console.log(tweet)
+  $(".twitterStream").text(tweet.text)
 })
