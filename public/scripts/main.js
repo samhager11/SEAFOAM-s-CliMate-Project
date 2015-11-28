@@ -225,7 +225,7 @@ function getLocationAndMakeCalls(lat, lng) {
         }
       }
       //state data
-      geoCity = city.short_name
+      geoCity = city.long_name
       geoStateAbrev = state.short_name
       geoStateFull = state.long_name
       console.log(geoCity + " " + geoStateAbrev + " " + geoStateFull)
