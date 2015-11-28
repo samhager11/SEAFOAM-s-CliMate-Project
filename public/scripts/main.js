@@ -282,10 +282,6 @@ function getLocationAndMakeCalls(lat, lng) {
           }
         }}
       })
-    ////// Twitter Stream Call ////////////////////////////////////////////////
-    var search_term = geoCity
-    console.log(search_term)
-    socket.emit('updateTerm', search_term)
   })
 }
 
@@ -321,6 +317,7 @@ function getEstimatesForUserLocation(latitude,longitude) {
 //Get Weather and Call APIs Uber and Yelp for SEARCH location (GEO Coordinates)
 //Stream twitter based on input city
 $('#submit').on('click', function(){
+	////// Twitter Stream Call ////////////////////////////////////////////////
   var search_term = $('#appendCityUrl').val()
   console.log(search_term)
   socket.emit('updateTerm', search_term)
@@ -364,4 +361,9 @@ $('#submit').on('click', function(){
       }
     }
   })
+})
+
+socket.on('tweets', function(tweet){
+  console.log(tweet)
+  $(".twitterStream").text(tweet.text)
 })
