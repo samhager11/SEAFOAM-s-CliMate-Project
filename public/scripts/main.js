@@ -232,7 +232,7 @@ function getLocationAndMakeCalls(lat, lng) {
       } else {
         alert("No results found");
       }
-      console.log('window loads', geoStateAbrev)
+      
     ///// Weather Underground API Call /////////////////////////////////////////
     $.ajax({
       url: conditionsURL + geoStateAbrev + '/' + geoCity + '.json',
@@ -273,7 +273,7 @@ function getLocationAndMakeCalls(lat, lng) {
             //Run Uber Ajax call for price and time estimates to each Yelp location returned
             getEstimatesForUserLocation(userLatitude, userLongitude)
           }
-          console.log(business)
+          // console.log(business)
           if (business.location.neighborhoods){
             $(".yelp").append('<li>'+ business.name + ', ' + business.location.neighborhoods[0] + '</li>')
           }
@@ -286,7 +286,7 @@ function getLocationAndMakeCalls(lat, lng) {
 				}
       })
 			var search_term = geoCity
-			console.log(search_term)
+			// console.log(search_term)
 			socket.emit('updateTerm', search_term)
 			$(".yelp").empty()
   })
@@ -326,7 +326,7 @@ function getEstimatesForUserLocation(latitude,longitude) {
 $('#submit').on('click', function(){
 	////// Twitter Stream Call ////////////////////////////////////////////////
   var search_term = $('#appendCityUrl').val()
-  console.log(search_term)
+  // console.log(search_term)
   socket.emit('updateTerm', search_term)
   $(".yelp").empty()
   //Weather API Call
@@ -358,7 +358,7 @@ $('#submit').on('click', function(){
             //Run Uber Ajax call for price and time estimates to each Yelp location returned
             getEstimatesForUserLocation(userLatitude, userLongitude)
           }
-        console.log(business)
+        // console.log(business)
         if (business.location.neighborhoods){
           $(".yelp").append('<li>'+ business.name + ', ' + business.location.city + '</li>')
         }
@@ -371,6 +371,6 @@ $('#submit').on('click', function(){
 })
 
 socket.on('tweets', function(tweet){
-  console.log(tweet)
+  // console.log(tweet)
   $(".twitterStream").text(tweet.text)
 })
