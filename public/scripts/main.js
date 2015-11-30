@@ -63,7 +63,13 @@ var weatherObject = { sunny:["Clear",
 		"Light Freezing Rain",	"Heavy Freezing Rain",
 		"Light Freezing Fog",	"Heavy Freezing Fog",
 		"Squalls",
-		"Unknown Precipitation"],
+		"Unknown Precipitation","Rain", "Rain",
+		"Mist",
+		"Spray",
+		"Rain Mist",
+		"Rain Showers",
+		"Thunderstorm",
+		"Thunderstorms and Rain"],
 	snowy:
 		["Light Snow Grains",	"Heavy Snow Grains",
 			"Light Ice Crystals",	"Heavy Ice Crystals",
@@ -77,7 +83,16 @@ var weatherObject = { sunny:["Clear",
 			"Light Hail Showers",	"Heavy Hail Showers",
 			"Light Small Hail Showers",	"Heavy Small Hail Showers",
 			"Light Thunderstorms and Snow",	"Heavy Thunderstorms and Snow",
-			"Small Hail"],
+			"Small Hail", "Snow"," Snow",	" Ice Pellet Showers",
+			"Snow Grains",	"Hail Showers",
+			"Ice Crystals",	"Small Hail Showers",
+			"Ice Pellets",	"Thunderstorms and Snow",
+			"Hail",	"Thunderstorms and Ice Pellets",
+			"Low Drifting Snow",	"Thunderstorms with Hail",
+			"Blowing Snow",	"Thunderstorms with Small Hail",
+			"Snow Showers",	"Freezing Drizzle",
+			"Snow Blowing Snow Mist",	"Freezing Rain",
+			"Freezing Fog"],
 	cloudy:
 		["Light Fog",	"Heavy Fog",
 			"Light Fog Patches",	"Heavy Fog Patches",
@@ -97,7 +112,13 @@ var weatherObject = { sunny:["Clear",
 			"Overcast",
 			"Partly Cloudy",
 			"Mostly Cloudy",
-			"Funnel Cloud"]
+			"Funnel Cloud", "Fog",	"Dust Whirls",
+			"Fog Patches",	"Sandstorm",
+			"Smoke",	"Low Drifting Widespread Dust",
+			"Volcanic Ash",	"Low Drifting Sand",
+			"Widespread Dust",	"Blowing Widespread Dust",
+			"Sand",	"Blowing Sand",
+			"Haze"	]
 	}
 
 
@@ -253,7 +274,8 @@ function getLocationAndMakeCalls(lat, lng) {
       }
 
     ///// Weather Underground API Call /////////////////////////////////////////
-    $.ajax({
+		if(geoCity){
+	  $.ajax({
       url: conditionsURL + geoStateAbrev + '/' + geoCity + '.json',
       method: 'GET',
       success: function (data) {
@@ -350,6 +372,7 @@ function getLocationAndMakeCalls(lat, lng) {
 			// console.log(search_term)
 			socket.emit('updateTerm', search_term)
 			$(".yelp").empty()
+		}
   })
 }
 
