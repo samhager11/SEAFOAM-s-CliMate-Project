@@ -28,7 +28,7 @@ The primary service of CliMate is to provide a real-time visual representation o
 
 ## Wireframes and Screenshots
 
-![CliMate Wireframe](/Climate_Wireframe.png)
+![CliMate Wireframe](./Climate_Wireframe.png)
 
 ## *Description of CliMate*
 
