@@ -1,42 +1,3 @@
-//Formatting state name to abbreviation
-//NOT REQUIRED NOW THAT WE ARE USING GEOLOCATION INSTEAD OF IP
-// function convert_state(name, to) {
-//     var name = name.toUpperCase();
-//     var states = new Array(                         {'name':'Alabama', 'abbrev':'AL'},          {'name':'Alaska', 'abbrev':'AK'},
-//         {'name':'Arizona', 'abbrev':'AZ'},          {'name':'Arkansas', 'abbrev':'AR'},         {'name':'California', 'abbrev':'CA'},
-//         {'name':'Colorado', 'abbrev':'CO'},         {'name':'Connecticut', 'abbrev':'CT'},      {'name':'Delaware', 'abbrev':'DE'},
-//         {'name':'Florida', 'abbrev':'FL'},          {'name':'Georgia', 'abbrev':'GA'},          {'name':'Hawaii', 'abbrev':'HI'},
-//         {'name':'Idaho', 'abbrev':'ID'},            {'name':'Illinois', 'abbrev':'IL'},         {'name':'Indiana', 'abbrev':'IN'},
-//         {'name':'Iowa', 'abbrev':'IA'},             {'name':'Kansas', 'abbrev':'KS'},           {'name':'Kentucky', 'abbrev':'KY'},
-//         {'name':'Louisiana', 'abbrev':'LA'},        {'name':'Maine', 'abbrev':'ME'},            {'name':'Maryland', 'abbrev':'MD'},
-//         {'name':'Massachusetts', 'abbrev':'MA'},    {'name':'Michigan', 'abbrev':'MI'},         {'name':'Minnesota', 'abbrev':'MN'},
-//         {'name':'Mississippi', 'abbrev':'MS'},      {'name':'Missouri', 'abbrev':'MO'},         {'name':'Montana', 'abbrev':'MT'},
-//         {'name':'Nebraska', 'abbrev':'NE'},         {'name':'Nevada', 'abbrev':'NV'},           {'name':'New Hampshire', 'abbrev':'NH'},
-//         {'name':'New Jersey', 'abbrev':'NJ'},       {'name':'New Mexico', 'abbrev':'NM'},       {'name':'New York', 'abbrev':'NY'},
-//         {'name':'North Carolina', 'abbrev':'NC'},   {'name':'North Dakota', 'abbrev':'ND'},     {'name':'Ohio', 'abbrev':'OH'},
-//         {'name':'Oklahoma', 'abbrev':'OK'},         {'name':'Oregon', 'abbrev':'OR'},           {'name':'Pennsylvania', 'abbrev':'PA'},
-//         {'name':'Rhode Island', 'abbrev':'RI'},     {'name':'South Carolina', 'abbrev':'SC'},   {'name':'South Dakota', 'abbrev':'SD'},
-//         {'name':'Tennessee', 'abbrev':'TN'},        {'name':'Texas', 'abbrev':'TX'},            {'name':'Utah', 'abbrev':'UT'},
-//         {'name':'Vermont', 'abbrev':'VT'},          {'name':'Virginia', 'abbrev':'VA'},         {'name':'Washington', 'abbrev':'WA'},
-//         {'name':'West Virginia', 'abbrev':'WV'},    {'name':'Wisconsin', 'abbrev':'WI'},        {'name':'Wyoming', 'abbrev':'WY'}
-//         );
-//     var returnthis = false;
-//     $.each(states, function(index, value){
-//         if (to == 'name') {
-//             if (value.abbrev == name){
-//                 returnthis = value.name;
-//                 return false;
-//             }
-//         } else if (to == 'abbrev') {
-//             if (value.name.toUpperCase() == name){
-//                 returnthis = value.abbrev;
-//                 return false;
-//             }
-//         }
-//     });
-//     return returnthis;
-// }}
-
 //Weather Pattern Determination
 var weatherPattern;
 var weatherTypes = ["sunny","rainy","snowy","cloudy"];
@@ -135,7 +96,7 @@ function determineWeather(forecast,checkForecast){
 	$('#canvas').hide().fadeIn(2000)
 
 
-		if(!wundergroundType){
+	if(!wundergroundType){
 		weatherPattern = "rainyDay"
 		weatherAnimate.rainyDay()
 	} else {
@@ -194,7 +155,7 @@ var uberServerToken = "7zMUXj4LgZviCq0xfEdpgLn6LsBlENzR3EYlUItz";
 //Twitter socket io instantiation
 var socket = io();
 socket.on('connect', function(){
-  console.log('Connected!')
+	console.log('Connected!')
 })
 
 //Get user location
@@ -221,23 +182,23 @@ var geoCity;
 
 //Get user location continuously for yelp and uber responses
 navigator.geolocation.watchPosition(function(position) {
-    console.log(position);
-    // Update latitude and longitude
-    userLatitude = position.coords.latitude;
-    userLongitude = position.coords.longitude;
+	console.log(position);
+	// Update latitude and longitude
+	userLatitude = position.coords.latitude;
+	userLongitude = position.coords.longitude;
 });
 
 navigator.geolocation.getCurrentPosition(successFunction, errorFunction);
 //Get the latitude and the longitude;
 function successFunction(position) {
-  var startLatitude = position.coords.latitude;
-  var startLongitude = position.coords.longitude;
-  // console.log(startLongitude)
-  getLocationAndMakeCalls(startLatitude, startLongitude)
+	var startLatitude = position.coords.latitude;
+	var startLongitude = position.coords.longitude;
+	// console.log(startLongitude)
+	getLocationAndMakeCalls(startLatitude, startLongitude)
 }
 
 function errorFunction(){
-  alert("Geocoder failed");
+	alert("Geocoder failed");
 }
 
 //Get Google GeoCode API based on user startLatitude and startLongitude
@@ -286,14 +247,16 @@ function getLocationAndMakeCalls(lat, lng) {
         // $('#temperature').text(data.current_observation.temperature_string.icon)
       }
     })
-    $.ajax({
-      url: forecastURL + geoStateAbrev + '/' + geoCity + '.json',
-      method: 'GET',
-      success: function(data){
+		//CALL FOR FUTURE FORECAST INFO
+		$.ajax({
+			// conditionsURL or forecastURL??
+			url: forecastURL + geoStateAbrev + '/' + geoCity + '.json',
+			method: 'GET',
+			success: function(data){
 				data.forecast.simpleforecast.forecastday.forEach(function(day,index){
 					console.log('===DAY INFO===',index, day);
 					$('#temp' + index + 'H').text(day.high.fahrenheit + "F")
-					$('#temp' + index + 'L').text(day.low.fahrenheit + "F")
+					$('#temp' + index + 'L').text(day.low.fahrenheit + " F")
 					$('#day' + index + "title").text(day.date.weekday_short)
 					$('#img' + index).attr('src',day.icon_url)
 				})
@@ -336,73 +299,74 @@ function getLocationAndMakeCalls(lat, lng) {
 		// 		$('#day4').text(data.forecast.simpleforecast.forecastday[4].icon)
 		// 	}
 		// })
-    ////// Yelp and Uber API Calls ///////////////////////////////////////////////////////
-    $.ajax({
-    url: '/yelp/' + geoCity + geoStateAbrev,
-    method: 'GET',
-    success: function(data){
-      // console.log(data)
-      if(data.businesses){
-      for (var i = 0; i < 5; i++){
-        var business = data.businesses[i]
-        //If no lat and long returned from Yelp -
-        if(!business.location.coordinate){
-          console.log("no lat and long from yelp")
-        }
-        //Set Yelp Lat and Long for Uber endpoint use and run Uber call
-        else {
-            yelpLatitude = business.location.coordinate.latitude
-            yelpLongitude = business.location.coordinate.longitude
-            //Run Uber Ajax call for price and time estimates to each Yelp location returned
-            getEstimatesForUserLocation(userLatitude, userLongitude)
-          }
-          // console.log(business)
-          if (business.location.neighborhoods){
-            $(".yelp").append('<li>'+ business.name + ', ' + business.location.neighborhoods[0] + '</li>')
-          }
-          else
-            $(".yelp").append('<li>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</li>')
-          }
-        }
-				//Run Twitter Stream based on geo location
 
+		////// Yelp and Uber API Calls ///////////////////////////////////////////////////////
+		$.ajax({
+			url: '/yelp/' + geoCity + geoStateAbrev,
+			method: 'GET',
+			success: function(data){
+				// console.log(data)
+				if(data.businesses){
+					for (var i = 0; i < 5; i++){
+						var business = data.businesses[i]
+						//If no lat and long returned from Yelp -
+						if(!business.location.coordinate){
+							console.log("no lat and long from yelp")
+						}
+						//Set Yelp Lat and Long for Uber endpoint use and run Uber call
+						else {
+							yelpLatitude = business.location.coordinate.latitude
+							yelpLongitude = business.location.coordinate.longitude
+							//Run Uber Ajax call for price and time estimates to each Yelp location returned
+							getEstimatesForUserLocation(userLatitude, userLongitude)
+						}
+						console.log('=yelp biz=',business)
+						if (business.location.neighborhoods){
+							$(".yelp").append('<li class="collection-item avatar"> <img src="'+ business.image_url +'" alt="" class="circle"><span class="title">'+business.name+'</span><p>'+ business.phone + '<br>' + business.location.neighborhoods[0] + '</p><a href="#!" class="secondary-content">'+business.rating+'<i class="material-icons">grade</i></a></li>')
+						}
+						else{
+						$(".yelp").append('<li>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</li>')
+						}
+					}
 				}
-      })
-			var search_term = geoCity
-			// console.log(search_term)
-			socket.emit('updateTerm', search_term)
-			$(".yelp").empty()
+			}
+		})
+		//Run Twitter Stream based on geo location
+		var search_term = geoCity
+		// console.log(search_term)
+		socket.emit('updateTerm', search_term)
+		$(".yelp").empty()
 		}
-  })
+	})
 }
 
 //Ajax Get for Uber price estimate based on User location
 function getEstimatesForUserLocation(latitude,longitude) {
-  $.ajax({
-    url: "https://api.uber.com/v1/estimates/price",
-    headers: {
-        Authorization: "Token " + uberServerToken
-    },
-    data: {
-        start_latitude: latitude,
-        start_longitude: longitude,
-        end_latitude: yelpLatitude,   //from query to Yelp
-        end_longitude: yelpLongitude  //from query to Yelp
-    },
-    success: function(result) {
-        uberPrice = result.prices[0].estimate;
-        uberTimeMin = Math.round(result.prices[0].duration/60)
-        uberDistMiles = result.prices[0].distance
-      // }
-        console.log( uberPrice + ' : ' + uberTimeMin + ' min. : ' + uberDistMiles + ' mi.')
-    },
-    error: function(error) {
-      console.log(error)
-      console.log(uberPrice = "$$$");
-      uberTimeMin = ""
-      uberDistMiles = ""
-    }
-  });
+	$.ajax({
+		url: "https://api.uber.com/v1/estimates/price",
+		headers: {
+			Authorization: "Token " + uberServerToken
+		},
+		data: {
+			start_latitude: latitude,
+			start_longitude: longitude,
+			end_latitude: yelpLatitude,   //from query to Yelp
+			end_longitude: yelpLongitude  //from query to Yelp
+		},
+		success: function(result) {
+			uberPrice = result.prices[0].estimate;
+			uberTimeMin = Math.round(result.prices[0].duration/60)
+			uberDistMiles = result.prices[0].distance
+			// }
+			console.log( uberPrice + ' : ' + uberTimeMin + ' min. : ' + uberDistMiles + ' mi.')
+		},
+		error: function(error) {
+			console.log(error)
+			console.log(uberPrice = "$$$");
+			uberTimeMin = ""
+			uberDistMiles = ""
+		}
+	});
 }
 
 //Get Weather and Call APIs Uber and Yelp for SEARCH location (GEO Coordinates)
@@ -413,7 +377,8 @@ $('#submit').on('click', function(){
   // console.log(search_term)
   socket.emit('updateTerm', search_term)
   $(".yelp").empty()
-  //Weather API Call
+
+	//Weather API Call
   $.ajax({
     url: conditionsURL + $('#appendStateUrl').val() + '/' + $('#appendCityUrl').val() + '.json',
     method: 'GET',
@@ -423,7 +388,8 @@ $('#submit').on('click', function(){
       determineWeather(wundergroundType,weatherObject)
       }
     })
-      // AJAX call for Yelp API app using city and state from user location info
+
+  // AJAX call for Yelp API app using city and state from user location info
   $.ajax({
     url: '/yelp/' + $('#appendCityUrl').val() + $('#appendStateUrl').val(),
     method: 'GET',
@@ -452,11 +418,33 @@ $('#submit').on('click', function(){
       }
     }
   })
-})
 
-socket.on('tweets', function(tweet){
-  // console.log(tweet)
-  $(".twitterStream").text(tweet.text)
+
+	//Weather API Call to ADD Details
+	$.ajax({
+			url: forecastURL + $('#appendStateUrl').val() + '/' + $('#appendCityUrl').val() + '.json',
+			method: 'GET',
+			success: function(data){
+				data.forecast.simpleforecast.forecastday.forEach(function(day,index){
+					console.log('===DAY INFO===',index, day);
+					$('#temp' + index + 'H').text(day.high.fahrenheit + "F")
+					$('#temp' + index + 'L').text(day.low.fahrenheit + " F")
+					$('#day' + index + "title").text(day.date.weekday_short)
+					$('#img' + index).attr('src',day.icon_url)
+				})
+				data.forecast.txt_forecast.forecastday.forEach(function (info) {
+					dayInfo.push(info.fcttext)
+				})
+			}
+		})
+
+
+	socket.on('tweets', function(tweet){
+		console.log('====tweet====',tweet)
+		var $toastContent = $('<span>' + tweet.text + '</span>');
+		Materialize.toast($toastContent, 5000);
+		$(".twitterStream").text(tweet.text)
+	})
 })
 
 //show details of the current days weather
