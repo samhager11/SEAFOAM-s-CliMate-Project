@@ -325,7 +325,7 @@ function getEstimatesForUserLocation(latitude,longitude) {
 			uberTimeMin = Math.round(result.prices[0].duration/60) + " min."
 			uberDistMiles = result.prices[0].distance
 			$(".uber").children().first().fadeOut().remove()
-			$(".uber").append('<li class="collection-item avatar"><span class="title">'+ uberTitle +'</span><img src="../uberbadge.png" alt="UberX" id="uberPic"><p>'+ uberPrice + '<br>' + uberTimeMin + '</p></li>')
+			$(".uber").append('<li class="collection-item avatar"><span class="title">'+ uberTitle +'</span><img src="../uberbadge.png" alt="UberX" class="circle" id="uberPic"><p>'+ uberPrice + '<br>' + uberTimeMin + '</p></li>')
 			// }
 			console.log( uberPrice + ' : ' + uberTimeMin + ' min. : ' + uberDistMiles + ' mi.')
 		},
@@ -335,7 +335,7 @@ function getEstimatesForUserLocation(latitude,longitude) {
 			uberTimeMin = "Too far for Uber"
 			uberDistMiles = ""
 				$(".uber").children().first().fadeOut().remove()
-			$(".uber").append('<li class="collection-item avatar"><span class="title">'+ uberTitle +'</span><img src="../uberbadge.png" alt="UberX"><p>'+ uberPrice + '<br>' + uberTimeMin + '</p></li>')
+			$(".uber").append('<li class="collection-item avatar"><span class="title">'+ uberTitle +'</span><img src="../uberbadge.png" alt="UberX" class="circle"><p>'+ uberPrice + '<br>' + uberTimeMin + '</p></li>')
 		}
 	});
 }
@@ -370,7 +370,7 @@ $('#submit').on('click', function(){
 					$('#temp' + index + 'L').text(day.low.fahrenheit + " F")
 					$('#day' + index + "title").text(day.date.weekday_short)
 					$('#img' + index).attr('src',day.icon_url)
-					
+
 				})
 				data.forecast.txt_forecast.forecastday.forEach(function (info) {
 					dayInfo.push(info.fcttext)

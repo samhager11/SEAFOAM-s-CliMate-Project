@@ -47,7 +47,8 @@ main {
 
 
 #uberPic{
-  float: right;
+  float: left;
+  margin-right: 10px;
 }
 
 #facebook-submit{
@@ -59,9 +60,11 @@ main {
 }
 
 #toast-container {
-    position: fixed !important;
+    /*position: fixed !important;
     bottom: 0px !important;
-    left: 0px !important;
+    left: 0px !important;*/
+    height: auto;
+    width: auto;
 }
 
 
