@@ -60,11 +60,11 @@ main {
 }
 
 #toast-container {
-    /*position: fixed !important;
+    position: fixed !important;
     bottom: 0px !important;
-    left: 0px !important;*/
-    height: auto;
-    width: auto;
+    left: 0px !important;
+    /*height: auto;
+    width: auto;*/
 }
 
 
