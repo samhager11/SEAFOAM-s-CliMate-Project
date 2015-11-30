@@ -41,6 +41,7 @@ backgroundImage.size = "cover"
 
 
 
+
 function RainyDay(options, canvas) {
 
 	if (this === window) { //if *this* is the window object, start over with a *new* object
@@ -53,7 +54,7 @@ function RainyDay(options, canvas) {
 		blur: 10,
 		crop: [0, 0, this.img.naturalWidth, this.img.naturalHeight],
 		enableSizeChange: true,
-		parentElement: document.getElementsByTagName('body')[0],
+		parentElement: document.getElementsByTagName('body')[0],//might have to change this parent element
 		fps: 30,
 		fillStyle: '#8ED6FF',
 		enableCollisions: true,
@@ -69,6 +70,8 @@ function RainyDay(options, canvas) {
 		top: 0,
 		left: 0
 	};
+
+
 
 	// add the defaults to options
 	for (var option in defaults) {
@@ -108,7 +111,7 @@ RainyDay.prototype.prepareCanvas = function() {
 	canvas.style.left = this.options.left;
 	canvas.width = this.options.width;
 	canvas.height = this.options.height;
-	this.options.parentElement.appendChild(canvas);
+	this.options.parentElement.appendChild(canvas); //might have to set parent element to different div
 	if (this.options.enableSizeChange) {
 		this.setResizeHandler();
 	}
@@ -207,11 +210,11 @@ RainyDay.prototype.prepareGlass = function() {
 	this.context = this.glass.getContext('2d');
 };
 
-/**
+
  // * Main function for starting rain rendering.
  // * presets list of presets to be applied
  // * speed speed of the animation (if not provided or 0 static image will be generated)
- // */
+
 RainyDay.prototype.rain = function(presets, speed) {
 	// prepare canvas for drop reflections
 	if (this.reflection !== this.REFLECTION_NONE) {
@@ -481,7 +484,7 @@ RainyDay.prototype.GRAVITY_LINEAR = function(drop) {
 /**
  * GRAVITY function: non-linear gravity (default)
  * param drop raindrop object
- * @returns Boolean true if the animation is stopped
+ * returns Boolean true if the animation is stopped
  */
 RainyDay.prototype.GRAVITY_NON_LINEAR = function(drop) {
 	if (this.clearDrop(drop)) {
@@ -1071,7 +1074,7 @@ function cloudyDayRender(){
 	var maxVelocity = 2;
 
 	// The target frames per second (how often do we want to update / redraw the scene)
-	var targetFPS = 1;
+	var targetFPS = 33;
 
 	// Set the dimensions of the canvas as variables so they can be used.
 	var canvasWidth = 600;
@@ -1359,32 +1362,32 @@ function sunnyDayRender(){
 	// var canvas = document.getElementById("canvas");
 	// var ctx = canvas.getContext("2d");
 	// ctx.clearRect(0, 0, canvas.width, canvas.height)
-
 	var canvasWidth = 600;
 	var canvasHeight = 400;
 
-function draw(){
-
-var canvas = document.getElementById('canvas');
-var ctx = canvas.getContext('2d');
-ctx.drawImage(backgroundImage, 0, 0, canvasWidth, canvasHeight);
-	// for (i=1;i<4;i++){
-	// 	if(i<2){
-	// 	ctx.beginPath();
-	// 	ctx.arc(30,30,20*i,0,Math.PI*2,true);
-	// 	ctx.fillStyle = "rgba(255,255,255,0.6)";
-	// 	ctx.fill()
-	// } else {
-	// 	ctx.beginPath();
-	// 	ctx.arc(30,30,20*i,0,Math.PI*2,true);
-	// 	ctx.fillStyle = "rgba(255,190,59,0.6)";
-	// 	ctx.fill()
-	// }
-	// }
-}
+		function draw(){
+		var canvas = document.getElementById('canvas');
+		var ctx = canvas.getContext('2d');
+		ctx.drawImage(backgroundImage, 0, 0, canvasWidth, canvasHeight);
+			// for (i=1;i<4;i++){
+			// 	if(i<2){
+			// 	ctx.beginPath();
+			// 	ctx.arc(30,30,20*i,0,Math.PI*2,true);
+			// 	ctx.fillStyle = "rgba(255,255,255,0.6)";
+			// 	ctx.fill()
+			// } else {
+			// 	ctx.beginPath();
+			// 	ctx.arc(30,30,20*i,0,Math.PI*2,true);
+			// 	ctx.fillStyle = "rgba(255,190,59,0.6)";
+			// 	ctx.fill()
+			// }
+			// }
+		}
 	//animation loop
 	setInterval(draw,33)
 }
+
+
 //CLOUDY DAY PROTOTYPE==========================================================
 //==============================================================================
 //CloudyDay Object Constructor

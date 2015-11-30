@@ -41,6 +41,7 @@ userRouter.get('/auth/facebook/callback', passport.authenticate('facebook', {
 userRouter.get('/logout', function(req, res){
   req.logout()
   res.redirect('/')
+  console.log('logout path hit')
 })
 
 // userRouter.get('/settings', function(req, res){
