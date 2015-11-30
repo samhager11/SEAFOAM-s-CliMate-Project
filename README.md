@@ -4,8 +4,12 @@
 This is the README markdown for SEAFOAM's CliMate Project.
 
 GitHub Repository: https://github.com/eshahla/SEAFOAM-s-CliMate-Project
+
 Heroku Application: https://aqueous-tundra-8188.herokuapp.com/
+
 Trello Workflow: https://trello.com/b/XiWXIJDc/project-3-workflow
+
+Project Outline: https://github.com/eshahla/SEAFOAM-s-CliMate-Project/blob/master/Draft-Project3_Outline.key
 
 
 The primary service of CliMate is to provide a real-time visual representation of the weather for a user-queried city in any country. The application also provides on-demand services to the user that are often considered in light of the weather of the day. This markdown will provide full descriptive details about CliMate, including which APIs will be utilized, technologies used (langauages, frameworks, packages, etc.), where the application is hosted online, etc.
