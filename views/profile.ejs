@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
@@ -122,44 +123,76 @@
                     </div>
 
             </div>
+=======
+<div class="container">
+  <form action="/profile" class="form-inline">
+    <div class="row">
+      <div class="input-field col s3">
+        <input id="city" type="text" name="city" class="validate">
+        <label for="city">City</label>
+>>>>>>> bb028d3e96f2d83f5bc2008476c738247795c9cb
       </div>
-      <br><br>
-
-<!-- API Display Box -->
-
-  <div class='apiDisplay'>
-
-
-      <div id='parent_div_1'>
-            <div class ='child_div_1'>
-                  <button type= "button" class="btn btn-primary btn-xl" id="yelpAPIbutton">
-                    <!-- <img src="yelplogo.jpg" /> -->
-                  </button>
-            </div><br><br><br><br>
-            <div class ='child_div_2'>
-                  <button type="button" class="btn btn-primary btn-xl" id="uberAPIbutton">
-                    <!-- <img src="uberlogo.jpg" /> -->
-                  </button>
-            </div>
+      <div class="input-field col s3">
+        <input id="state" type="text" name="state" class="validate">
+        <label for="state">State</label>
       </div>
-
-      <ul id='parent_div_2'>
-        <li class ='yelp'></li>
-      </ul>
-
-      <div id='parent_div_3'>
-          <div class ='child_div_1'>UBERAPI</div>
-          <div class ='child_div_2'></div>
+      <div class="input-field col s3">
+        <button class="btn waves-effect waves-light" type="button" id="submit" name="button"><i class="material-icons">search</i></button>
       </div>
+    <div class="input-field col s3">
+        Today's Forecast :
+        <span id="temp0H"></span>
+        <img id="img0"src=""></img>
+    </div>
+    </div>
 
   </div>
-
-
-
-
-
-
-
+</form>
+<!-- Tweets card -->
+<div class="col s12 m12">
+  <div class="card teal lighten-2">
+    <div class="card-content white-text">
+      <div class="row">
+        <div class="col s3">
+          <img src="http://i.imgur.com/QfRzE1w.png?1" height=60 width=60/>
+        </div>
+        <div class="col s9">
+          <p class="twitterStream">Tweets go here bitch!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- weather container collapsible -->
+<ul class="collapsible" data-collapsible="accordion">
+  <li>
+    <div class="collapsible-header">
+      <i class="material-icons">filter_drama</i>
+      <span id="day1title">Test</span>-
+      <span id="temp1H">55</span>/
+      <span id="temp1L">22</span>
+    </div>
+    <div id="2" class="collapsible-body">
+      <img src="" alt="" id="img1" />
+      <p id="details2">Lorem ipsum dolor sit amet.</p>
+    </div>
+  </li>
+  <li>
+    <div class="collapsible-header showDetails"><i class="material-icons">place</i>Second</div>
+    <div class="collapsible-body"><p id="details3">Lorem ipsum dolor sit amet.</p></div>
+  </li>
+  <li>
+    <div class="collapsible-header showDetails"><i class="material-icons">whatshot</i>Third</div>
+    <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+  </li>
+</ul>
+</div>
 <!-- Scripts to Run     -->
+<<<<<<< HEAD
 
+=======
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
+<script src="scripts/rainyday.js" charset="utf-8"></script>
+>>>>>>> bb028d3e96f2d83f5bc2008476c738247795c9cb
 <script src="scripts/main.js" charset="utf-8"></script>

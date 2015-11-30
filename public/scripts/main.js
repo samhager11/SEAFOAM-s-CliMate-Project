@@ -171,9 +171,9 @@ function determineWeather(forecast,checkForecast){
 var yelpURL = 'http://api.yelp.com/v2/search'
 var conditionsURL = 'https://api.wunderground.com/api/726c0ba149d8a811/conditions/q/'
 var forecastURL = 'https://api.wunderground.com/api/726c0ba149d8a811/forecast/q/'
-var $inpCtry = $('#appendCountryUrl')
-var $inpState = $('#appendStateUrl')
-var $inpCity = $('#appendCityUrl')
+// var $inpCtry = $('#appendCountryUrl')
+// var $inpState = $('#appendStateUrl')
+// var $inpCity = $('#appendCityUrl')
 var city;
 var state;
 
