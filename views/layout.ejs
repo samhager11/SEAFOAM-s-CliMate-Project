@@ -9,10 +9,16 @@
 	<!-- Compiled and minified JavaScript -->
 </head>
 <body>
-	<nav class="teal accent-2 fixed" role="navigation">
-		<div class="nav-wrapper container "><a  id="logo-container" href="/" class="brand-logo teal-text text-darken-4">SeaFoam</a>
+	<nav class="teal lighten-2 fixed" role="navigation">
+		<div class="nav-wrapper container "><a  id="logo-container" href="/" class="brand-logo teal-text text-darken-3">SeaFoam</a>
+
 			<ul class="right hide-on-med-and-down">
-				<li><a href="/login" class="teal-text text-darken-4">Login</a></li>
+				<% if( user == undefined || user == '') {%>
+				<li><a href="/login" class="white-text ">Login</a></li>
+				<% }else {%>
+				<li><a href="/profile" class="white-text text-accent-2">Welcome back, <%= user.local.name || user.facebook.name %></a></li>
+				<li><a href="/logout" class="white-text text-accent-2">Logout</a></li>
+				<%}%>
 			</ul>
 
 			<ul id="nav-mobile" class="side-nav">
