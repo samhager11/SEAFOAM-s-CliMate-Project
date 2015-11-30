@@ -254,7 +254,7 @@ function getLocationAndMakeCalls(lat, lng) {
 				data.forecast.simpleforecast.forecastday.forEach(function(day,index){
 					console.log('===DAY INFO===',index, day);
 					$('#temp' + index + 'H').text(day.high.fahrenheit + "F")
-					$('#temp' + index + 'L').text(day.low.fahrenheit + "F")
+					$('#temp' + index + 'L').text(day.low.fahrenheit + " F")
 					$('#day' + index + "title").text(day.date.weekday_short)
 					$('#img' + index).attr('src',day.icon_url)
 				})
@@ -374,18 +374,40 @@ $('#submit').on('click', function(){
   socket.emit('updateTerm', search_term)
   $(".yelp").empty()
   //Weather API Call
-  $.ajax({
-    url: conditionsURL + $('#appendStateUrl').val() + '/' + $('#appendCityUrl').val() + '.json',
-    method: 'GET',
-    success: function (data) {
-      console.log(data.current_observation.weather, data.current_observation.temperature_string)
-      wundergroundType = data.current_observation.weather;
-      determineWeather(wundergroundType,weatherObject)
-      }
-    })
+	$.ajax({
+		url: conditionsURL + geoStateAbrev + '/' + geoCity + '.json',
+		method: 'GET',
+		success: function (data) {
+			console.log(data.current_observation.weather, data.current_observation.temperature_string)
+			wundergroundType = data.current_observation.weather
+			//Use this function to pass weather type returned from weather underground
+			determineWeather(wundergroundType,weatherObject)
+			// $('#temperature').text(data.current_observation.temperature_string.icon)
+		}
+	})
+	$.ajax({
+		url: forecastURL + geoStateAbrev + '/' + geoCity + '.json',
+		method: 'GET',
+		success: function(data){
+			data.forecast.simpleforecast.forecastday.forEach(function(day,index){
+				console.log('===DAY INFO===',index, day);
+				$('#temp' + index + 'H').text(day.high.fahrenheit + "F")
+				$('#temp' + index + 'L').text(day.low.fahrenheit + " F")
+				$('#day' + index + "title").text(day.date.weekday_short)
+				$('#img' + index).attr('src',day.icon_url)
+			})
+			data.forecast.txt_forecast.forecastday.forEach(function (info) {
+				dayInfo.push(info.fcttext)
+			})
+			// $('.day1title').text(data.forecast.txt_forecast.forecastday[0].title)
+			// $('#day1').text(data.forecast.simpleforecast.forecastday[1].high.fahrenheit)
+			// $('#day1').text(data.forecast.simpleforecast.forecastday[1].low.fahrenheit)
+			// $('#day1').text(data.forecast.simpleforecast.forecastday[1].icon)
+		}
+	})
       // AJAX call for Yelp API app using city and state from user location info
   $.ajax({
-    url: '/yelp/' + $('#appendCityUrl').val() + $('#appendStateUrl').val(),
+    url: '/yelp/' + geoCity  + geoStateAbrev,
     method: 'GET',
     success: function(data){
       console.log(data)
@@ -415,7 +437,9 @@ $('#submit').on('click', function(){
 })
 
 socket.on('tweets', function(tweet){
-  console.log(tweet)
+  console.log('====tweet====',tweet)
+	var $toastContent = $('<span>' + tweet.text + '</span>');
+	Materialize.toast($toastContent, 5000);
   $(".twitterStream").text(tweet.text)
 })
 
