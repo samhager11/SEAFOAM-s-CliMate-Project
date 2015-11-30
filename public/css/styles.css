@@ -59,8 +59,13 @@ main {
   /*margin-left: -220px;*/
 }
 
+#twitter-container{
+  height: 300px;
+  overflow: scroll;
+}
+
 #toast-container {
-    position: fixed !important;
+    position: relative !important;
     bottom: 0px !important;
     left: 0px !important;
     /*height: auto;
@@ -73,3 +78,7 @@ main {
     bottom: 0px !important;
     left: 0px !important;*/
 }
+
+/*.twitterStream{
+  color: white;
+}*/
