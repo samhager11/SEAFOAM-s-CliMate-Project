@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-console.log(RainyPattern)
-var RainyPattern function(){
-/**
- * Defines a new instance of the rainyday.js.
- * param options options element with script parameters
- * param canvas to be used (if not defined a new one will be created)
- */
-=======
 
 
  // * Defines a new instance of the rainyday.js.
@@ -49,7 +40,7 @@ backgroundImage.size = "cover"
 
 
 
->>>>>>> rainyday
+
 
 function RainyDay(options, canvas) {
 
@@ -79,11 +70,9 @@ function RainyDay(options, canvas) {
 		top: 0,
 		left: 0
 	};
-<<<<<<< HEAD
-console.log(defaults)
-=======
 
->>>>>>> rainyday
+console.log(defaults)
+
 	// add the defaults to options
 	for (var option in defaults) {
 		if (typeof options[option] === 'undefined') {
