@@ -257,6 +257,7 @@ function getLocationAndMakeCalls(lat, lng) {
 					$('#temp' + index + 'L').text(day.low.fahrenheit + " F")
 					$('#day' + index + "title").text(day.date.weekday_short)
 					$('#img' + index).attr('src',day.icon_url)
+
 				})
 				data.forecast.txt_forecast.forecastday.forEach(function (info) {
 					dayInfo.push(info.fcttext)
@@ -330,11 +331,11 @@ function getEstimatesForUserLocation(latitude,longitude) {
 		},
 		error: function(error) {
 			console.log(error)
-			console.log(uberPrice = "$$$");
-			uberTimeMin = ""
+			uberPrice = "$$$"
+			uberTimeMin = "Too far for Uber"
 			uberDistMiles = ""
 				$(".uber").children().first().fadeOut().remove()
-			$(".uber").append('<li class="collection-item avatar"><span class="title">'+ uberTitle +'</span><<img src="../uberbadge.png" alt="UberX"><p>'+ uberPrice + '<br>' + uberTimeMin + '</p></li>')
+			$(".uber").append('<li class="collection-item avatar"><span class="title">'+ uberTitle +'</span><img src="../uberbadge.png" alt="UberX"><p>'+ uberPrice + '<br>' + uberTimeMin + '</p></li>')
 		}
 	});
 }
@@ -358,6 +359,24 @@ $('#submit').on('click', function(){
       determineWeather(wundergroundType,weatherObject)
       }
     })
+		//Weather Info update call
+		$.ajax({
+			url: forecastURL + $('.appendStateUrl').val() + '/' + $('.appendCityUrl').val() + '.json',
+			method: 'GET',
+			success: function(data){
+				data.forecast.simpleforecast.forecastday.forEach(function(day,index){
+					console.log('===DAY INFO===',index, day);
+					$('#temp' + index + 'H').text(day.high.fahrenheit + "F")
+					$('#temp' + index + 'L').text(day.low.fahrenheit + " F")
+					$('#day' + index + "title").text(day.date.weekday_short)
+					$('#img' + index).attr('src',day.icon_url)
+					
+				})
+				data.forecast.txt_forecast.forecastday.forEach(function (info) {
+					dayInfo.push(info.fcttext)
+				})
+			}
+		})
       // AJAX call for Yelp API app using city and state from user location info
   $.ajax({
     url: '/yelp/' + $('.appendCityUrl').val() + $('.appendStateUrl').val(),

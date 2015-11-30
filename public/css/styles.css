@@ -53,3 +53,20 @@ main {
 #facebook-submit{
   font-size: 20px;
 }
+
+#twit-logo{
+  /*margin-left: -220px;*/
+}
+
+#toast-container {
+    position: fixed !important;
+    bottom: 0px !important;
+    left: 0px !important;
+}
+
+
+.toast {
+    /*position: fixed !important;
+    bottom: 0px !important;
+    left: 0px !important;*/
+}
