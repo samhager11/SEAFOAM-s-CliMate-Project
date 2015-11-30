@@ -13,7 +13,7 @@
 
         <img id="background-img" alt="background" src="" />
 
-       <div id="canvasHolder">
+       <div id="canvas-holder">
        	<canvas id="canvas" width="600" height="400"></canvas>
        </div>
 
@@ -29,13 +29,9 @@
       $('#background-img').hide()
 
       $('#rainy-run').on('click', function(){
-          weatherAnimate.snowyDay()
+          // weatherAnimate.snowyDay()
           // weatherAnimate.cloudyDay()
-            // $('#background-img').show()
-            // var image = document.getElementById('background-img');
-            // image.onload = weatherAnimate.snowDay
-            // image.crossOrigin = 'anonymous';
-            // image.src = './soma_night.jpg';
+          weatherAnimate.sunnyDay()
           })
 
     </script>
