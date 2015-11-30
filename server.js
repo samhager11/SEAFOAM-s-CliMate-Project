@@ -101,7 +101,7 @@ app.get('/', function(req,res){
 
 //user Routes
 var userRoutes = require('./routes/user_routes.js')
-app.use(userRoutes)
+app.use('/',userRoutes)
 
 var yelpRoutes = require('./routes/yelp_routes.js')
 app.use('/yelp',yelpRoutes)
