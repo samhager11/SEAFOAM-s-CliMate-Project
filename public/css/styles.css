@@ -6,6 +6,19 @@
  * Made By MaterializeCSS.com
  */
 
+/*Signup form styling*/
+#facebook-submit{
+    height: 3rem;
+    padding-top: 7px;
+    font-size: 25px;
+    border-radius: 10px;
+}
+
+#local-submit{
+  border-radius: 10px;
+}
+
+/*layout styling*/
 .icon-block {
   padding: 0 15px;
 }
@@ -30,10 +43,54 @@ main {
   background: url('/seafoam-copy.jpg') no-repeat center fixed;
 }
 
-#canvas-holder {
+
+/*Search Bar form Input*/
+/*//////////////////////////////////////////////////////////*/
+.form-input{
+  width: 200px;
+  display: inline-table;
+  border: 2px outset #4db6ac;
+  border-radius: 5px;
+  text-align: center;
+  padding: 5px;
+}
+
+input#appendCityUrl {
+  border-bottom: none;
+  height: 1.2rem;
+}
+input#appendStateUrl {
+  border-bottom: none;
+  height: 1.2rem;
+}
+input#appendCountryUrl {
+  border-bottom: none;
+  height: 1.2rem;
+}
+
+#submit{
+  margin-top: 10px;
+  border: 2px outset black;
+  border-radius: 5px;
+  height: 3rem;
+}
+
+/*Main body: weather sidebar, tweets and canvas*/
+/*#weather-sidebar{
+  display:inline-grid;
   position: absolute;
-  top: 300px;
-  left: 100px;
+}*/
+
+/*.canvas-holder {
+  position: relative;
   width: 600px;
   height: 400px;
+}*/
+
+
+#background-img {
+  position: absolute;
+  width: 600px;
+  height: 400px;
+
 }
