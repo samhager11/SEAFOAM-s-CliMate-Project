@@ -92,8 +92,8 @@ function determineWeather(forecast,checkForecast){
 
 	var canv = document.createElement('canvas');
 	canv.id = 'canvas';
-	canv.width = 600;
-	canv.height = 400;
+	canv.width = 480;
+	canv.height = 350;
 	$('.canvas-holder').append(canv)
 	$('#canvas').hide().fadeIn(2000)
 
@@ -282,8 +282,12 @@ function getLocationAndMakeCalls(lat, lng) {
 							yelpLongitude = business.location.coordinate.longitude
 							//Run Uber Ajax call for price and time estimates to each Yelp location returned
 							getEstimatesForUserLocation(userLatitude, userLongitude)
+
+
 						}
 						console.log('=yelp biz=',business)
+
+
 						if (business.location.neighborhoods){
 							$(".yelp").append('<li class="collection-item avatar"> <img src="'+ business.image_url +'" alt="" class="circle"><span class="title">'+business.name+'</span><p>'+ business.phone + '<br>' + business.location.neighborhoods[0] + '</p><a href="#!" class="secondary-content">'+business.rating+'<i class="material-icons">grade</i></a></li>')
 						}
@@ -294,7 +298,9 @@ function getLocationAndMakeCalls(lat, lng) {
 				}
 			}
 		})
-
+		var search_term = geoCity
+		// console.log(search_term)
+		socket.emit('updateTerm', search_term)
 		$(".yelp").empty()
 	})
 }
@@ -313,9 +319,12 @@ function getEstimatesForUserLocation(latitude,longitude) {
 			end_longitude: yelpLongitude  //from query to Yelp
 		},
 		success: function(result) {
+			uberTitle = "UberX"
 			uberPrice = result.prices[0].estimate;
-			uberTimeMin = Math.round(result.prices[0].duration/60)
+			uberTimeMin = Math.round(result.prices[0].duration/60) + " min."
 			uberDistMiles = result.prices[0].distance
+			$(".uber").children().first().fadeOut().remove()
+			$(".uber").append('<li class="collection-item avatar"><span class="title">'+ uberTitle +'</span><img src="../uberbadge.png" alt="UberX" id="uberPic"><p>'+ uberPrice + '<br>' + uberTimeMin + '</p></li>')
 			// }
 			console.log( uberPrice + ' : ' + uberTimeMin + ' min. : ' + uberDistMiles + ' mi.')
 		},
@@ -324,6 +333,8 @@ function getEstimatesForUserLocation(latitude,longitude) {
 			console.log(uberPrice = "$$$");
 			uberTimeMin = ""
 			uberDistMiles = ""
+				$(".uber").children().first().fadeOut().remove()
+			$(".uber").append('<li class="collection-item avatar"><span class="title">'+ uberTitle +'</span><<img src="../uberbadge.png" alt="UberX"><p>'+ uberPrice + '<br>' + uberTimeMin + '</p></li>')
 		}
 	});
 }
@@ -425,7 +436,7 @@ var weatherAnimate = {
 
 //SET BACKGROUND IMAGE TO CANVAS
 var backgroundImage = new Image();
-backgroundImage.src = "./winter_day.jpg"
+backgroundImage.src = "./bluesky.jpg"
 backgroundImage.crossOrigin = 'anonymous';
 backgroundImage.size = "cover"
 

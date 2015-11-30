@@ -18,12 +18,38 @@ body {
   flex-direction: column;
 }
 
-  #canvas-holder {
+#canvas-holder {
+  overflow: hidden;
+  border: 5px solid black;
+  background: url('/window.jpg');
+  height: 480px;
+  width: 350px;
+}
 
-  }
+#canvas{
+  height: 480px;
+  width: 350px;
+  border: 10px ridge whitesmoke;
+  margin-top: 10px;
+  z-index: -1;
+}
+
+.col.m3{
+  position: relative;
+}
+
 main {
   flex: 1 0 auto;
 }
 #index-banner{
   background: url('/seafoam-copy.jpg') no-repeat center fixed;
+}
+
+
+#uberPic{
+  float: right;
+}
+
+#facebook-submit{
+  font-size: 20px;
 }
