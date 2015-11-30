@@ -5,7 +5,9 @@ var wundergroundType;
 var dayInfo = [];
 
 
-var weatherObject = { sunny:["Clear",
+var weatherObject = {
+	sunny:
+		["Clear",
 			"Unknown",
 			"Scattered Clouds"],
 	rainy:
@@ -90,13 +92,13 @@ function determineWeather(forecast,checkForecast){
 
 	var canv = document.createElement('canvas');
 	canv.id = 'canvas';
-	canv.width = 600;
-	canv.height = 400;
+	canv.width = 480;
+	canv.height = 350;
 	$('.canvas-holder').append(canv)
 	$('#canvas').hide().fadeIn(2000)
 
 
-	if(!wundergroundType){
+		if(!wundergroundType){
 		weatherPattern = "rainyDay"
 		weatherAnimate.rainyDay()
 	} else {
@@ -206,50 +208,46 @@ function errorFunction(){
 //Make calls to Weather, Yelp, Uber, and Twitter based on user location
 //******************** API CALLS ON PAGE LOAD *********************//
 function getLocationAndMakeCalls(lat, lng) {
-  //make call to google geocode for user start lat and start long
-  $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" +lat + "," + lng + "&key=AIzaSyDtL6P7cJfHJg3LQARwMlMXNl7iCGWm_8I", function(data,status){
-    // for (var i = 0; i < data.results.length; i++) {
-    //   console.log(data.results[i])
-    // }
-    if (data.results[1]) {
-    for (var i=0; i<data.results[0].address_components.length; i++) {
-      for (var b=0;b<data.results[0].address_components[i].types.length;b++) {
-    //there are different types that might hold a city admin_area_lvl_1 usually does in come cases looking for sublocality type will be more appropriate
-        if (data.results[0].address_components[i].types[b] == "administrative_area_level_1") {
-            //this is the state object
-            state= data.results[0].address_components[i];
-          }
-        if (data.results[0].address_components[i].types[b] == "locality") {
-            //this is the city object
-            city = data.results[0].address_components[i];
-          }
-        }
-      }
-      //state data
-      geoCity = city.long_name
-      geoStateAbrev = state.short_name
-      geoStateFull = state.long_name
-      console.log(geoCity + " " + geoStateAbrev + " " + geoStateFull)
-      } else {
-        alert("No results found");
-      }
-
-    ///// Weather Underground API Call /////////////////////////////////////////
-		if(geoCity){
-	  $.ajax({
-      url: conditionsURL + geoStateAbrev + '/' + geoCity + '.json',
-      method: 'GET',
-      success: function (data) {
-        console.log(data.current_observation.weather, data.current_observation.temperature_string)
-        wundergroundType = data.current_observation.weather
-        //Use this function to pass weather type returned from weather underground
-        determineWeather(wundergroundType,weatherObject)
-        // $('#temperature').text(data.current_observation.temperature_string.icon)
-      }
-    })
-		//CALL FOR FUTURE FORECAST INFO
+	//make call to google geocode for user start lat and start long
+	$.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" +lat + "," + lng + "&key=AIzaSyDtL6P7cJfHJg3LQARwMlMXNl7iCGWm_8I", function(data,status){
+		// for (var i = 0; i < data.results.length; i++) {
+		//   console.log(data.results[i])
+		// }
+		if (data.results[1]) {
+			for (var i=0; i<data.results[0].address_components.length; i++) {
+				for (var b=0;b<data.results[0].address_components[i].types.length;b++) {
+					//there are different types that might hold a city admin_area_lvl_1 usually does in come cases looking for sublocality type will be more appropriate
+					if (data.results[0].address_components[i].types[b] == "administrative_area_level_1") {
+						//this is the state object
+						state= data.results[0].address_components[i];
+					}
+					if (data.results[0].address_components[i].types[b] == "locality") {
+						//this is the city object
+						city = data.results[0].address_components[i];
+					}
+				}
+			}
+			//state data
+			geoCity = city.long_name
+			geoStateAbrev = state.short_name
+			geoStateFull = state.long_name
+			console.log(geoCity + " " + geoStateAbrev + " " + geoStateFull)
+		} else {
+			alert("No results found");
+		}
+		console.log('window loads', geoStateAbrev)
+		///// Weather Underground API Call /////////////////////////////////////////
 		$.ajax({
-			// conditionsURL or forecastURL??
+			url: conditionsURL + geoStateAbrev + '/' + geoCity + '.json',
+			method: 'GET',
+			success: function (data) {
+				console.log(data.current_observation.weather, data.current_observation.temperature_string)
+				wundergroundType = data.current_observation.weather
+				//Use this function to pass weather type returned from weather underground
+				determineWeather(wundergroundType,weatherObject)
+			}
+		})
+		$.ajax({
 			url: forecastURL + geoStateAbrev + '/' + geoCity + '.json',
 			method: 'GET',
 			success: function(data){
@@ -259,47 +257,13 @@ function getLocationAndMakeCalls(lat, lng) {
 					$('#temp' + index + 'L').text(day.low.fahrenheit + " F")
 					$('#day' + index + "title").text(day.date.weekday_short)
 					$('#img' + index).attr('src',day.icon_url)
+
 				})
 				data.forecast.txt_forecast.forecastday.forEach(function (info) {
 					dayInfo.push(info.fcttext)
 				})
-				// $('.day1title').text(data.forecast.txt_forecast.forecastday[0].title)
-				// $('#day1').text(data.forecast.simpleforecast.forecastday[1].high.fahrenheit)
-				// $('#day1').text(data.forecast.simpleforecast.forecastday[1].low.fahrenheit)
-				// $('#day1').text(data.forecast.simpleforecast.forecastday[1].icon)
-      }
-    })
-		// $.ajax({
-		// 	url: forecastURL + geoStateAbrev + '/' + geoCity + '.json',
-		// 	method: 'GET',
-		// 	success: function(data){
-		// 		$('.day2title').text(data.forecast.txt_forecast.forecastday[2].title)
-		// 		$('#day2').text(data.forecast.simpleforecast.forecastday[2].high.fahrenheit)
-		// 		$('#day2').text(data.forecast.simpleforecast.forecastday[2].low.fahrenheit)
-		// 		$('#day2').text(data.forecast.simpleforecast.forecastday[2].icon)
-		// 	}
-		// })
-		// $.ajax({
-		// 	url: forecastURL + geoStateAbrev + '/' + geoCity + '.json',
-		// 	method: 'GET',
-		// 	success: function(data){
-		// 		$('.day3title').text(data.forecast.txt_forecast.forecastday[4].title)
-		// 		$('#day3').text(data.forecast.simpleforecast.forecastday[3].high.fahrenheit)
-		// 		$('#day3').text(data.forecast.simpleforecast.forecastday[3].low.fahrenheit)
-		// 		$('#day3').text(data.forecast.simpleforecast.forecastday[3].icon)
-		// 	}
-		// })
-		// $.ajax({
-		// 	url: forecastURL + geoStateAbrev + '/' + geoCity + '.json',
-		// 	method: 'GET',
-		// 	success: function(data){
-		// 		$('.day4title').text(data.forecast.txt_forecast.forecastday[6].title)
-		// 		$('#day4').text(data.forecast.simpleforecast.forecastday[4].high.fahrenheit)
-		// 		$('#day4').text(data.forecast.simpleforecast.forecastday[4].low.fahrenheit)
-		// 		$('#day4').text(data.forecast.simpleforecast.forecastday[4].icon)
-		// 	}
-		// })
-
+			}
+		})
 		////// Yelp and Uber API Calls ///////////////////////////////////////////////////////
 		$.ajax({
 			url: '/yelp/' + geoCity + geoStateAbrev,
@@ -319,24 +283,26 @@ function getLocationAndMakeCalls(lat, lng) {
 							yelpLongitude = business.location.coordinate.longitude
 							//Run Uber Ajax call for price and time estimates to each Yelp location returned
 							getEstimatesForUserLocation(userLatitude, userLongitude)
+
+
 						}
 						console.log('=yelp biz=',business)
+
+
 						if (business.location.neighborhoods){
 							$(".yelp").append('<li class="collection-item avatar"> <img src="'+ business.image_url +'" alt="" class="circle"><span class="title">'+business.name+'</span><p>'+ business.phone + '<br>' + business.location.neighborhoods[0] + '</p><a href="#!" class="secondary-content">'+business.rating+'<i class="material-icons">grade</i></a></li>')
 						}
 						else{
-						$(".yelp").append('<li>'+ business.name + ', ' + business.location.city + ' - ' + business.phone + '</li>')
+							$(".yelp").append('<li class="collection-item avatar"> <img src="'+ business.image_url +'" alt="" class="circle"><span class="title">'+business.name+'</span><p>'+ business.phone + '<br>' + business.location.city + '</p><a href="#!" class="secondary-content">'+business.rating+'<i class="material-icons">grade</i></a></li>')
 						}
 					}
 				}
 			}
 		})
-		//Run Twitter Stream based on geo location
 		var search_term = geoCity
 		// console.log(search_term)
 		socket.emit('updateTerm', search_term)
 		$(".yelp").empty()
-		}
 	})
 }
 
@@ -354,17 +320,22 @@ function getEstimatesForUserLocation(latitude,longitude) {
 			end_longitude: yelpLongitude  //from query to Yelp
 		},
 		success: function(result) {
+			uberTitle = "UberX"
 			uberPrice = result.prices[0].estimate;
-			uberTimeMin = Math.round(result.prices[0].duration/60)
+			uberTimeMin = Math.round(result.prices[0].duration/60) + " min."
 			uberDistMiles = result.prices[0].distance
+			$(".uber").children().first().fadeOut().remove()
+			$(".uber").append('<li class="collection-item avatar"><span class="title">'+ uberTitle +'</span><img src="../uberbadge.png" alt="UberX" class="circle" id="uberPic"><p>'+ uberPrice + '<br>' + uberTimeMin + '</p></li>')
 			// }
 			console.log( uberPrice + ' : ' + uberTimeMin + ' min. : ' + uberDistMiles + ' mi.')
 		},
 		error: function(error) {
 			console.log(error)
-			console.log(uberPrice = "$$$");
-			uberTimeMin = ""
+			uberPrice = "$$$"
+			uberTimeMin = "Too far for Uber"
 			uberDistMiles = ""
+				$(".uber").children().first().fadeOut().remove()
+			$(".uber").append('<li class="collection-item avatar"><span class="title">'+ uberTitle +'</span><img src="../uberbadge.png" alt="UberX" class="circle"><p>'+ uberPrice + '<br>' + uberTimeMin + '</p></li>')
 		}
 	});
 }
@@ -373,14 +344,14 @@ function getEstimatesForUserLocation(latitude,longitude) {
 //Stream twitter based on input city
 $('#submit').on('click', function(){
 	////// Twitter Stream Call ////////////////////////////////////////////////
-  var search_term = $('#appendCityUrl').val()
+
+  var search_term = $('.appendCityUrl').val()
   // console.log(search_term)
   socket.emit('updateTerm', search_term)
   $(".yelp").empty()
-
-	//Weather API Call
+  //Weather API Call
   $.ajax({
-    url: conditionsURL + $('#appendStateUrl').val() + '/' + $('#appendCityUrl').val() + '.json',
+    url: conditionsURL + $('.appendStateUrl').val() + '/' + $('.appendCityUrl').val() + '.json',
     method: 'GET',
     success: function (data) {
       console.log(data.current_observation.weather, data.current_observation.temperature_string)
@@ -388,10 +359,27 @@ $('#submit').on('click', function(){
       determineWeather(wundergroundType,weatherObject)
       }
     })
+		//Weather Info update call
+		$.ajax({
+			url: forecastURL + $('.appendStateUrl').val() + '/' + $('.appendCityUrl').val() + '.json',
+			method: 'GET',
+			success: function(data){
+				data.forecast.simpleforecast.forecastday.forEach(function(day,index){
+					console.log('===DAY INFO===',index, day);
+					$('#temp' + index + 'H').text(day.high.fahrenheit + "F")
+					$('#temp' + index + 'L').text(day.low.fahrenheit + " F")
+					$('#day' + index + "title").text(day.date.weekday_short)
+					$('#img' + index).attr('src',day.icon_url)
 
-  // AJAX call for Yelp API app using city and state from user location info
+				})
+				data.forecast.txt_forecast.forecastday.forEach(function (info) {
+					dayInfo.push(info.fcttext)
+				})
+			}
+		})
+      // AJAX call for Yelp API app using city and state from user location info
   $.ajax({
-    url: '/yelp/' + $('#appendCityUrl').val() + $('#appendStateUrl').val(),
+    url: '/yelp/' + $('.appendCityUrl').val() + $('.appendStateUrl').val(),
     method: 'GET',
     success: function(data){
       console.log(data)
@@ -409,42 +397,22 @@ $('#submit').on('click', function(){
             getEstimatesForUserLocation(userLatitude, userLongitude)
           }
         // console.log(business)
-        if (business.location.neighborhoods){
-          $(".yelp").append('<li>'+ business.name + ', ' + business.location.city + '</li>')
-        }
-        else{
-          $(".yelp").append('<div>No Nearby Businesses</div>')
-        }
+				if (business.location.neighborhoods){
+					$(".yelp").append('<li class="collection-item avatar"> <img src="'+ business.image_url +'" alt="" class="circle"><span class="title">'+business.name+'</span><p>'+ business.phone + '<br>' + business.location.neighborhoods[0] + '</p><a href="#!" class="secondary-content">'+business.rating+'<i class="material-icons">grade</i></a></li>')
+				}
+				else{
+					$(".yelp").append('<li class="collection-item avatar"> <img src="'+ business.image_url +'" alt="" class="circle"><span class="title">'+business.name+'</span><p>'+ business.phone + '<br>' + business.location.city + '</p><a href="#!" class="secondary-content">'+business.rating+'<i class="material-icons">grade</i></a></li>')
+				}
       }
     }
   })
+})
 
-
-	//Weather API Call to ADD Details
-	$.ajax({
-			url: forecastURL + $('#appendStateUrl').val() + '/' + $('#appendCityUrl').val() + '.json',
-			method: 'GET',
-			success: function(data){
-				data.forecast.simpleforecast.forecastday.forEach(function(day,index){
-					console.log('===DAY INFO===',index, day);
-					$('#temp' + index + 'H').text(day.high.fahrenheit + "F")
-					$('#temp' + index + 'L').text(day.low.fahrenheit + " F")
-					$('#day' + index + "title").text(day.date.weekday_short)
-					$('#img' + index).attr('src',day.icon_url)
-				})
-				data.forecast.txt_forecast.forecastday.forEach(function (info) {
-					dayInfo.push(info.fcttext)
-				})
-			}
-		})
-
-
-	socket.on('tweets', function(tweet){
-		console.log('====tweet====',tweet)
-		var $toastContent = $('<span>' + tweet.text + '</span>');
-		Materialize.toast($toastContent, 5000);
-		$(".twitterStream").text(tweet.text)
-	})
+socket.on('tweets', function(tweet){
+	console.log('====tweet====',tweet)
+	var $toastContent = $('<span>' + tweet.text + '</span>');
+	Materialize.toast($toastContent, 5000);
+	$(".twitterStream").text(tweet.text)
 })
 
 //show details of the current days weather
@@ -487,7 +455,7 @@ var weatherAnimate = {
 
 //SET BACKGROUND IMAGE TO CANVAS
 var backgroundImage = new Image();
-backgroundImage.src = "./winter_day.jpg"
+backgroundImage.src = "./bluesky.jpg"
 backgroundImage.crossOrigin = 'anonymous';
 backgroundImage.size = "cover"
 
