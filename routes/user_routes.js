@@ -61,7 +61,7 @@ function isLoggedIn(req, res, next) {
 userRouter.route('/user/:user_id')
   .get(userController.showUser)
   // REMEMBER TO DO AN UPDATE
-  // .put(userController.updateUser)
+  .put(userController.updateUser)
   .delete(userController.deleteUser)
 
 module.exports = userRouter

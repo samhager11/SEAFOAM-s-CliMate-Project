@@ -409,7 +409,7 @@ $('#submit').on('click', function(){
 })
 
 socket.on('tweets', function(tweet){
-	console.log('====tweet====',tweet)
+	// console.log('====tweet====',tweet)
 	var $toastContent = $('<span>' + tweet.text + '</span>');
 	Materialize.toast($toastContent, 5000);
 	// $(".twitterStream").text()
