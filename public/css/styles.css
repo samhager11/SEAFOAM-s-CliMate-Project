@@ -2,18 +2,18 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   margin: auto;}
 
-  #canvasHolder {
+  #canvas-holder {
     position: absolute;
-    top: 50px;
-    left: 50px;
+    top: 300px;
+    left: 100px;
     width: 600px;
     height: 400px;
   }
 
   #background-img {
     position: absolute;
-    top: 50px;
-    left: 50px;
+    top: 300px;
+    left: 100px;
     width: 600px;
     height: 400px;
 
@@ -35,7 +35,7 @@ body {
         /*container that api's will populate*/
         .apiDisplay {
           position:relative;
-          top: 377px;
+          top: 477px;
           width: 929px;
           height: 500px;
         }
@@ -46,7 +46,7 @@ body {
           padding-right: 15px;
           padding-top: 10px;
           width: 154.656px;
-          height: 300px;
+          height: 400px;
           background-color: #55acee;
           color: white;
           word-wrap: break-word;
@@ -167,6 +167,7 @@ body {
 
 
         #parent_div_1{
+            position: absolute;
             width:140px;
             height:140px;
             border:1px solid blue;
@@ -174,7 +175,10 @@ body {
             float:left;
         }
         #parent_div_2{
-            width:350px;
+            position: relative;
+            left: 140px;
+            top: -335px;
+            width:400px;
             height:140px;
             border:1px solid blue;
             margin-right:10px;
@@ -184,7 +188,10 @@ body {
         }
 
         #parent_div_3{
-            width:350px;
+            position: relative;
+            left: 130px;
+            top: -335px;
+            width:400px;
             height:140px;
             border:1px solid blue;
             margin-right:10px;
@@ -195,4 +202,17 @@ body {
         .child_div_1{
           float:left;
           margin-right:5px;
+        }
+
+        li#day1{
+          height: 133px;
+
+        }
+        li#day2{
+          height: 133px;
+
+        }
+        li#day3{
+          height: 133px;
+
         }
