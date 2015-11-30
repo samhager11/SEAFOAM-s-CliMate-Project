@@ -21,7 +21,7 @@ body {
 #canvas-holder {
   overflow: hidden;
   border: 5px solid black;
-  background: url('/window.jpg');
+  /*background: url('/window.jpg');*/
   height: 480px;
   width: 350px;
 }
